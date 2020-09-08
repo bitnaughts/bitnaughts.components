@@ -18,7 +18,7 @@ public class StructureController : MonoBehaviour
     void Start()
     {
         debug_color = new UnityEngine.Color(UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f));
-        print ("Structure Starting!");
+        // print ("Structure Starting!");
         components = new Dictionary<string, ComponentController>();
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {
@@ -42,7 +42,7 @@ public class StructureController : MonoBehaviour
         center_of_mass = Vector3.zero;
         float active_component_count = 0;
         foreach (var controller in components.Values) {
-           if (controller.enabled) {
+           if (controller != null && controller.enabled) {
                 center_of_mass += new Vector3(controller.GetTransform().position.x, 0, controller.GetTransform().position.z);
                 active_component_count++;
                 switch (controller) {
@@ -52,12 +52,12 @@ public class StructureController : MonoBehaviour
                 }
            }
         }
-        GameObject.Find("Debug").GetComponent<Text>().text = string.Join("\n", components.Values);
+        
 
         center_of_mass /= active_component_count;
 
         // Testing Center of Mass:
-        // Debug.DrawLine(center_of_mass, center_of_mass + Vector3.up, Color.white, debug_duration, false);
+        // Debug.DrawLine(center_of_mass, center_of_mass + Vector3.up, Color.green, debug_duration, false);
 
         //Checking surrounding components
         // if (Physics.Raycast(transform.position, -Vector3.up, out hit))
@@ -69,10 +69,10 @@ public class StructureController : MonoBehaviour
 
         foreach (var controller in components.Values)
         {
-            if (controller.enabled) switch (controller) {
+            if (controller != null && controller.enabled) switch (controller) {
                 case ThrusterController thruster:
-                    // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.red, debug_duration, false);
-                    // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.blue, debug_duration, false);
+                    // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
+                    // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
                     translation -= thruster.GetThrustVector();
                     float thrust_rotation = 15 * thruster.GetThrustVector().magnitude * Mathf.Sin(
                         Vector3.SignedAngle(
@@ -85,8 +85,11 @@ public class StructureController : MonoBehaviour
                     break;
             }
         }
-        rotator.Rotate(new Vector3(0, rotation / active_component_count, 0));
-        transform.Translate(translation / active_component_count);
+        if (active_component_count > 0) {
+            rotator.Rotate(new Vector3(0, rotation * 1.5f / active_component_count, 0));
+            transform.Translate(translation * 1.5f / active_component_count);
+        }
+        if (transform.position.x > 420 || transform.position.x < -20 || transform.position.z > 420 || transform.position.z < -20) Destroy(this.gameObject);
     }
 }
 

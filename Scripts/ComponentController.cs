@@ -61,96 +61,96 @@ public abstract class ComponentController : MonoBehaviour
 
     void Start()
     {
-        debug_color = new UnityEngine.Color(UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f));
+        debug_color = new UnityEngine.Color(0,1,0);//UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f));
         // var panel = GameObject.Find("ComponentPanel");
         component_panel = GameObject.Find("ComponentPanel")?.GetComponent<UIController>();
         //Set the mode used to create the mesh.
         //Cubes is faster and creates less verts, tetrahedrons is slower and creates more verts but better represents the mesh surface.
-        Marching marching = null;
-        // if (mode == MARCHING_MODE.TETRAHEDRON)
-        // marching = new MarchingTertrahedron();
-        // else
-        marching = new MarchingCubes();
+        // Marching marching = null;
+        // // if (mode == MARCHING_MODE.TETRAHEDRON)
+        // // marching = new MarchingTertrahedron();
+        // // else
+        // marching = new MarchingCubes();
 
-        //Surface is the value that represents the surface of mesh
-        //For example the perlin noise has a range of -1 to 1 so the mid point is where we want the surface to cut through.
-        //The target value does not have to be the mid point it can be any value with in the range.
-        marching.Surface = 0.0f; // TODO: test how this affects small details on 32x32x32 detail, e.g. structural components on ships
+        // //Surface is the value that represents the surface of mesh
+        // //For example the perlin noise has a range of -1 to 1 so the mid point is where we want the surface to cut through.
+        // //The target value does not have to be the mid point it can be any value with in the range.
+        // marching.Surface = 0.0f; // TODO: test how this affects small details on 32x32x32 detail, e.g. structural components on ships
 
-        //The size of voxel array.
-        int width = 9;
-        int height = 9;
-        int length = 9;
+        // //The size of voxel array.
+        // int width = 9;
+        // int height = 9;
+        // int length = 9;
 
-        float[] voxels = new float[width * height * length];
+        // float[] voxels = new float[width * height * length];
         
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < length; y++)
-            {
-                for (int z = 0; z < height; z++)
-                {
-                    voxels[x + y * length + z * length * height] = -1f;
-                    if (x > 0 && x < width - 1 && y > 0 && y < length - 1 && z > 0 && z < height - 1)
-                    {
-                        //TODO:: Work on a more refined way of defining custom shapes for controllers...
-                        //       Clean would be each child component controller has own "formula" to define shape...? Allows for destruction also (if within visual range, so not overly computationally expensive )
-                        // if (x == z || x == width - 1 - z || y == z || y == length - 1 - z || z == 1)
-                        voxels[x + y * length + z * length * height] = 1f;
-                    }
-                }
-            }
-        }
+        // for (int x = 0; x < width; x++)
+        // {
+        //     for (int y = 0; y < length; y++)
+        //     {
+        //         for (int z = 0; z < height; z++)
+        //         {
+        //             voxels[x + y * length + z * length * height] = -1f;
+        //             if (x > 0 && x < width - 1 && y > 0 && y < length - 1 && z > 0 && z < height - 1)
+        //             {
+        //                 //TODO:: Work on a more refined way of defining custom shapes for controllers...
+        //                 //       Clean would be each child component controller has own "formula" to define shape...? Allows for destruction also (if within visual range, so not overly computationally expensive )
+        //                 // if (x == z || x == width - 1 - z || y == z || y == length - 1 - z || z == 1)
+        //                 voxels[x + y * length + z * length * height] = 1f;
+        //             }
+        //         }
+        //     }
+        // }
 
-        List<Vector3> verts = new List<Vector3>();
-        List<int> indices = new List<int>();
+        // List<Vector3> verts = new List<Vector3>();
+        // List<int> indices = new List<int>();
 
-        //The mesh produced is not optimal. There is one vert for each index.
-        //Would need to weld vertices for better quality mesh.
-        marching.Generate(voxels, width, height, length, verts, indices);
+        // //The mesh produced is not optimal. There is one vert for each index.
+        // //Would need to weld vertices for better quality mesh.
+        // marching.Generate(voxels, width, height, length, verts, indices);
 
-        //A mesh in unity can only be made up of 65000 verts.
-        //Need to split the verts between multiple meshes.
+        // //A mesh in unity can only be made up of 65000 verts.
+        // //Need to split the verts between multiple meshes.
 
-        int maxVertsPerMesh = 30000; //must be divisible by 3, ie 3 verts == 1 triangle
-        int numMeshes = verts.Count / maxVertsPerMesh + 1;
+        // int maxVertsPerMesh = 30000; //must be divisible by 3, ie 3 verts == 1 triangle
+        // int numMeshes = verts.Count / maxVertsPerMesh + 1;
 
-        for (int i = 0; i < numMeshes; i++)
-        {
+        // for (int i = 0; i < numMeshes; i++)
+        // {
 
-            List<Vector3> splitVerts = new List<Vector3>();
-            List<int> splitIndices = new List<int>();
+        //     List<Vector3> splitVerts = new List<Vector3>();
+        //     List<int> splitIndices = new List<int>();
 
-            for (int j = 0; j < maxVertsPerMesh; j++)
-            {
-                int idx = i * maxVertsPerMesh + j;
+        //     for (int j = 0; j < maxVertsPerMesh; j++)
+        //     {
+        //         int idx = i * maxVertsPerMesh + j;
 
-                if (idx < verts.Count)
-                {
-                    splitVerts.Add(verts[idx]);
-                    splitIndices.Add(j);
-                }
-            }
+        //         if (idx < verts.Count)
+        //         {
+        //             splitVerts.Add(verts[idx]);
+        //             splitIndices.Add(j);
+        //         }
+        //     }
 
-            if (splitVerts.Count == 0) continue;
+        //     if (splitVerts.Count == 0) continue;
 
-            Mesh mesh = new Mesh();
-            mesh.SetVertices(splitVerts);
-            mesh.SetTriangles(splitIndices, 0);
-            mesh.RecalculateBounds();
-            mesh.RecalculateNormals();
+        //     Mesh mesh = new Mesh();
+        //     mesh.SetVertices(splitVerts);
+        //     mesh.SetTriangles(splitIndices, 0);
+        //     mesh.RecalculateBounds();
+        //     mesh.RecalculateNormals();
 
-            GameObject go = new GameObject("Mesh");
-            go.transform.parent = transform;
-            go.AddComponent<MeshFilter>();
-            go.AddComponent<MeshRenderer>();
-            go.GetComponent<Renderer>().material = m_material;
-            go.GetComponent<MeshFilter>().mesh = mesh;
-            go.transform.localPosition = new Vector3(-.5f,.5f,.5f);//-width / 2, -height / 2, -length / 2);
-            go.transform.localScale = new Vector3(1 / 7f, 1 / 7f, 1 / 7f);
+        //     GameObject go = new GameObject("Mesh");
+        //     go.transform.parent = transform;
+        //     go.AddComponent<MeshFilter>();
+        //     go.AddComponent<MeshRenderer>();
+        //     go.GetComponent<Renderer>().material = m_material;
+        //     go.GetComponent<MeshFilter>().mesh = mesh;
+        //     go.transform.localPosition = new Vector3(-.5f,.5f,.5f);//-width / 2, -height / 2, -length / 2);
+        //     go.transform.localScale = new Vector3(1 / 7f, 1 / 7f, 1 / 7f);
 
-            meshes.Add(go);
-        }
+        //     meshes.Add(go);
+        // }
     }
     
     public Transform GetTransform()
@@ -179,11 +179,14 @@ public abstract class ComponentController : MonoBehaviour
 
     void OnMouseUp()
     {
-        component_panel.Set(this);
+        // component_panel.Set(this);
+        // Destroy (gameObject); 
+        GameObject.Find("Canvas").GetComponent<DualScreenController>().component = this;
         // if (componentPanel == null) 
         // var structure_controller = GetComponentInParent(typeof(StructureController)) as StructureController;
 
     }
+
 
     public string Plot(string type, float value, float min, float max, int length)
     {

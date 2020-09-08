@@ -11,4 +11,10 @@ public class BulkheadController : ComponentController {
     public override float Action (float input) {
         return input;
     }
+    
+    public override string ToString()
+    {
+        string output = "╠╕ Bulkhead Component: " + this.name + "\n╟┘";
+        return "";
+    }
 }

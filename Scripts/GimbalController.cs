@@ -35,7 +35,7 @@ public class GimbalController : ComponentController
     // Eventually move this ToString code to a dedicated formatting library call to structure everything into ascii tables neatly and usably (if running in no-textures mode (for pushing game to the limit...))
     public override string ToString()
     {
-        string output = "╠╕ Gimbal Component: " + this.name + "\n╟┘ Rotation: " + rotation_min.ToString("00° ") + Plot("Marker", rotation, rotation_min, rotation_max, 10) + rotation_max.ToString("\t+00°");
+        string output = this.name + "\n│ This component rotates\n│ other connected components\n║ Degree:\n│ " + rotation_min.ToString("00° ") + Plot("Marker", rotation, rotation_min, rotation_max, 10) + rotation_max.ToString("\t+00°");
         //+ "°"; //.ToString("0.0")
         return output;
     }

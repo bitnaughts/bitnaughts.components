@@ -7,30 +7,31 @@ using UnityEngine;
 
 
 public class SensorController : ComponentController {   //RangeFinder == 1D, Scanner == 2D?
-
     // public float max_step = 25f;
-
+    public bool organicSensor;
     private float distance = 0, distance_min = 0, distance_max = 999, scan_range = 0;
-
 
     public override float Action (float input) 
     {
+        if (this == null) { Destroy(this); return -999; }
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 999))
         {
             distance = hit.distance;
-            Debug.DrawLine(transform.position, transform.position + transform.TransformDirection(Vector3.forward) * distance, debug_color, .001f, false);
-            return distance;
+            if (organicSensor == false && hit.collider.gameObject.layer == 9) return distance;
+            else if (organicSensor == true){
+                return distance;
+            }
+            // Debug.DrawLine(transform.position, transform.position + transform.TransformDirection(Vector3.forward) * distance, debug_color, .2f, false);
         }
         else 
             distance = distance_max;
             // Debug.DrawLine(transform.position, transform.position + transform.TransformDirection(Vector3.forward), Color.green, .001f, false);
             return distance_max;
-        // return 0;
     }
     public override string ToString()
     {
-          //Move to "audio sensor" LOL, could actually be legit useful if actions cause sounds, local audio listener picks it up and can target it? sound-tracking missile...
         // string output = "";
         // float[] spectrum = new float[64];
         // var listener = GameObject.Find("Main Camera").GetComponent<AudioListener>();
@@ -42,6 +43,6 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
         //     }
         //     output += "\n";
         // }
-        return "╠╕ Sensor Component: " + this.name + "\n╟┘ Distance: " + distance_min.ToString("000") + " " + Plot("ProgressBar", distance, distance_min, distance_max, 20) + distance_max.ToString("\t000");
+        return this.name + "\n│ This component measures distances\n│ infront of itself\n║Distance:\n│ " +  Plot("ProgressBar", distance, distance_min, distance_max, 20) + "\n│ " +  Plot("ProgressBar", distance, distance_min, distance_max, 20) + "\n│ " +  Plot("ProgressBar", distance, distance_min, distance_max, 20);
     }
 }
