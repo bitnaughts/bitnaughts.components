@@ -181,7 +181,6 @@ public abstract class ComponentController : MonoBehaviour
     {
         // component_panel.Set(this);
         // Destroy (gameObject); 
-        GameObject.Find("Canvas").GetComponent<DualScreenController>().component = this;
         // if (componentPanel == null) 
         // var structure_controller = GetComponentInParent(typeof(StructureController)) as StructureController;
 

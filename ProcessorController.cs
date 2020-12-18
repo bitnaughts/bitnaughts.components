@@ -70,10 +70,10 @@ public class ProcessorController : ComponentController
    
     public override string ToString()
     {
-        string output = this.name + "\n║ Instruction Set:"; 
-        foreach (var instruction in instructions) output += "\n│ " + instruction ;
-        output += "║ Variables:";
-        foreach (var variable in variables) output += "\n│ " + variable.Key + ":" +  Plot("Marker", variable.Value.value, variable.Value.min, variable.Value.max, 10) ;
-        return output + "\n";
+        // string output = this.name + "\n║ Instruction Set:"; 
+        // foreach (var instruction in instructions) output += "\n│ " + instruction ;
+        // output += "║ Variables:";
+        // foreach (var variable in variables) output += "\n│ " + variable.Key + ":" +  Plot("Marker", variable.Value.value, variable.Value.min, variable.Value.max, 10) ;
+        return "Processor\n";
     }
 }
