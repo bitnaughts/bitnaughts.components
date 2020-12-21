@@ -37,6 +37,6 @@ public class ThrusterController : ComponentController {
     }
     public override string ToString()
     {
-        return this.name + "\n│ This component pushes\n│ the ship forward\n║Thrust:\n│ " + Plot("ProgressBar", thrust, thrust_min, thrust_max, 20) + "\n│ " + Plot("ProgressBar", thrust, thrust_min, thrust_max, 20) + "\n│ " + Plot("ProgressBar", thrust, thrust_min, thrust_max, 20);
+        return this.name + "\n│ This component pushes the ship forward";
     }
 }

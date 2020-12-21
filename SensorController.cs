@@ -43,6 +43,6 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
         //     }
         //     output += "\n";
         // }
-        return this.name + "\n│ This component measures distances\n│ infront of itself\n║Distance:\n│ " +  Plot("ProgressBar", distance, distance_min, distance_max, 20) + "\n│ " +  Plot("ProgressBar", distance, distance_min, distance_max, 20) + "\n│ " +  Plot("ProgressBar", distance, distance_min, distance_max, 20);
+        return this.name + "\n│ This component measures distances infront of itself";
     }
 }
