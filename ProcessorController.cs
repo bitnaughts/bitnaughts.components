@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class ProcessorController : ComponentController
 {
     
+    
     /* Thruster Processor Example
         com left_sensor
         sub res 20

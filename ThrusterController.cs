@@ -10,7 +10,8 @@ public class ThrusterController : ComponentController {
 
     public float max_step = 25f;
     protected Vector3 thrust_vector;
-    private float thrust = 100, thrust_min = 0, thrust_max = 0;
+    private float thrust = 1, thrust_min = 0, thrust_max = 0;
+
 
     public override float Action (float input) 
     {
@@ -27,13 +28,13 @@ public class ThrusterController : ComponentController {
 
         return thrust;
     }
-    public Vector3 GetThrustVector() 
+    public Vector2 GetThrustVector() 
     {
-        return transform.forward * thrust / 100f;
+        return transform.up * thrust / 100f;
     }
-    public Vector3 GetPosition() 
+    public Vector2 GetPosition() 
     {
-        return new Vector3(transform.position.x, 0, transform.position.z);
+        return new Vector2(transform.position.x, transform.position.y);
     }
     public override string ToString()
     {

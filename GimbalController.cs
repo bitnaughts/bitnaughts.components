@@ -12,6 +12,7 @@ public class GimbalController : ComponentController
 
     private void Awake () {
         gimbal_grid = transform.Find("GimbalGrid").gameObject;
+        gimbal_grid.GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size;
     }
     
     public override float Action (float input) 

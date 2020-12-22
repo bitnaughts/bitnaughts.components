@@ -9,41 +9,82 @@ using UnityEngine.UI;
 public class StructureController : MonoBehaviour
 {
     const float debug_duration = .001f;
-    Dictionary<string, ComponentController> components;
-    protected Vector3 center_of_mass;
+    public Dictionary<string, ComponentController> components;
+    protected Vector2 center_of_mass;
     protected int child_count;
     protected Transform rotator;       
     protected UnityEngine.Color debug_color;
     RaycastHit hit;
-    void Start()
+    
+    GameObject component_content;
+    
+    public string default_content = "\n None... \n\n To add, tap\n plotter grid.";
+
+    public void Start()
     {
         debug_color = new UnityEngine.Color(UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f));
         // print ("Structure Starting!");
         components = new Dictionary<string, ComponentController>();
+        
+        component_content = GameObject.Find("ComponentContent");
+        component_content.GetComponent<Text>().text = default_content;
+        
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {
+            if (component_content.GetComponent<Text>().text == default_content) component_content.GetComponent<Text>().text = "\n " + this.name + "\n";
             components.Add(controller.name, controller);
+            component_content.GetComponent<Text>().text += " >" + controller.name + "\n";
         }
 
         rotator = transform.Find("Rotator");
         child_count = rotator.childCount;
+
+
 
         // foreach (var controller in components) {
         //     controller.Init(components);
         // }
     }
 
+    public void Rotate90(string component)
+    {
+        rotator.Find(component).Rotate(new Vector3(0,0,-90));
+    }
+
+    public void Remove(string component) 
+    {
+        Destroy(rotator.Find(component).gameObject);
+    }
+
+    public void DisableColliders() 
+    {
+        foreach (var component in components.Values)
+        {
+            component.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        }
+    }
+
+    public void EnableColliders() 
+    {
+        foreach (var component in components.Values)
+        {
+            component.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }
+
     float gimbal_test = 0f;
     float gimbal_step = 10f;
+
     void FixedUpdate()
     {
         if (child_count != rotator.childCount) Start();
+        if (components == null) return;
 
-        center_of_mass = Vector3.zero;
+        center_of_mass = Vector2.zero;
         float active_component_count = 0;
         foreach (var controller in components.Values) {
            if (controller != null && controller.enabled) {
-                center_of_mass += new Vector3(controller.GetTransform().position.x, 0, controller.GetTransform().position.z);
+                center_of_mass += new Vector2(controller.GetTransform().position.x, controller.GetTransform().position.y);
                 active_component_count++;
                 switch (controller) {
                     case ProcessorController processor:
@@ -65,7 +106,7 @@ public class StructureController : MonoBehaviour
 
 
         float rotation = 0f;
-        Vector3 translation = new Vector3(0, 0, 0);
+        Vector2 translation = new Vector2(0, 0);
 
         foreach (var controller in components.Values)
         {
@@ -75,10 +116,9 @@ public class StructureController : MonoBehaviour
                     // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
                     translation -= thruster.GetThrustVector();
                     float thrust_rotation = 15 * thruster.GetThrustVector().magnitude * Mathf.Sin(
-                        Vector3.SignedAngle(
+                        Vector2.SignedAngle(
                             thruster.GetThrustVector(), 
-                            thruster.GetPosition() - center_of_mass,
-                            Vector3.up
+                            thruster.GetPosition() - center_of_mass
                         ) * Mathf.Deg2Rad
                     );
                     rotation += thrust_rotation;
@@ -86,10 +126,10 @@ public class StructureController : MonoBehaviour
             }
         }
         if (active_component_count > 0) {
-            rotator.Rotate(new Vector3(0, rotation * 1.5f / active_component_count, 0));
+            rotator.Rotate(new Vector3(0, 0, rotation * 1.5f / active_component_count));
             transform.Translate(translation * 1.5f / active_component_count);
         }
-        if (transform.position.x > 420 || transform.position.x < -20 || transform.position.z > 420 || transform.position.z < -20) Destroy(this.gameObject);
+        // if (transform.position.x > 420 || transform.position.x < -20 || transform.position.z > 420 || transform.position.z < -20) Destroy(this.gameObject);
     }
 }
 

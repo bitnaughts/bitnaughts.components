@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: f930b987420bac5499aa555b7b419097, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 74f86962ebb069b4e9effa3d7a3dbfb8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,3 +125,9 @@ MonoBehaviour:
   material_color: {r: 0, g: 0, b: 0, a: 0}
   debug_color: {r: 0, g: 0, b: 0, a: 0}
   seed: 0
+  rectangle:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0

@@ -35,10 +35,14 @@ public abstract class ComponentController : MonoBehaviour
 
     public int seed = 0;
 
-    List<GameObject> meshes = new List<GameObject>();
 
+    public Rect rectangle;
+
+    PlotterController controller;
     void Start()
     {
+        controller = GameObject.Find("PlotterOverlay").GetComponent<PlotterController>();
+        Action(1);
         debug_color = new UnityEngine.Color(0,1,0);//UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f));
         // var panel = GameObject.Find("ComponentPanel");
         // component_panel = GameObject.Find("ComponentPanel")?.GetComponent<UIController>();
@@ -55,6 +59,15 @@ public abstract class ComponentController : MonoBehaviour
     {
         // foreach (var part in parts) Destroy (part.Value);
         Destroy(this.gameObject);
+    }
+
+    void OnMouseOver() 
+    {
+        controller.Focus(this.name, this.transform.position, GetComponent<SpriteRenderer>().size);
+    }
+    void OnMouseExit() 
+    {
+        controller.Unfocus();
     }
 
     void OnMouseUp()
