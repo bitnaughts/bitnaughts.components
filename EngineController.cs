@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public class ThrusterController : ComponentController {   
+public class EngineController : ComponentController {   
 
     protected Vector3 thrust_vector;
     private float thrust = 0;
@@ -26,7 +26,7 @@ public class ThrusterController : ComponentController {
 
     public override Vector2 GetMinimumSize ()
     {
-        return new Vector2(2, 2);
+        return new Vector2(6, 2);
     }
 
     public Vector2 GetThrustVector() 

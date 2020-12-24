@@ -25,6 +25,13 @@ public class PrinterController : ComponentController
     {
         return 0;
     }
+
+    public override Vector2 GetMinimumSize ()
+    {
+        return new Vector2(2, 2);
+    }
+
+
     public override string ToString()
     {
         string output = this.name + "\n│ This component prints other connected components\n";

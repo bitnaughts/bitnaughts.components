@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class ProcessorController : ComponentController
 {
-    
+
     
     /* Thruster Processor Example
         com left_sensor
@@ -67,6 +67,10 @@ public class ProcessorController : ComponentController
         // if (instructions == null) Init(debug_instructions);
         // );
 
+    public override Vector2 GetMinimumSize ()
+    {
+        return new Vector2(4, 4);
+    }
 
    
     public override string ToString()

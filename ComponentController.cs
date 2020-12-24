@@ -27,25 +27,16 @@ public abstract class ComponentController : MonoBehaviour
     protected float temperature = .5f;
     protected float hitpoints;
     protected float action_speed = .1f, action_cooldown = 0f;
-
     protected string prefab_path;
-    public Color material_color, debug_color;
     
     UIController component_panel;
-
-    public int seed = 0;
-
-
-    public Rect rectangle;
-
     PlotterController controller;
+
+
     void Start()
     {
         controller = GameObject.Find("PlotterOverlay").GetComponent<PlotterController>();
-        Action(1);
-        debug_color = new UnityEngine.Color(0,1,0);//UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f));
-        // var panel = GameObject.Find("ComponentPanel");
-        // component_panel = GameObject.Find("ComponentPanel")?.GetComponent<UIController>();
+        Action(0);
     }
     
     public Transform GetTransform()
@@ -54,6 +45,8 @@ public abstract class ComponentController : MonoBehaviour
     }
 
     public abstract float Action(float input);
+    
+    public abstract Vector2 GetMinimumSize();
 
     public void Remove()
     {
@@ -63,7 +56,7 @@ public abstract class ComponentController : MonoBehaviour
 
     void OnMouseOver() 
     {
-        controller.Focus(this.name, this.transform.position, GetComponent<SpriteRenderer>().size);
+        controller.Focus(this.name);
     }
     void OnMouseExit() 
     {

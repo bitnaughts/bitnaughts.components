@@ -158,7 +158,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1, y: 3}
+  m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -245,7 +245,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -269,7 +269,7 @@ BoxCollider2D:
     border: {x: 1, y: 1, z: 1, w: 1}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 3, y: 3}
-    newSize: {x: 3, y: 3}
+    newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0
@@ -289,15 +289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460f2434e36d84e4aad9de699b28b7fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material_color: {r: 0, g: 0, b: 0, a: 0}
-  debug_color: {r: 0, g: 0, b: 0, a: 0}
-  seed: 0
-  rectangle:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
 --- !u!1 &8759850144014369595
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +365,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1, y: 3}
+  m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

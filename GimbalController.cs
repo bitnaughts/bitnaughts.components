@@ -25,6 +25,11 @@ public class GimbalController : ComponentController
         return gimbal_grid.transform.localEulerAngles.y;
     }
 
+    public override Vector2 GetMinimumSize ()
+    {
+        return new Vector2(2, 2);
+    }
+
     public override string ToString ()
     {
         return this.name + "\n│ This component rotates other connected components";

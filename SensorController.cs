@@ -30,6 +30,12 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
             // Debug.DrawLine(transform.position, transform.position + transform.TransformDirection(Vector3.forward), Color.green, .001f, false);
             return distance_max;
     }
+
+    public override Vector2 GetMinimumSize ()
+    {
+        return new Vector2(2, 2);
+    }
+
     public override string ToString()
     {
         // string output = "";

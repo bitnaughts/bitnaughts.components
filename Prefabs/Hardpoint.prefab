@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8219868952814657140}
   - component: {fileID: 8219868952814657141}
   - component: {fileID: 8219868952814657142}
-  - component: {fileID: 4257475685088927913}
+  - component: {fileID: 6741223965780609395}
   m_Layer: 0
   m_Name: Hardpoint
   m_TagString: Untagged
@@ -110,7 +110,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
---- !u!114 &4257475685088927913
+--- !u!114 &6741223965780609395
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,12 +119,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8219868952814657143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f1a1a8e3ec774f46b99d8f801b1edb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 277e19b0d64a27441b5edb57a7fafef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material_color: {r: 0, g: 0, b: 0, a: 0}
-  debug_color: {r: 0, g: 1, b: 0, a: 1}
-  seed: 0
   rectangle:
     serializedVersion: 2
     x: 0

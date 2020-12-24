@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using UnityEngine;
-
-
-public class BulkheadController : ComponentController {   
+public class HardpointController : ComponentController {   
     
     public override float Action (float input) {
         return input;
@@ -14,12 +12,12 @@ public class BulkheadController : ComponentController {
   
     public override Vector2 GetMinimumSize ()
     {
-        return new Vector2(2, 6);
+        return new Vector2(2, 2);
     }
 
     public override string ToString()
     {
-        string output = "╠╕ Bulkhead Component: " + this.name + "\n╟┘";
+        string output = "╠╕ Hardpoint Component: " + this.name + "\n╟┘";
         return "";
     }
 }

@@ -15,35 +15,34 @@ public class StructureController : MonoBehaviour
     protected Transform rotator;       
     protected UnityEngine.Color debug_color;
     RaycastHit hit;
-    
-    GameObject component_content;
-    
     public string default_content = "\n None... \n\n To add, tap\n plotter grid.";
 
     public void Start()
     {
-        debug_color = new UnityEngine.Color(UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f),UnityEngine.Random.Range(0.0f,1.0f));
-        // print ("Structure Starting!");
         components = new Dictionary<string, ComponentController>();
-        
-        component_content = GameObject.Find("ComponentContent");
-        component_content.GetComponent<Text>().text = default_content;
-        
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {
-            if (component_content.GetComponent<Text>().text == default_content) component_content.GetComponent<Text>().text = "\n " + this.name + "\n";
             components.Add(controller.name, controller);
-            component_content.GetComponent<Text>().text += " >" + controller.name + "\n";
         }
-
         rotator = transform.Find("Rotator");
         child_count = rotator.childCount;
+    }
 
+    public void Move(string component, Vector2 direction) 
+    {
+        rotator.Find(component).Translate(direction);
+    }
 
+    public void Upsize(string component, Vector2 direction) 
+    {
+        rotator.Find(component).Translate(direction/2);
+        rotator.Find(component).GetComponent<SpriteRenderer>().size += new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
+    }
 
-        // foreach (var controller in components) {
-        //     controller.Init(components);
-        // }
+    public void Downsize(string component, Vector2 direction) 
+    {
+        rotator.Find(component).Translate(-direction/2);
+        rotator.Find(component).GetComponent<SpriteRenderer>().size -= new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
     }
 
     public void Rotate90(string component)
@@ -54,6 +53,21 @@ public class StructureController : MonoBehaviour
     public void Remove(string component) 
     {
         Destroy(rotator.Find(component).gameObject);
+    }
+
+    public Vector2 GetSize(string component) 
+    {
+        return rotator.Find(component).GetComponent<SpriteRenderer>().size;
+    }
+
+    public Vector2 GetPosition(string component) 
+    {
+        return rotator.Find(component).localPosition;
+    }
+
+    public Vector2 GetMinimumSize(string component) 
+    {
+        return rotator.Find(component).GetComponent<ComponentController>().GetMinimumSize();
     }
 
     public void DisableColliders() 
@@ -130,6 +144,15 @@ public class StructureController : MonoBehaviour
             transform.Translate(translation * 1.5f / active_component_count);
         }
         // if (transform.position.x > 420 || transform.position.x < -20 || transform.position.z > 420 || transform.position.z < -20) Destroy(this.gameObject);
+    }
+    public override string ToString()
+    {
+        string output = "\n " + this.name;
+        foreach (var controller_name in components.Keys)
+        {
+            output += "\n> " + controller_name;
+        }
+        return output;
     }
 }
 
