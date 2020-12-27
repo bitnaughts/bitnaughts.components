@@ -15,6 +15,10 @@ public class GimbalController : ComponentController
         gimbal_grid.GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size;
     }
     
+    public override string GetDescription() 
+    {
+        return "\n <b>Gimbals</b> rotate \n all attached \n sub-components;\n\n Component(input) \n> rotation += input\n> return rotation % 360";
+    }
     public override float Action (float input) 
     {
         gimbal_grid.transform.localEulerAngles = new Vector3(

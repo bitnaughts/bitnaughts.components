@@ -22,6 +22,10 @@ public class CannonController : ComponentController {
         return 0;
     }
   
+    public override string GetDescription() 
+    {
+        return "\n <b>Cannons</b> fire \n projectiles \n when triggered; \n\n Component(input)\n> Fire(barrel[input])";
+    }
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 2);

@@ -12,6 +12,10 @@ public class BulkheadController : ComponentController {
         return input;
     }
   
+    public override string GetDescription() 
+    {
+        return "\n <b>Bulkheads</b> store \n materials;";
+    }
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 6);

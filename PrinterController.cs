@@ -26,6 +26,10 @@ public class PrinterController : ComponentController
         return 0;
     }
 
+    public override string GetDescription() 
+    {
+        return "\n <b>Printers</b> print \n components;\n\n Component(input) \n> API to be defined";
+    }
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 2);

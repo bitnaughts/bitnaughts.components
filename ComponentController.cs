@@ -46,6 +46,7 @@ public abstract class ComponentController : MonoBehaviour
 
     public abstract float Action(float input);
     
+    public abstract string GetDescription();
     public abstract Vector2 GetMinimumSize();
 
     public void Remove()

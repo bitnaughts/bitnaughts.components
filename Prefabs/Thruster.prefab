@@ -4846,7 +4846,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bc5ec9081410e7e4e9cc394484939f56, type: 2}
+  - {fileID: 2100000, guid: dfc9388ea0520f84a8b91640ce33f3fe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4904,13 +4904,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9897970cfee8345966a2e80e145f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material_color: {r: 0, g: 0, b: 0, a: 0}
-  debug_color: {r: 0, g: 0, b: 0, a: 0}
-  seed: 0
-  rectangle:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  max_step: 25

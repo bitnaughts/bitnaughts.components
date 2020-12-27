@@ -24,6 +24,10 @@ public class ThrusterController : ComponentController {
         return thrust;
     }
 
+    public override string GetDescription() 
+    {
+        return "\n <b>Thrusters</b> burn \n rocket fuel \n for throttleable \n thrust;\n\n Component(input) \n> throttle = input\n> return throttle";
+    }
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 2);
@@ -31,7 +35,7 @@ public class ThrusterController : ComponentController {
 
     public Vector2 GetThrustVector() 
     {
-        return transform.up * thrust / 100f;
+        return -transform.up * thrust / 100f;
     }
     public Vector2 GetPosition() 
     {
@@ -39,6 +43,6 @@ public class ThrusterController : ComponentController {
     }
     public override string ToString()
     {
-        return this.name + "\n│ This component pushes the ship forward";
+        return "\n " + this.name + "\n " + thrust;
     }
 }

@@ -11,7 +11,6 @@ public class EngineController : ComponentController {
     protected Vector3 thrust_vector;
     private float thrust = 0;
 
-
     public override float Action (float input) 
     {
         if (this == null) { Destroy(this.gameObject); return -999; }
@@ -24,6 +23,10 @@ public class EngineController : ComponentController {
         return thrust;
     }
 
+    public override string GetDescription() 
+    {
+        return "\n <b>Engines</b> ionize \n space gases \n for throttleable \n thrust;\n\n Component(input) \n> throttle = input\n> return throttle";
+    }
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(6, 2);
@@ -31,7 +34,7 @@ public class EngineController : ComponentController {
 
     public Vector2 GetThrustVector() 
     {
-        return transform.up * thrust / 100f;
+        return -transform.up * thrust / 100f;
     }
     public Vector2 GetPosition() 
     {

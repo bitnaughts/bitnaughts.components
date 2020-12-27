@@ -30,44 +30,50 @@ public class StructureController : MonoBehaviour
 
     public void Move(string component, Vector2 direction) 
     {
-        rotator.Find(component).Translate(direction);
+        if (!components.ContainsKey(component)) return;
+        components[component].transform.Translate(direction);
     }
 
     public void Upsize(string component, Vector2 direction) 
     {
-        rotator.Find(component).Translate(direction/2);
-        rotator.Find(component).GetComponent<SpriteRenderer>().size += new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
+        if (!components.ContainsKey(component)) return;
+        components[component].transform.Translate(direction/2);
+        components[component].transform.GetComponent<SpriteRenderer>().size += new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
     }
 
     public void Downsize(string component, Vector2 direction) 
     {
-        rotator.Find(component).Translate(-direction/2);
-        rotator.Find(component).GetComponent<SpriteRenderer>().size -= new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
+        if (!components.ContainsKey(component)) return;
+        components[component].transform.Translate(-direction/2);
+        components[component].transform.GetComponent<SpriteRenderer>().size -= new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
     }
 
     public void Rotate90(string component)
     {
-        rotator.Find(component).Rotate(new Vector3(0,0,-90));
+        if (!components.ContainsKey(component)) return;
+        components[component].transform.Rotate(new Vector3(0,0,-90));
     }
 
     public void Remove(string component) 
     {
-        Destroy(rotator.Find(component).gameObject);
+        Destroy(components[component].transform.gameObject);
     }
 
     public Vector2 GetSize(string component) 
     {
-        return rotator.Find(component).GetComponent<SpriteRenderer>().size;
+        if (!components.ContainsKey(component)) return Vector2.zero;
+        return components[component].transform.GetComponent<SpriteRenderer>().size;
     }
 
     public Vector2 GetPosition(string component) 
     {
-        return rotator.Find(component).localPosition;
+        if (!components.ContainsKey(component)) return Vector2.zero;
+        return components[component].transform.localPosition;
     }
 
     public Vector2 GetMinimumSize(string component) 
     {
-        return rotator.Find(component).GetComponent<ComponentController>().GetMinimumSize();
+        return components[component].transform.GetComponent<ComponentController>().GetMinimumSize();
     }
 
     public void DisableColliders() 
@@ -86,8 +92,115 @@ public class StructureController : MonoBehaviour
         }
     }
 
+    public void SetInstructions(string component, string instructions)
+    {
+        if (!components.ContainsKey(component)) return;
+        switch (components[component]) {
+            case ProcessorController processor:
+                processor.SetInstructions(instructions);
+                break;
+            default: //Want all components to be scriptable? Adjust here.
+                break;
+        }
+    }
+    public void DeleteLine(string component)
+    {
+        if (!components.ContainsKey(component)) return;
+        switch (components[component]) {
+            case ProcessorController processor:
+                processor.DeleteLine();
+                break;
+            default: //Want all components to be scriptable? Adjust here.
+                break;
+        } 
+    }
+    public void SetOperand(string component, string op)
+    {
+        if (!components.ContainsKey(component)) return;
+        switch (components[component]) {
+            case ProcessorController processor:
+                processor.SetOperand(op);
+                break;
+            default: //Want all components to be scriptable? Adjust here.
+                break;
+        } 
+    }
+    public void AddLine(string component, int direction)
+    {
+        if (!components.ContainsKey(component)) return;
+        switch (components[component]) {
+            case ProcessorController processor:
+                processor.AddLine(direction);
+                break;
+            default: //Want all components to be scriptable? Adjust here.
+                break;
+        } 
+    }
+    public void Scroll(string component, int direction)
+    {
+        if (!components.ContainsKey(component)) return;
+        switch (components[component]) {
+            case ProcessorController processor:
+                processor.Scroll(direction);
+                break;
+            default: //Want all components to be scriptable? Adjust here.
+                break;
+        } 
+    }
+    public string GetEditInstruction(string component)
+    {
+        if (!components.ContainsKey(component)) return "";
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.GetEditInstruction();
+            default: //Want all components to be scriptable? Adjust here.
+                return "";
+        } 
+    }
+    public string GetEditInstructionCategory(string component)
+    {
+        if (!components.ContainsKey(component)) return "";
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.GetEditInstructionCategory();
+            default: //Want all components to be scriptable? Adjust here.
+                return "";
+        } 
+    }
+    public string GetEditInstructionText(string component)
+    {
+        if (!components.ContainsKey(component)) return "";
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.GetEditInstructionText();
+            default: //Want all components to be scriptable? Adjust here.
+                return "";
+        } 
+    }
+    public string GetNextLabel(string component)
+    {
+        if (!components.ContainsKey(component)) return "";
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.GetNextLabel();
+            default: //Want all components to be scriptable? Adjust here.
+                return "";
+        } 
+    }
+    public string GetNextVariable(string component)
+    {        
+        if (!components.ContainsKey(component)) return "";
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.GetNextVariable();
+            default: //Want all components to be scriptable? Adjust here.
+                return "";
+        } 
+    }
+
     float gimbal_test = 0f;
     float gimbal_step = 10f;
+    float thrust_rotation = 0f;
 
     void FixedUpdate()
     {
@@ -125,11 +238,23 @@ public class StructureController : MonoBehaviour
         foreach (var controller in components.Values)
         {
             if (controller != null && controller.enabled) switch (controller) {
+                case EngineController engine:
+                    // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
+                    // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
+                    translation -= engine.GetThrustVector();
+                    thrust_rotation = 15 * engine.GetThrustVector().magnitude * Mathf.Sin(
+                        Vector2.SignedAngle(
+                            engine.GetThrustVector(), 
+                            engine.GetPosition() - center_of_mass
+                        ) * Mathf.Deg2Rad
+                    );
+                    rotation += thrust_rotation;
+                    break;
                 case ThrusterController thruster:
                     // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
                     // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
                     translation -= thruster.GetThrustVector();
-                    float thrust_rotation = 15 * thruster.GetThrustVector().magnitude * Mathf.Sin(
+                    thrust_rotation = 15 * thruster.GetThrustVector().magnitude * Mathf.Sin(
                         Vector2.SignedAngle(
                             thruster.GetThrustVector(), 
                             thruster.GetPosition() - center_of_mass
@@ -145,12 +270,18 @@ public class StructureController : MonoBehaviour
         }
         // if (transform.position.x > 420 || transform.position.x < -20 || transform.position.z > 420 || transform.position.z < -20) Destroy(this.gameObject);
     }
-    public override string ToString()
+    public string GetComponentToString(string selected)
+    {
+        if (!components.ContainsKey(selected)) return "";
+        return components[selected].ToString();
+    }
+    public string ToString(string selected)
     {
         string output = "\n " + this.name;
         foreach (var controller_name in components.Keys)
         {
-            output += "\n> " + controller_name;
+            if (selected == controller_name) output += "<b>\n> " + controller_name + "</b>";
+            else output += "\n> " + controller_name;
         }
         return output;
     }
