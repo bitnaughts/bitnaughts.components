@@ -8,14 +8,14 @@ using UnityEngine;
 
 public class EngineController : ComponentController {   
 
-    protected Vector3 thrust_vector;
     private float thrust = 0;
+    public const int INPUT_MIN = -1, INPUT_MAX = 1, THRUST_MIN = 0, THRUST_MAX = 10;
 
     public override float Action (float input) 
     {
         if (this == null) { Destroy(this.gameObject); return -999; }
 
-        thrust = Mathf.Clamp(thrust + input, 0, 100);
+        thrust = Mathf.Clamp(thrust + Mathf.Clamp(input, INPUT_MIN, INPUT_MAX), THRUST_MIN, THRUST_MAX);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = thrust;
@@ -25,7 +25,7 @@ public class EngineController : ComponentController {
 
     public override string GetDescription() 
     {
-        return "\n <b>Engines</b> ionize \n space gases \n for throttleable \n thrust;\n\n Component(input) \n> throttle = input\n> return throttle";
+        return "\n <b>Engines</b> ionize \n space gases \n for throttleable \n thrust;\n\n Component (Input) \n> Clamp (Input, "+ INPUT_MIN + ", " + INPUT_MAX + ")\n> Throttle += Input \n> Clamp (Throttle, "+ THRUST_MIN + ", " + THRUST_MAX + ")\n> Return Throttle";
     }
     public override Vector2 GetMinimumSize ()
     {
@@ -42,6 +42,6 @@ public class EngineController : ComponentController {
     }
     public override string ToString()
     {
-        return this.name + "\n│ This component pushes the ship forward";
+        return "\n " + this.name + "\n\n Position: " + GetPosition().ToString() + "\n Thrust Vector: " + GetThrustVector().ToString() + "\n Throttle: " + thrust + "\n\n" + GetDescription();
     }
 }

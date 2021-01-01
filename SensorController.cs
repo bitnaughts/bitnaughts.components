@@ -14,16 +14,15 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     public override float Action (float input) 
     {
         if (this == null) { Destroy(this); return -999; }
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 999))
+        
+        LayerMask mask = LayerMask.GetMask("Default"); //Larger sensors can detect more layers of detail (see individual components, shells, etc.)
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up * 2, Vector2.up * 999,999, mask, -999, 999);
+        if (hit != null && hit.collider != null)
         {
             distance = hit.distance;
-            if (organicSensor == false && hit.collider.gameObject.layer == 9) return distance;
-            else if (organicSensor == true){
-                return distance;
-            }
-            // Debug.DrawLine(transform.position, transform.position + transform.TransformDirection(Vector3.forward) * distance, debug_color, .2f, false);
+            Debug.DrawRay(transform.position, Vector2.up * distance, Color.green, .02f, false);
+            print (hit.collider.gameObject.name);
+            return distance;
         }
         else 
             distance = distance_max;
@@ -52,6 +51,6 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
         //     }
         //     output += "\n";
         // }
-        return this.name + "\n│ This component measures distances infront of itself";
+        return "\n " + this.name + "\n\n Range: " + distance + "\n\n" + GetDescription();
     }
 }

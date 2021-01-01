@@ -23,7 +23,6 @@ public class BulkheadController : ComponentController {
 
     public override string ToString()
     {
-        string output = "╠╕ Bulkhead Component: " + this.name + "\n╟┘";
-        return "";
+        return "\n " + this.name + "\n " + GetDescription();
     }
 }

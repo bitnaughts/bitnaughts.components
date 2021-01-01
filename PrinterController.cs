@@ -38,9 +38,7 @@ public class PrinterController : ComponentController
 
     public override string ToString()
     {
-        string output = this.name + "\n│ This component prints other connected components\n";
-        //+ "°"; //.ToString("0.0")
-        return output;
+        return "\n " + this.name + "\n" + GetDescription();
     }
     
 }

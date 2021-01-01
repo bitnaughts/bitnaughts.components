@@ -21,7 +21,6 @@ public class HardpointController : ComponentController {
 
     public override string ToString()
     {
-        string output = "╠╕ Hardpoint Component: " + this.name + "\n╟┘";
-        return "";
+        return "\n " + this.name + "\n" + GetDescription();
     }
 }

@@ -49,7 +49,7 @@ com right_thruster res
         // }
 
     List<string> instructions;
-    int edit_line = 0;
+    int edit_line = 1;
     Interpreter interpreter;
     
     string iterate_result;
@@ -62,7 +62,8 @@ com right_thruster res
     public void Action(Dictionary<string, ComponentController> components)
     {
         if (interpreter == null) {
-            SetInstructions("LOOP\ncom Thruster1 -1\ncom Thruster2 -1\ncom Thruster1 ina\ncom Thruster1 ina\ncom Thruster2 ind\ncom Thruster2 ind\njum LOOP");
+            // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
+            SetInstructions("START\n/\njum START");
             return;
         }
         iterate_result = interpreter.Iterate(components, edit_line);
@@ -110,6 +111,19 @@ com right_thruster res
         instructions[edit_line] = op_code;
         SetInstructions(instructions);
     }
+    public void AddOperand(string op_code)
+    {
+        instructions[edit_line] += op_code;
+        SetInstructions(instructions);
+    }
+    public void ModifyConstantOperand(float delta)
+    {
+        string[] parts = instructions[edit_line].Split(' ');
+        float old_constant = float.Parse(parts[parts.Length - 1]);
+        parts[parts.Length - 1] = Mathf.Clamp(old_constant + delta, -999, 999).ToString();
+        instructions[edit_line] = String.Join(" ", parts);
+        SetInstructions(instructions);
+    }
     public string GetEditInstruction()
     {
         return interpreter.GetInstruction(edit_line).ToString();
@@ -130,12 +144,28 @@ com right_thruster res
     {
         return interpreter.GetNextVariable();
     }
+    public string[] GetLabels()
+    {
+        return interpreter.GetLabels();
+    }
+    public string[] GetVariables()
+    {
+        return interpreter.GetVariables();
+    }
+    public bool IsVariable(string variable)
+    {
+        return interpreter.isVariable(variable);
+    }
+    public bool IsLabel (string label)
+    {
+        return interpreter.isLabel(label);
+    }
     public override string ToString()
     {
         // string output = this.name + "\n║ Instruction Set:"; 
         // foreach (var instruction in instructions) output += "\n│ " + instruction ;
         // output += "║ Variables:";
         // foreach (var variable in variables) output += "\n│ " + variable.Key + ":" +  Plot("Marker", variable.Value.value, variable.Value.min, variable.Value.max, 10) ;
-        return "\n" + iterate_result;
+        return "\n " + this.name + "\n\n" + iterate_result + "\n" + GetDescription();
     }
 }

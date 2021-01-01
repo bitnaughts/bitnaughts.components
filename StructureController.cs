@@ -65,10 +65,15 @@ public class StructureController : MonoBehaviour
         return components[component].transform.GetComponent<SpriteRenderer>().size;
     }
 
-    public Vector2 GetPosition(string component) 
+    public Vector2 GetLocalPosition(string component) 
     {
         if (!components.ContainsKey(component)) return Vector2.zero;
         return components[component].transform.localPosition;
+    }
+    public Vector2 GetPosition(string component) 
+    {
+        if (!components.ContainsKey(component)) return Vector2.zero;
+        return components[component].transform.position;
     }
 
     public Vector2 GetMinimumSize(string component) 
@@ -86,9 +91,21 @@ public class StructureController : MonoBehaviour
 
     public void EnableColliders() 
     {
+        if (components == null) return;
         foreach (var component in components.Values)
         {
             component.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }
+
+    public ProcessorController GetProcessorController(string component)
+    {
+        if (!components.ContainsKey(component)) return null;
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor;
+            default:
+                return null;
         }
     }
 
@@ -120,6 +137,28 @@ public class StructureController : MonoBehaviour
         switch (components[component]) {
             case ProcessorController processor:
                 processor.SetOperand(op);
+                break;
+            default: //Want all components to be scriptable? Adjust here.
+                break;
+        } 
+    }
+    public void AddOperand(string component, string op)
+    {
+        if (!components.ContainsKey(component)) return;
+        switch (components[component]) {
+            case ProcessorController processor:
+                processor.AddOperand(op);
+                break;
+            default: //Want all components to be scriptable? Adjust here.
+                break;
+        } 
+    }
+    public void ModifyConstantOperand(string component, float delta)
+    {
+        if (!components.ContainsKey(component)) return;
+        switch (components[component]) {
+            case ProcessorController processor:
+                processor.ModifyConstantOperand(delta);
                 break;
             default: //Want all components to be scriptable? Adjust here.
                 break;
@@ -197,6 +236,46 @@ public class StructureController : MonoBehaviour
                 return "";
         } 
     }
+    public string[] GetVariables(string component)
+    {        
+        if (!components.ContainsKey(component)) return null;
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.GetVariables();
+            default: //Want all components to be scriptable? Adjust here.
+                return null;
+        } 
+    }
+    public string[] GetLabels(string component)
+    {
+        if (!components.ContainsKey(component)) return null;
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.GetLabels();
+            default: //Want all components to be scriptable? Adjust here.
+                return null;
+        }
+    }
+    public bool IsVariable(string component, string variable)
+    {        
+        if (!components.ContainsKey(component)) return false;
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.IsVariable(variable);
+            default: //Want all components to be scriptable? Adjust here.
+                return false;
+        } 
+    }
+    public bool IsLabel (string component, string label)
+    {
+        if (!components.ContainsKey(component)) return false;
+        switch (components[component]) {
+            case ProcessorController processor:
+                return processor.IsLabel(label);
+            default: //Want all components to be scriptable? Adjust here.
+                return false;
+        }     
+    }
 
     float gimbal_test = 0f;
     float gimbal_step = 10f;
@@ -216,6 +295,9 @@ public class StructureController : MonoBehaviour
                 switch (controller) {
                     case ProcessorController processor:
                         processor.Action(components);
+                        break;
+                    case CannonController cannon:
+                        cannon.Cooldown();
                         break;
                 }
            }
@@ -265,13 +347,34 @@ public class StructureController : MonoBehaviour
             }
         }
         if (active_component_count > 0) {
-            rotator.Rotate(new Vector3(0, 0, rotation * 1.5f / active_component_count));
-            transform.Translate(translation * 1.5f / active_component_count);
+            rotator.Rotate(new Vector3(0, 0, rotation / active_component_count));
+            transform.Translate(translation / active_component_count);
         }
         // if (transform.position.x > 420 || transform.position.x < -20 || transform.position.z > 420 || transform.position.z < -20) Destroy(this.gameObject);
     }
+    public bool IsComponent(string component)
+    {
+        return components.ContainsKey(component);
+    }
+    public string[] GetOtherComponents(string selected) 
+    {
+        if (!components.ContainsKey(selected)) return null;
+        string[] others = new string[components.Count - 1];
+        int i = 0;
+        foreach (var key in components.Keys) {
+            if (key != selected) others[i++] = key;
+        }
+        return others;
+    }
+    public string GetComponentDescription(string selected)
+    {
+        if (components == null) return "";
+        if (!components.ContainsKey(selected)) return "";
+        return components[selected].GetDescription();
+    }
     public string GetComponentToString(string selected)
     {
+        if (components == null) return "";
         if (!components.ContainsKey(selected)) return "";
         return components[selected].ToString();
     }

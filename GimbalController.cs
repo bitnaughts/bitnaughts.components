@@ -10,6 +10,8 @@ public class GimbalController : ComponentController
 {   
     GameObject gimbal_grid;
 
+    public const int INPUT_MIN = -10, INPUT_MAX = 10;
+
     private void Awake () {
         gimbal_grid = transform.Find("GimbalGrid").gameObject;
         gimbal_grid.GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size;
@@ -17,16 +19,18 @@ public class GimbalController : ComponentController
     
     public override string GetDescription() 
     {
-        return "\n <b>Gimbals</b> rotate \n all attached \n sub-components;\n\n Component(input) \n> rotation += input\n> return rotation % 360";
+        return "\n <b>Gimbals</b> rotate \n fully overlapping components;\n\n Component (Input) \n> Clamp (Input, "+ INPUT_MIN + ", " + INPUT_MAX + ")\n> Rotation += Input\n> Rotation %= 360\n> Return Rotation";
     }
     public override float Action (float input) 
     {
+        gimbal_grid = transform.Find("GimbalGrid").gameObject;
+        gimbal_grid.GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size;
         gimbal_grid.transform.localEulerAngles = new Vector3(
             0, 
-            gimbal_grid.transform.localEulerAngles.y + Mathf.Clamp(input, -10, 10),
-            0
+            0,
+            gimbal_grid.transform.localEulerAngles.z + Mathf.Clamp(input, INPUT_MIN, INPUT_MAX)
         );
-        return gimbal_grid.transform.localEulerAngles.y;
+        return gimbal_grid.transform.localEulerAngles.z;
     }
 
     public override Vector2 GetMinimumSize ()
@@ -36,6 +40,6 @@ public class GimbalController : ComponentController
 
     public override string ToString ()
     {
-        return this.name + "\n│ This component rotates other connected components";
+        return "\n " + this.name + "\n\n Angle: " + gimbal_grid.transform.localEulerAngles.z + "\n\n" + GetDescription();
     }
 }
