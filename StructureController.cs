@@ -320,21 +320,9 @@ public class StructureController : MonoBehaviour
         foreach (var controller in components.Values)
         {
             if (controller != null && controller.enabled) switch (controller) {
-                case EngineController engine:
-                    // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
-                    // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
-                    translation -= engine.GetThrustVector();
-                    thrust_rotation = 15 * engine.GetThrustVector().magnitude * Mathf.Sin(
-                        Vector2.SignedAngle(
-                            engine.GetThrustVector(), 
-                            engine.GetPosition() - center_of_mass
-                        ) * Mathf.Deg2Rad
-                    );
-                    rotation += thrust_rotation;
-                    break;
                 case ThrusterController thruster:
-                    // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
-                    // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
+                    Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
+                    Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
                     translation -= thruster.GetThrustVector();
                     thrust_rotation = 15 * thruster.GetThrustVector().magnitude * Mathf.Sin(
                         Vector2.SignedAngle(
@@ -354,6 +342,7 @@ public class StructureController : MonoBehaviour
     }
     public bool IsComponent(string component)
     {
+        if (component.Contains("\t")) component = component.Substring(2);
         return components.ContainsKey(component);
     }
     public string[] GetOtherComponents(string selected) 
@@ -366,16 +355,11 @@ public class StructureController : MonoBehaviour
         }
         return others;
     }
-    public string GetComponentDescription(string selected)
-    {
-        if (components == null) return "";
-        if (!components.ContainsKey(selected)) return "";
-        return components[selected].GetDescription();
-    }
     public string GetComponentToString(string selected)
     {
         if (components == null) return "";
         if (!components.ContainsKey(selected)) return "";
+        components[selected].Focus();
         return components[selected].ToString();
     }
     public string ToString(string selected)
@@ -385,6 +369,15 @@ public class StructureController : MonoBehaviour
         {
             if (selected == controller_name) output += "<b>\n> " + controller_name + "</b>";
             else output += "\n> " + controller_name;
+        }
+        return output;
+    }
+    public override string ToString()
+    {
+        string output = "\n " + this.name;
+        foreach (var controller_name in components.Keys)
+        {
+            output += "\n> " + controller_name;
         }
         return output;
     }

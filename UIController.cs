@@ -55,22 +55,6 @@ public class UIController : MonoBehaviour
         this.component = component;
         // transform.GetChild(0).GetChild(0).GetComponent<InputField>().text = component.name;
     }
-    public void OnValueChanged() 
-    {
-        // switch (component) 
-        // {
-        //     case ProcessorController processor:
-        //         processor.Init(transform.GetChild(0).GetChild(0).GetComponent<InputField>().text);
-        //         break;
-        // }
-        
-    }
-    public string Parse(string line) 
-    {
-        string script_line = "";
-        line = line.Substring(5);
-        return script_line;
-    }
     public string Pad(float value)
     {
         // 000  ||  SET  XXX -999.999       ||
@@ -85,8 +69,3 @@ public class UIController : MonoBehaviour
         return value_string;
     }
 }
-
-// public class UIContext() 
-// {
-
-// }

@@ -50,9 +50,17 @@ com right_thruster res
 
     List<string> instructions;
     int edit_line = 1;
+    float speed = 1;
     Interpreter interpreter;
+
+    Dictionary<string, ComponentController> components;
     
-    string iterate_result;
+    string iterate_result;    
+    public const int SPEED_MIN = 0, SPEED_MAX = 999;
+
+    public override void Focus() {
+        speed = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 1f, SPEED_MIN, SPEED_MAX);
+    }
 
     public override float Action(float input)
     {
@@ -61,13 +69,22 @@ com right_thruster res
     float pointer;
     public void Action(Dictionary<string, ComponentController> components)
     {
+        this.components = components;
         if (interpreter == null) {
             // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
             SetInstructions("START\n/\njum START");
             return;
         }
-        iterate_result = interpreter.Iterate(components, edit_line);
+        
         // print (iterate_result);
+    }
+    float timer;
+    public void Update() {
+        timer += Time.deltaTime;
+        if (timer > 1f/speed) {
+            timer -= 1f/speed;
+            iterate_result = interpreter.Iterate(components, edit_line);
+        }
     }
     public void SetInstructions(string instructions_string)
     {
@@ -79,10 +96,6 @@ com right_thruster res
         interpreter = new Interpreter(instructions.ToArray());
 
         Scroll(0);
-    }
-    public override string GetDescription() 
-    {
-        return "\n <b>Processors</b> run \n assembly code \n to control \n components;";
     }
     public override Vector2 GetMinimumSize ()
     {
@@ -162,10 +175,10 @@ com right_thruster res
     }
     public override string ToString()
     {
-        // string output = this.name + "\n║ Instruction Set:"; 
+        // string output = this.name + "\n║│ Instruction Set:"; 
         // foreach (var instruction in instructions) output += "\n│ " + instruction ;
         // output += "║ Variables:";
         // foreach (var variable in variables) output += "\n│ " + variable.Key + ":" +  Plot("Marker", variable.Value.value, variable.Value.min, variable.Value.max, 10) ;
-        return "\n " + this.name + "\n\n" + iterate_result + "\n" + GetDescription();
+        return "\n " + iterate_result;
     }
 }

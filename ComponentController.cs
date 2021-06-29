@@ -44,9 +44,10 @@ public abstract class ComponentController : MonoBehaviour
         return this.transform;
     }
 
+    public abstract void Focus();
+
     public abstract float Action(float input);
     
-    public abstract string GetDescription();
     public abstract Vector2 GetMinimumSize();
 
     public void Remove()
@@ -57,7 +58,7 @@ public abstract class ComponentController : MonoBehaviour
 
     void OnMouseOver() 
     {
-        controller.Focus(this.name);
+        controller.Focus(this.name, this.GetType());
     }
     void OnMouseExit() 
     {
@@ -66,10 +67,6 @@ public abstract class ComponentController : MonoBehaviour
 
     void OnMouseUp()
     {
-        // component_panel.Set(this);
-        // Destroy (gameObject); 
-        // if (componentPanel == null) 
-        // var structure_controller = GetComponentInParent(typeof(StructureController)) as StructureController;
 
     }
 

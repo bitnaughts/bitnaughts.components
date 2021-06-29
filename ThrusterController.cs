@@ -8,28 +8,33 @@ using UnityEngine;
 
 public class ThrusterController : ComponentController {   
 
-    private float thrust = 0;
-    public const int INPUT_MIN = -10, INPUT_MAX = 10, THRUST_MIN = 0, THRUST_MAX = 100;
+    private float thrust = 0, max_thrust = 99;
+    public const int INPUT_MIN = -10, INPUT_MAX = 10, THRUST_MIN = 0, THRUST_MAX = 999;
 
+    public override void Focus() {
+        max_thrust = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, THRUST_MIN, THRUST_MAX);
+        
+        var sh = GetComponent<ParticleSystem>().shape;
+        sh.radius = (GetComponent<SpriteRenderer>().size.x * .5f) - 3;
+
+        var exhaust_emission = GetComponent<ParticleSystem>().emission;
+        exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .1f;
+    }
     public override float Action (float input) 
     {
         if (this == null) { Destroy(this.gameObject); return -999; }
 
-        thrust = Mathf.Clamp(thrust + Mathf.Clamp(input, INPUT_MIN, INPUT_MAX), THRUST_MIN, THRUST_MAX);
+        thrust = Mathf.Clamp(thrust + Mathf.Clamp(input, INPUT_MIN, INPUT_MAX), THRUST_MIN, max_thrust);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = thrust;
+        exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .1f;
 
         return thrust;
     }
 
-    public override string GetDescription() 
-    {
-        return "\n <b>Thrusters</b> burn \n rocket fuel \n for throttleable \n thrust;\n\n Component (Input) \n> Clamp (Input, "+ INPUT_MIN + ", " + INPUT_MAX + ")\n> Throttle += Input \n> Clamp (Throttle, "+ THRUST_MIN + ", " + THRUST_MAX + ")\n> Return Throttle";
-    }
     public override Vector2 GetMinimumSize ()
     {
-        return new Vector2(2, 2);
+        return new Vector2(6, 2);
     }
 
     public Vector2 GetThrustVector() 
@@ -42,6 +47,6 @@ public class ThrusterController : ComponentController {
     }
     public override string ToString()
     {
-        return "\n " + this.name + "\n\n Position: " + GetPosition().ToString() + "\n Thrust Vector: " + GetThrustVector().ToString() + "\n Throttle: " + thrust + "\n\n" + GetDescription();
+        return "\n> Position:\n  " + GetPosition().ToString() + "\n\n> Thrust Vector:\n  " + GetThrustVector().ToString() + "\n\n> Throttle: " + thrust + "\n\n> Max Thrust: " + max_thrust;
     }
 }

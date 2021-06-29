@@ -10,7 +10,8 @@ public class CannonController : ComponentController {
     public GameObject Shell;
     public float[] reload_timer;
     public const float RELOAD_TIME = 1f;
-
+    
+    public override void Focus() {}
     public void Cooldown()
     {
         int num_cannons = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.x - 1);
@@ -47,10 +48,6 @@ public class CannonController : ComponentController {
         return 0;
     }
   
-    public override string GetDescription() 
-    {
-        return "\n <b>Cannons</b> fire \n projectiles \n when triggered; \n\n Component(input)\n> Fire(barrel[input])";
-    }
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 2);
@@ -61,8 +58,8 @@ public class CannonController : ComponentController {
         string output = "";
         for (int i = 0; i < reload_timer.Length; i++)
         {
-            output += "\n Barrel[" + (i + 1) + "]: " + Mathf.Clamp(reload_timer[i], 0, RELOAD_TIME);  
+            output += "\n> Barrel[" + (i + 1) + "]: " + Mathf.Clamp(reload_timer[i], 0, RELOAD_TIME);  
         }
-        return "\n " + this.name + "\n" + output + "\n\n" + GetDescription();
+        return output;
     }
 }

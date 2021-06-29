@@ -7,15 +7,21 @@ using UnityEngine;
 
 
 public class BulkheadController : ComponentController {   
-    
-    public override float Action (float input) {
-        return input;
+    float mass, capacity;
+    public const int MASS_MIN = 0, MASS_MAX = 999;
+
+    public override void Focus() {
+        capacity = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, MASS_MIN, MASS_MAX);
     }
-  
-    public override string GetDescription() 
+
+    public override float Action (float input) 
     {
-        return "\n <b>Bulkheads</b> store \n materials;";
+        if (this == null) { Destroy(this.gameObject); return -999; }
+
+        mass = Mathf.Clamp(mass + input, MASS_MIN, capacity);
+        return mass;
     }
+
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 6);
@@ -23,6 +29,6 @@ public class BulkheadController : ComponentController {
 
     public override string ToString()
     {
-        return "\n " + this.name + "\n " + GetDescription();
+        return "\n> Mass: " + mass + "\n\n> Capacity: " + capacity;
     }
 }

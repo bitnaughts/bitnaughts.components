@@ -9,7 +9,8 @@ using UnityEngine;
 public class SensorController : ComponentController {   //RangeFinder == 1D, Scanner == 2D?
     // public float max_step = 25f;
     public bool organicSensor;
-    private float distance = 0, distance_min = 0, distance_max = 999, scan_range = 0;
+    private float distance = 0, distance_min = 0, distance_max = 999, scan_range = 0;    
+    public override void Focus() {}
 
     public override float Action (float input) 
     {
@@ -29,10 +30,6 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
             // Debug.DrawLine(transform.position, transform.position + transform.TransformDirection(Vector3.forward), Color.green, .001f, false);
             return distance_max;
     }
-    public override string GetDescription() 
-    {
-        return "\n <b>Sensors</b> measure \n the range to \n the closest \n object in the \n line of sight;\n\n Component() \n> return Raycast().length";
-    }
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 2);
@@ -51,6 +48,6 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
         //     }
         //     output += "\n";
         // }
-        return "\n " + this.name + "\n\n Range: " + distance + "\n\n" + GetDescription();
+        return "\n> Range: " + distance;
     }
 }
