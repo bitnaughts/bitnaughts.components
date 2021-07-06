@@ -33,10 +33,5 @@ public class PrinterController : ComponentController
         return new Vector2(2, 2);
     }
 
-
-    public override string ToString()
-    {
-        return "";
-    }
     
 }

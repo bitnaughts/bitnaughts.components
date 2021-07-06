@@ -27,8 +27,8 @@ public class BulkheadController : ComponentController {
         return new Vector2(2, 6);
     }
 
-    public override string ToString()
-    {
-        return "\n> Mass: " + mass + "\n\n> Capacity: " + capacity;
-    }
+    // public override string ToString()
+    // {
+    //     return "\n> Mass: " + mass + "\n\n> Capacity: " + capacity;
+    // }
 }

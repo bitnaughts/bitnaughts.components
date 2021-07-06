@@ -374,10 +374,10 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = "\n " + this.name;
-        foreach (var controller_name in components.Keys)
+        string output = "Objects:";
+        foreach (var component in components.Values)
         {
-            output += "\n> " + controller_name;
+            output += "\n" + component.ToString() + ";";
         }
         return output;
     }

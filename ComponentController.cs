@@ -23,16 +23,7 @@ using UnityEngine;
 
 public abstract class ComponentController : MonoBehaviour
 {
-    // public ComponentController[] connected_components;
-    protected float temperature = .5f;
-    protected float hitpoints;
-    protected float action_speed = .1f, action_cooldown = 0f;
-    protected string prefab_path;
-    
-    UIController component_panel;
     PlotterController controller;
-
-
     void Start()
     {
         controller = GameObject.Find("PlotterOverlay").GetComponent<PlotterController>();
@@ -56,6 +47,7 @@ public abstract class ComponentController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    // Calculate this manually instead of event-driven
     void OnMouseOver() 
     {
         controller.Focus(this.name, this.GetType());
@@ -68,6 +60,9 @@ public abstract class ComponentController : MonoBehaviour
     void OnMouseUp()
     {
 
+    }
+    public override string ToString() {
+        return GetType().ToString().Replace("Controller", "") + "(" + name + ") {" + GetComponent<SpriteRenderer>().size.ToString() + "," + gameObject.transform.localPosition.ToString() + "," + gameObject.transform.localEulerAngles.z + "}";
     }
 
 }

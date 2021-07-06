@@ -29,8 +29,8 @@ public class GimbalController : ComponentController
         return new Vector2(2, 2);
     }
 
-    public override string ToString ()
-    {
-        return "\n> Angle: " + gimbal_grid.transform.localEulerAngles.z;
-    }
+    // public override string ToString ()
+    // {
+    //     return "\n> Angle: " + gimbal_grid.transform.localEulerAngles.z;
+    // }
 }

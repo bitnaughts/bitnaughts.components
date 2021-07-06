@@ -45,8 +45,8 @@ public class ThrusterController : ComponentController {
     {
         return new Vector2(transform.position.x, transform.position.y);
     }
-    public override string ToString()
-    {
-        return "\n> Position:\n  " + GetPosition().ToString() + "\n\n> Thrust Vector:\n  " + GetThrustVector().ToString() + "\n\n> Throttle: " + thrust + "\n\n> Max Thrust: " + max_thrust;
-    }
+    // public override string ToString()
+    // {
+    //     return "\n> Position:\n  " + GetPosition().ToString() + "\n\n> Thrust Vector:\n  " + GetThrustVector().ToString() + "\n\n> Throttle: " + thrust + "\n\n> Max Thrust: " + max_thrust;
+    // }
 }

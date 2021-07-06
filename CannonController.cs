@@ -53,13 +53,13 @@ public class CannonController : ComponentController {
         return new Vector2(2, 2);
     }
 
-    public override string ToString()
-    {
-        string output = "";
-        for (int i = 0; i < reload_timer.Length; i++)
-        {
-            output += "\n> Barrel[" + (i + 1) + "]: " + Mathf.Clamp(reload_timer[i], 0, RELOAD_TIME);  
-        }
-        return output;
-    }
+    // public override string ToString()
+    // {
+    //     string output = "";
+    //     for (int i = 0; i < reload_timer.Length; i++)
+    //     {
+    //         output += "\n> Barrel[" + (i + 1) + "]: " + Mathf.Clamp(reload_timer[i], 0, RELOAD_TIME);  
+    //     }
+    //     return output;
+    // }
 }
