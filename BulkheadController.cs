@@ -12,6 +12,7 @@ public class BulkheadController : ComponentController {
 
     public override void Focus() {
         capacity = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, MASS_MIN, MASS_MAX);
+        mass = capacity;
     }
 
     public override float Action (float input) 
@@ -27,8 +28,8 @@ public class BulkheadController : ComponentController {
         return new Vector2(2, 6);
     }
 
-    // public override string ToString()
-    // {
-    //     return "\n> Mass: " + mass + "\n\n> Capacity: " + capacity;
-    // }
+    public override string ToString()
+    {
+        return "\n ▩ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n ┏ <b>Mass</b>\n ┗ " + mass.ToString("0.0");
+    }
 }

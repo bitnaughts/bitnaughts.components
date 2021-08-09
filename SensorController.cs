@@ -35,19 +35,8 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
         return new Vector2(2, 2);
     }
 
-    // public override string ToString()
-    // {
-    //     // string output = "";
-    //     // float[] spectrum = new float[64];
-    //     // var listener = GameObject.Find("Main Camera").GetComponent<AudioListener>();
-    //     // AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
-    //     // for (int i = 0; i < 64; i++) {
-    //     //     for (float j = 0; j < spectrum[i]; j += .01f)
-    //     //     {
-    //     //         output += "█";
-    //     //     }
-    //     //     output += "\n";
-    //     // }
-    //     return "\n> Range: " + distance;
-    // }
+    public override string ToString()
+    {
+        return "\n ◌ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n ┏ <b>Range</b>\n ┗ " + distance.ToString("0.0");
+    }
 }

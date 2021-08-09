@@ -29,8 +29,8 @@ public class GimbalController : ComponentController
         return new Vector2(2, 2);
     }
 
-    // public override string ToString ()
-    // {
-    //     return "\n> Angle: " + gimbal_grid.transform.localEulerAngles.z;
-    // }
+    public override string ToString()
+    {
+        return "\n ▣ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n ┏ <b>Gimbal</b>\n ┗ " + gimbal_grid.transform.localEulerAngles.z.ToString("0.0");
+    }
 }

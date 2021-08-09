@@ -62,7 +62,7 @@ public abstract class ComponentController : MonoBehaviour
 
     }
     public override string ToString() {
-        return GetType().ToString().Replace("Controller", "") + "(" + name + ") {" + GetComponent<SpriteRenderer>().size.ToString() + "," + gameObject.transform.localPosition.ToString() + "," + gameObject.transform.localEulerAngles.z + "}";
+        return "\n " + GetType().ToString().Replace("Controller", "") + "(" + name + ")\n╟ Pose: " + gameObject.transform.localPosition.ToString() + "\n╟ Size: " + GetComponent<SpriteRenderer>().size.ToString() + "\n╟ Rote: " + gameObject.transform.localEulerAngles.z;
     }
 
 }

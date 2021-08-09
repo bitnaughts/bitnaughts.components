@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public class ThrusterController : ComponentController {   
+public class BoosterController : ComponentController {   
 
     private float thrust = 0, max_thrust = 99;
     public const int INPUT_MIN = -10, INPUT_MAX = 10, THRUST_MIN = 0, THRUST_MAX = 999;
@@ -15,10 +15,13 @@ public class ThrusterController : ComponentController {
         max_thrust = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, THRUST_MIN, THRUST_MAX);
         
         var sh = GetComponent<ParticleSystem>().shape;
-        sh.radius = (GetComponent<SpriteRenderer>().size.x * .5f) - 3;
+        sh.radius = (GetComponent<SpriteRenderer>().size.x * .5f);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .1f;
+
+        var main = GetComponent<ParticleSystem>().main;
+        main.startSize = new ParticleSystem.MinMaxCurve(2, GetComponent<SpriteRenderer>().size.x / 2);
     }
     public override float Action (float input) 
     {
@@ -34,7 +37,7 @@ public class ThrusterController : ComponentController {
 
     public override Vector2 GetMinimumSize ()
     {
-        return new Vector2(6, 2);
+        return new Vector2(2, 2);
     }
 
     public Vector2 GetThrustVector() 
@@ -48,6 +51,6 @@ public class ThrusterController : ComponentController {
 
     public override string ToString()
     {
-        return "\n ◉ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n ┏ <b>Thrust</b>\n ┗ " + thrust.ToString("0.0");
+        return "\n ◎ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n ┏ <b>Thrust</b>\n ┗ " + thrust.ToString("0.0");
     }
 }

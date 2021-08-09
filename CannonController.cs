@@ -33,7 +33,7 @@ public class CannonController : ComponentController {
             int barrel = Mathf.FloorToInt(input - 1);
             if (reload_timer[barrel] < 0)
             {
-                reload_timer[barrel] = RELOAD_TIME;
+                reload_timer[barrel] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1);
                 GameObject shell = Instantiate(
                     Shell,
                     this.transform.position,
@@ -53,13 +53,24 @@ public class CannonController : ComponentController {
         return new Vector2(2, 2);
     }
 
-    // public override string ToString()
-    // {
-    //     string output = "";
-    //     for (int i = 0; i < reload_timer.Length; i++)
-    //     {
-    //         output += "\n> Barrel[" + (i + 1) + "]: " + Mathf.Clamp(reload_timer[i], 0, RELOAD_TIME);  
-    //     }
-    //     return output;
-    // }
+    public override string ToString()
+    {
+        string output = "\n ◍ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
+        output += "\n ┏ <b>Barrels</b>";
+        for (int i = 0; i < reload_timer.Length - 1; i++) { 
+            if (reload_timer[i] <= 0) output += "\n ┣ READY";
+            else output += "\n ┠ " + reload_timer[i].ToString("0.0");
+        } 
+        var last = reload_timer.Length - 1;
+        if (reload_timer[last] <= 0) 
+            output += "\n ┗ READY";
+        // else if (last == edit_line)//active_line)
+            // output += "\n ┖ " + instructions[last];
+        // else if (last == active_line)//edit_line)
+            // output += "\n ┕ " + instructions[last];
+        else 
+            output += "\n ┖ " + reload_timer[last].ToString("0.0");
+        return output;
+
+    }
 }

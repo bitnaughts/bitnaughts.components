@@ -22,7 +22,15 @@ public class StructureController : MonoBehaviour
         components = new Dictionary<string, ComponentController>();
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {
+            print (controller.name);
             components.Add(controller.name, controller);
+            // switch (controller) {
+            //     case GimbalController gimbal:
+            //         // foreach (var gimbal_controller in gimbal.transform.GetChild(0).GetComponentsInChildren<ComponentController>()) {
+            //         //     components.Add(gimbal_controller.name, gimbal_controller);      
+            //         // }
+            //         // break;
+            // }
         }
         rotator = transform.Find("Rotator");
         child_count = rotator.childCount;
@@ -107,6 +115,18 @@ public class StructureController : MonoBehaviour
             default:
                 return null;
         }
+    }
+    public string[] GetProcessorControllers()
+    {
+        List<string> processors = new List<string>();
+        foreach (var component in components.Values) {
+            switch (component) {
+                case ProcessorController processor:
+                    processors.Add(processor.name);
+                    break;
+            }
+        }
+        return processors.ToArray();
     }
 
     public void SetInstructions(string component, string instructions)
@@ -324,10 +344,22 @@ public class StructureController : MonoBehaviour
                     Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
                     Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
                     translation -= thruster.GetThrustVector();
-                    thrust_rotation = 15 * thruster.GetThrustVector().magnitude * Mathf.Sin(
+                    thrust_rotation = 10 * thruster.GetThrustVector().magnitude * Mathf.Sin(
                         Vector2.SignedAngle(
                             thruster.GetThrustVector(), 
                             thruster.GetPosition() - center_of_mass
+                        ) * Mathf.Deg2Rad
+                    );
+                    rotation += thrust_rotation;
+                    break;
+                case BoosterController booster:
+                    Debug.DrawLine(booster.GetPosition(), booster.GetPosition() + booster.GetThrustVector(), Color.green, debug_duration, false);
+                    Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
+                    translation -= booster.GetThrustVector();
+                    thrust_rotation = 20 * booster.GetThrustVector().magnitude * Mathf.Sin(
+                        Vector2.SignedAngle(
+                            booster.GetThrustVector(), 
+                            booster.GetPosition() - center_of_mass
                         ) * Mathf.Deg2Rad
                     );
                     rotation += thrust_rotation;
@@ -344,6 +376,33 @@ public class StructureController : MonoBehaviour
     {
         if (component.Contains("\t")) component = component.Substring(2);
         return components.ContainsKey(component);
+    }
+    public string[] GetInteractiveComponents() {
+        List<string> objects = new List<string>();
+        foreach (var controller in components.Values)
+        {
+            switch (controller) {
+                case ThrusterController thruster:
+                    objects.Add(thruster.name);
+                    break;
+                case GimbalController gimbal:
+                    objects.Add(gimbal.name);
+                    break;
+                case BoosterController booster:
+                    objects.Add(booster.name);
+                    break;
+                case CannonController cannon:
+                    objects.Add(cannon.name);
+                    break;
+                case SensorController sensor:
+                    objects.Add(sensor.name);
+                    break;
+                case CacheController cache:
+                    objects.Add(cache.name);
+                    break;
+            }
+        }
+        return objects.ToArray();
     }
     public string[] GetOtherComponents(string selected) 
     {

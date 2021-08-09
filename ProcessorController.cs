@@ -135,9 +135,30 @@ public class ProcessorController : ComponentController
         return interpreter.isLabel(label);
     }
     public override string ToString()
-    {
-        string output = base.ToString();
-        foreach (var instruction in instructions) output += "\n" + instruction; 
+    {       
+        string output = "\n ▥ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
+        // string output = base.ToString();
+        output += "\n ┏ <b>Assembly</b>";
+        int active_line = interpreter.GetPointer();
+        for (int i = 0; i < instructions.Count - 1; i++) {
+            if (i == edit_line && i == active_line) 
+                output += "\n ┝ <b>" + instructions[i] + "</b>";
+            else if (i == edit_line)
+                output += "\n ├ <b>" + instructions[i] + "</b>";
+            else if (i == active_line)
+                output += "\n ┣ " + instructions[i];
+            else 
+                output += "\n ┠ " + instructions[i];
+        }
+        var last = instructions.Count - 1;
+        if (last == edit_line && last == active_line) 
+            output += "\n ┕ <b>" + instructions[last] + "</b>";
+        else if (last == edit_line)
+            output += "\n └ <b>" + instructions[last] + "</b>";
+        else if (last == active_line)
+            output += "\n ┗ " + instructions[last];
+        else 
+            output += "\n ┖ " + instructions[last];
         return output;
     }
 }

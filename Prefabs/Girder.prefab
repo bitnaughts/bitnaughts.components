@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4976662192490817940}
   - component: {fileID: -7560552802363871943}
   m_Layer: 0
-  m_Name: Beam
+  m_Name: Girder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -120,6 +119,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4976662192490817943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 277e19b0d64a27441b5edb57a7fafef4, type: 3}
+  m_Script: {fileID: 11500000, guid: 13a1b7c8249fcdc488df9debf0e892d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
