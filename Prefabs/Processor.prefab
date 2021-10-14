@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2637635869780529382}
   - component: {fileID: 1095808377954117696}
-  - component: {fileID: 553020442298599130}
   - component: {fileID: 3427523518897436641}
+  - component: {fileID: 3547344978199206849}
   m_Layer: 0
   m_Name: Processor
   m_TagString: Untagged
@@ -44,7 +44,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -85,32 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &553020442298599130
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8721200378412927844}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 2, y: 2, z: 2, w: 2}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 7}
-    newSize: {x: 5, y: 7}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 2
-    adaptiveTiling: 0
-  m_AutoTiling: 1
-  serializedVersion: 2
-  m_Size: {x: 5, y: 7}
-  m_EdgeRadius: 0
 --- !u!114 &3427523518897436641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,3 +96,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b7d4301db43e14c971d72501a9822e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: f5027949d42d83841a409523bf525f84, type: 3}
+  inverse: {fileID: 21300000, guid: d0e1441bcd0b2cb4baa2c81401b1429e, type: 3}
+  override_instructions: []
+--- !u!65 &3547344978199206849
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8721200378412927844}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 7.000002, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

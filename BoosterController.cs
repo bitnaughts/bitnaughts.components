@@ -42,15 +42,15 @@ public class BoosterController : ComponentController {
 
     public Vector2 GetThrustVector() 
     {
-        return -transform.up * thrust / 100f;
+        return transform.forward * thrust / 100f;
     }
     public Vector2 GetPosition() 
     {
-        return new Vector2(transform.position.x, transform.position.y);
+        return new Vector2(transform.position.x, transform.position.z);
     }
 
     public override string ToString()
     {
-        return "\n ◎ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n ┏ <b>Thrust</b>\n ┗ " + thrust.ToString("0.0");
+        return "\n  ◎ <b>" + name + "</b>\n  ┣ ↴ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⇊ Throttle</b>\n  ┗ " + thrust.ToString("0.0");//\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°
     }
 }

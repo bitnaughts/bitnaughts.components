@@ -24,10 +24,19 @@ using UnityEngine;
 public abstract class ComponentController : MonoBehaviour
 {
     PlotterController controller;
+    public Sprite sprite, inverse;
     void Start()
     {
-        controller = GameObject.Find("PlotterOverlay").GetComponent<PlotterController>();
+        if (GameObject.Find("PlotterOverlay") != null) controller = GameObject.Find("PlotterOverlay").GetComponent<PlotterController>();
         Action(0);
+        Focus();
+    }
+    public void Design() {
+        GetComponent<SpriteRenderer>().sprite = inverse;
+    }
+    public void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+        GetComponent<SpriteRenderer>().enabled = true;
     }
     
     public Transform GetTransform()
@@ -50,11 +59,11 @@ public abstract class ComponentController : MonoBehaviour
     // Calculate this manually instead of event-driven
     void OnMouseOver() 
     {
-        controller.Focus(this.name, this.GetType());
+        if (controller != null) controller.Focus(this.name, this.GetType());
     }
     void OnMouseExit() 
     {
-        controller.Unfocus();
+        if (controller != null) controller.Unfocus();
     }
 
     void OnMouseUp()
@@ -62,7 +71,7 @@ public abstract class ComponentController : MonoBehaviour
 
     }
     public override string ToString() {
-        return "\n " + GetType().ToString().Replace("Controller", "") + "(" + name + ")\n╟ Pose: " + gameObject.transform.localPosition.ToString() + "\n╟ Size: " + GetComponent<SpriteRenderer>().size.ToString() + "\n╟ Rote: " + gameObject.transform.localEulerAngles.z;
+        return "\n " + GetType().ToString().Replace("Controller", "") + "(" + name + ")\n╟ ⌖ " + transform.localPosition.ToString() + "\n╟ Size: ⮽ " + GetComponent<SpriteRenderer>().size.ToString() + "\n╟ Rote: " + gameObject.transform.localEulerAngles.z;
     }
 
 }

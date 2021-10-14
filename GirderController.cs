@@ -20,6 +20,6 @@ public class GirderController : ComponentController {
 
     public override string ToString()
     {
-        return "\n ▨ <b>" + name + "</b>\n ┣ " + new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y).ToString() + "\n ┣ " + GetComponent<SpriteRenderer>().size.ToString() + "\n ┗ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
+        return "\n  ▨ <b>" + name + "</b>\n  ┣ ↴ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString();// + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
     }
 }
