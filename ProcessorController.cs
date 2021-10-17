@@ -35,7 +35,7 @@ public class ProcessorController : ComponentController
         if (interpreter == null) {
             // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
             if (override_instructions.Length == 0) 
-                SetInstructions(new string[]{"START","jum START"});
+                SetInstructions(new string[]{"START","","jum START"});
             else 
                 SetInstructions(override_instructions);
         }
