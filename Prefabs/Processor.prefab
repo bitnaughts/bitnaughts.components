@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2637635869780529382}
   - component: {fileID: 1095808377954117696}
   - component: {fileID: 3427523518897436641}
-  - component: {fileID: 3547344978199206849}
   m_Layer: 0
   m_Name: Processor
   m_TagString: Untagged
@@ -26,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8721200378412927844}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &1095808377954117696
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -99,16 +98,3 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: f5027949d42d83841a409523bf525f84, type: 3}
   inverse: {fileID: 21300000, guid: d0e1441bcd0b2cb4baa2c81401b1429e, type: 3}
   override_instructions: []
---- !u!65 &3547344978199206849
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8721200378412927844}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5, y: 7.000002, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

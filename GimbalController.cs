@@ -38,6 +38,6 @@ public class GimbalController : ComponentController
 
     public override string ToString()
     {
-        return "\n  ▣ <b>" + name + "</b>\n  ┣ ↴ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>↺ Rotation</b>\n  ┗ " + gimbal_grid.transform.localEulerAngles.z.ToString("0.0") + "°";//\n  ┗ ↺ " + transform.localEulerAngles.z.ToString("0.0") + "°
+        return "\n  ▣ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>↺ Rotation</b>\n  ┗ " + gimbal_grid.transform.localEulerAngles.z.ToString("0.0") + "°";//\n  ┗ ↺ " + transform.localEulerAngles.z.ToString("0.0") + "°
     }
 }

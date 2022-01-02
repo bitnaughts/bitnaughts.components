@@ -5,11 +5,6 @@ using System.Text;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Mapbox.Unity.Map;
-using Mapbox.Unity.Utilities;
-using Mapbox.Geocoding;
-using Mapbox.Utils;
-using Mapbox.Unity;
 
 public class StructureController : MonoBehaviour
 {
@@ -22,7 +17,6 @@ public class StructureController : MonoBehaviour
     RaycastHit hit;
     public string default_content = "\n None... \n\n To add, tap\n plotter grid.";
     public GameObject Explosion;
-    public Vector2d Pos;
     public bool Launched = false;
     public float explosion_timer = 0;
     public void Start()
@@ -75,6 +69,11 @@ public class StructureController : MonoBehaviour
         if (!components.ContainsKey(component)) return;
         components[component].transform.Rotate(new Vector3(0,0,-90));
     }
+    public void RotateM90(string component)
+    {
+        if (!components.ContainsKey(component)) return;
+        components[component].transform.Rotate(new Vector3(0,0,90));
+    }
 
     public void Remove(string component) 
     {
@@ -96,6 +95,7 @@ public class StructureController : MonoBehaviour
     }
     public Vector3 GetPosition(string component) 
     {
+        if (!components.ContainsKey(component)) Start();
         if (!components.ContainsKey(component)) return Vector2.zero;
         return components[component].transform.position;
     }
@@ -135,6 +135,7 @@ public class StructureController : MonoBehaviour
     }
     public string[] GetProcessorControllers()
     {
+        if (components == null) return null;
         List<string> processors = new List<string>();
         foreach (var component in components.Values) {
             switch (component) {

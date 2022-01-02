@@ -24,7 +24,7 @@ public class ThrusterController : ComponentController {
     {
         if (this == null) { Destroy(this.gameObject); return -999; }
 
-        thrust = Mathf.Clamp(thrust + Mathf.Clamp(input, INPUT_MIN, INPUT_MAX), THRUST_MIN, max_thrust);
+        thrust = Mathf.Clamp(input, THRUST_MIN, max_thrust);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .1f;
@@ -48,6 +48,6 @@ public class ThrusterController : ComponentController {
 
     public override string ToString()
     {
-        return "\n  ◉ <b>" + name + "</b>\n  ┣ ↴ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⇊ Throttle</b>\n  ┗ " + thrust.ToString("0.0");//\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°
+        return "\n  ◉ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⇊ Throttle</b>\n  ┗ " + thrust.ToString("0.0");//\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°
     }
 }

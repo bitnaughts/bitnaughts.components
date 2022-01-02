@@ -55,7 +55,7 @@ public class CannonController : ComponentController {
 
     public override string ToString()
     {
-        string output = "\n  ◍ <b>" + name + "</b>\n  ┣ ↴ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⥉ Barrel</b>";//"\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  <b>⥉ Barrel</b>";
+        string output = "\n  ◍ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⥉ Barrel</b>";//"\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  <b>⥉ Barrel</b>";
         for (int i = 0; i < reload_timer.Length - 1; i++) { 
             if (reload_timer[i] <= 0) output += "\n  ┣ READY";
             else output += "\n  ┠ " + reload_timer[i].ToString("0.0");

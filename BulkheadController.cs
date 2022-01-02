@@ -32,6 +32,6 @@ public class BulkheadController : ComponentController {
 
     public override string ToString()
     {
-        return "\n  ▩ <b>" + name + "</b>\n  ┣ ↴ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>♨ Fuel</b>\n  ┗ " + mass.ToString("0.0");//"\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  <b>♨ Fuel</b>\n  ┗ " + mass.ToString("0.0");
+        return "\n  ▩ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>♨ Fuel</b>\n  ┗ " + mass.ToString("0.0");//"\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  <b>♨ Fuel</b>\n  ┗ " + mass.ToString("0.0");
     }
 }

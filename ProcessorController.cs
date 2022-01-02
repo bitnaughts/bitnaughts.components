@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class ProcessorController : ComponentController
 {
+    public string object_class_string = "class Object {\n\tfloat x, y, w, h;\n}";
+    public string class_string = "class Processor : Object {\n\tvoid main() {\n\t\tprint(\"Hello\");\n\t}\n}";
     public string[] override_instructions;
     List<string> instructions;
     int edit_line = 1;
@@ -143,7 +145,7 @@ public class ProcessorController : ComponentController
     }
     public override string ToString()
     {       
-        string output = "\n  ▥ <b>" + name + "</b>\n  ┣ ↴ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString();// + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
+        string output = "\n  ▥ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString();// + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
         if (instructions.Count == 0) return output;
         output += "\n  <b>◬ Code</b>";
         int active_line = interpreter.GetPointer();
@@ -166,6 +168,9 @@ public class ProcessorController : ComponentController
             output += "\n  ┗ " + instructions[last];
         else 
             output += "\n  ┖ " + instructions[last];
+
+        // output += "\n  <b>≣ R.A.M.</b>" + interpreter.GetVariablesString();
+        
         return output;
     }
 }
