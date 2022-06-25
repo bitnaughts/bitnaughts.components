@@ -15,13 +15,15 @@ public class BoosterController : ComponentController {
         max_thrust = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, THRUST_MIN, THRUST_MAX);
         
         var sh = GetComponent<ParticleSystem>().shape;
-        sh.radius = (GetComponent<SpriteRenderer>().size.x * .5f);
+        sh.radius = (GetComponent<SpriteRenderer>().size.x * .35f);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .1f;
+        exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .5f;
 
         var main = GetComponent<ParticleSystem>().main;
         main.startSize = new ParticleSystem.MinMaxCurve(2, GetComponent<SpriteRenderer>().size.x / 2);
+    }    
+    public override void Ping() {
     }
     public override float Action (float input) 
     {
@@ -34,6 +36,10 @@ public class BoosterController : ComponentController {
 
         return thrust;
     }
+    // public override void Ping ()
+    // {
+
+    // }
 
     public override Vector2 GetMinimumSize ()
     {
@@ -42,15 +48,16 @@ public class BoosterController : ComponentController {
 
     public Vector2 GetThrustVector() 
     {
+        // return new Vector2(0, -.1f);
         return transform.forward * thrust / 100f;
     }
     public Vector2 GetPosition() 
     {
         return new Vector2(transform.position.x, transform.position.z);
     }
-
+    public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return "\n  ◎ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⇊ Throttle</b>\n  ┗ " + thrust.ToString("0.0");//\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°
+        return $"{GetIcon()} {name}\nfinal class {name}{ComponentToString()}\n  double thr = {thrust.ToString("0.000")};\n\n  <i>/*_Thrust_sets_the_throttle_*/</i>\n  public void Thrust (double throttle) {{\n    thr = throttle;\n  }}\n}}\n\n<a>Exit</a>";
     }
 }

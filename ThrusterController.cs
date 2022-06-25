@@ -19,6 +19,8 @@ public class ThrusterController : ComponentController {
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .1f;
+    }    
+    public override void Ping() {
     }
     public override float Action (float input) 
     {
@@ -46,8 +48,9 @@ public class ThrusterController : ComponentController {
         return transform.position;
     }
 
+    public override string GetIcon() { return "◉"; }
     public override string ToString()
     {
-        return "\n  ◉ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⇊ Throttle</b>\n  ┗ " + thrust.ToString("0.0");//\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°
+        return $"{GetIcon()} {name}\nfinal class {name}{ComponentToString()}\n  double thr = {thrust.ToString("0.000")};\n\n  <i>/*_Thrust_sets_the_throttle_*/</i>\n  public void Thrust (double throttle) {{\n    thr = throttle;\n  }}\n}}\n\n<a>Exit</a>";
     }
 }

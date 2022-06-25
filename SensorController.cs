@@ -11,7 +11,8 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     public bool organicSensor;
     private float distance = 0, distance_min = 0, distance_max = 999, scan_range = 0;    
     public override void Focus() {}
-
+    public override void Ping() {
+    }
     public override float Action (float input) 
     {
         if (this == null) { Destroy(this); return -999; }
@@ -61,9 +62,13 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     {
         return new Vector2(2, 2);
     }
-
-    public override string ToString()
+    public override string GetIcon() { return "◌"; }
+    public override string ToString() //double dis = {distance.ToString("0.0")};
     {
-        return "\n  ◌ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⇢ Range</b>\n  ┗ " + distance.ToString("0.0");//\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°
+        return $"{GetIcon()} {name}\nfinal class {name}{ComponentToString()}\n\n  <i>/*_Scan_casts_a_ray_*/</i>\n  public double Scan () {{\n    Ray r = new Ray ();\n    return r.length;\n  }}\n}}\n\n<a>Exit</a>";
+            //  ┣ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  ";
     }
+//     {
+//         return "\n   <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  <b>⇢ Range</b>\n  ┗ " + //\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°
+//     }
 }

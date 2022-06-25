@@ -25,7 +25,8 @@ public class ProcessorController : ComponentController
     public override void Focus() {
         speed = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * .25f, SPEED_MIN, SPEED_MAX);
     }
-
+    public override void Ping() {
+    }
     public override float Action(float input)
     {
         return input;
@@ -36,10 +37,10 @@ public class ProcessorController : ComponentController
         this.components = components;
         if (interpreter == null) {
             // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
-            if (override_instructions.Length == 0) 
-                SetInstructions(new string[]{"START","","jum START"});
-            else 
-                SetInstructions(override_instructions);
+            // if (override_instructions.Length == 0) 
+                // SetInstructions(new string[]{"class Processor {","void Start() { }","}"});
+            // else 
+                // SetInstructions(override_instructions);
         }
     }
     float timer;
@@ -47,7 +48,7 @@ public class ProcessorController : ComponentController
         timer += Time.deltaTime;
         if (timer > 1f/speed && interpreter != null) {
             timer -= 1f/speed;
-            iterate_result = interpreter.Iterate(components, edit_line);
+            // interpreter.step();
         }
     }
     public void SetInstructions(string instructions_string)
@@ -107,70 +108,42 @@ public class ProcessorController : ComponentController
         instructions[edit_line] = String.Join(" ", parts);
         SetInstructions(instructions);
     }
-    public string GetEditInstruction()
-    {
-        return interpreter.GetInstruction(edit_line).ToString();
-    }
-    public string GetEditInstructionCategory()
-    {
-        return Interpreter.GetInstructionCategory(interpreter.GetInstruction(edit_line));
-    }
-    public string GetEditInstructionText()
-    {
-        return Interpreter.GetInstructionText(interpreter.GetInstruction(edit_line));
-    }
-    public string GetNextLabel()
-    {
-        return interpreter.GetNextLabel();
-    }
-    public string GetNextVariable()
-    {
-        return interpreter.GetNextVariable();
-    }
-    public string[] GetLabels()
-    {
-        return interpreter.GetLabels();
-    }
-    public string[] GetVariables()
-    {
-        return interpreter.GetVariables();
-    }
-    public bool IsVariable(string variable)
-    {
-        return interpreter.isVariable(variable);
-    }
-    public bool IsLabel (string label)
-    {
-        return interpreter.isLabel(label);
-    }
+    public override string GetIcon() { return "▥"; }
     public override string ToString()
-    {       
-        string output = "\n  ▥ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString();// + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
-        if (instructions.Count == 0) return output;
-        output += "\n  <b>◬ Code</b>";
-        int active_line = interpreter.GetPointer();
-        for (int i = 0; i < instructions.Count - 1; i++) {
-            if (i == edit_line && i == active_line) 
-                output += "\n  ┝ <b>" + instructions[i] + "</b>";
-            else if (i == edit_line)
-                output += "\n  ├ <b>" + instructions[i] + "</b>";
-            else if (i == active_line)
-                output += "\n  ┣ " + instructions[i];
-            else 
-                output += "\n  ┠ " + instructions[i];
-        }
-        var last = instructions.Count - 1;
-        if (last == edit_line && last == active_line) 
-            output += "\n  ┕ <b>" + instructions[last] + "</b>";
-        else if (last == edit_line)
-            output += "\n  └ <b>" + instructions[last] + "</b>";
-        else if (last == active_line)
-            output += "\n  ┗ " + instructions[last];
-        else 
-            output += "\n  ┖ " + instructions[last];
-
-        // output += "\n  <b>≣ R.A.M.</b>" + interpreter.GetVariablesString();
-        
-        return output;
+    {    
+        return $"{GetIcon()} {name}\nfinal class {name}{ComponentToString()}\n\n  <i>/*_Main_method_*/</i>\n  public static void Main () {{\n    <a>$</a>\n  }}\n}}\n\n<a>Exit</a>";
+            // "⋅  var ship = System.Read (@\"example\");\n" +
+            // "⋅  if (size < ship.size) break;\n" +
+            // "⋅  foreach (c in ship.components) {\n" +
+            // "⋅   nozzle.GoTo (c.position);\n" +
+            // "⋅   nozzle.Place (c.type);\n" +
+            // "⋅   nozzle.Rotate (c.rotation);\n" +
+            // "⋅   nozzle.Resize (c.size);\n" +
+            // "⋅  }\n" +   
+        // string output = "\n  ▥ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString();// + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
+        // if (instructions.Count == 0) return output;
+        // output += "\n  <b>◬ Code</b>";
+        // int active_line = 0;//interpreter.GetPointer();
+        // for (int i = 0; i < instructions.Count - 1; i++) {
+        //     if (i == edit_line && i == active_line) 
+        //         output += "\n  ┝ <b>" + instructions[i] + "</b>";
+        //     else if (i == edit_line)
+        //         output += "\n  ├ <b>" + instructions[i] + "</b>";
+        //     else if (i == active_line)
+        //         output += "\n  ┣ " + instructions[i];
+        //     else 
+        //         output += "\n  ┠ " + instructions[i];
+        // }
+        // var last = instructions.Count - 1;
+        // if (last == edit_line && last == active_line) 
+        //     output += "\n  ┕ <b>" + instructions[last] + "</b>";
+        // else if (last == edit_line)
+        //     output += "\n  └ <b>" + instructions[last] + "</b>";
+        // else if (last == active_line)
+        //     output += "\n  ┗ " + instructions[last];
+        // else 
+        //     output += "\n  ┖ " + instructions[last];
+        // // output += "\n  <b>≣ R.A.M.</b>" + interpreter.GetVariablesString();
+        // return output;
     }
 }

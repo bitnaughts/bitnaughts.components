@@ -7,7 +7,8 @@ using UnityEngine;
 public class GirderController : ComponentController {   
     public override void Focus() {
     }
-
+    public override void Ping() {
+    }    
     public override float Action (float input) 
     {
         return input;
@@ -17,9 +18,9 @@ public class GirderController : ComponentController {
     {
         return new Vector2(2, 2);
     }
-
+    public override string GetIcon() { return "▨"; }
     public override string ToString()
     {
-        return "\n  ▨ <b>" + name + "</b>\n  ┣ ↧ " + new Vector2(transform.localPosition.x, transform.localPosition.y).ToString() + "\n  ┗ ↹ " + GetComponent<SpriteRenderer>().size.ToString();// + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°";
+        return $"{GetIcon()} {name}\nfinal class{name}{ComponentToString()}\n}}\n\n<a>Exit</a>";
     }
 }

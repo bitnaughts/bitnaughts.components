@@ -49,12 +49,24 @@ public class StructureController : MonoBehaviour
         if (!components.ContainsKey(component)) return;
         components[component].transform.Translate(direction);
     }
+    public void SetPosition(string component, Vector2 position) 
+    {
+        if (!components.ContainsKey(component)) return;
+        components[component].transform.position = position;
+    }
+    
+    public void SetSize(string component, Vector2 size) 
+    {
+        if (!components.ContainsKey(component)) return;
+        components[component].GetComponent<SpriteRenderer>().size = size;
+    }
+    
 
     public void Upsize(string component, Vector2 direction) 
     {
         if (!components.ContainsKey(component)) return;
         components[component].transform.Translate(direction/2);
-        components[component].transform.GetComponent<SpriteRenderer>().size += new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
+        components[component].GetComponent<SpriteRenderer>().size += new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
     }
 
     public void Downsize(string component, Vector2 direction) 
@@ -74,9 +86,15 @@ public class StructureController : MonoBehaviour
         if (!components.ContainsKey(component)) return;
         components[component].transform.Rotate(new Vector3(0,0,90));
     }
+    public float GetRotation(string component) {
+        if (!components.ContainsKey(component)) return 0;
+        return components[component].transform.rotation.z;
+    }
 
     public void Remove(string component) 
     {
+        if (component.Contains("_")) component = component.Split('_')[1];
+        print (component);
         Destroy(components[component].transform.gameObject);
     }
 
@@ -151,7 +169,7 @@ public class StructureController : MonoBehaviour
     {
         List<string> controllers = new List<string>();
         foreach (var component in components.Values) {
-                controllers.Add(component.name);
+                controllers.Add(component.GetIcon() + "_" + component.name);
         }
         return controllers.ToArray();
     }
@@ -247,97 +265,6 @@ public class StructureController : MonoBehaviour
                 break;
         } 
     }
-    public string GetEditInstruction(string component)
-    {
-        if (!components.ContainsKey(component)) return "";
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.GetEditInstruction();
-            default: //Want all components to be scriptable? Adjust here.
-                return "";
-        } 
-    }
-    public string GetEditInstructionCategory(string component)
-    {
-        if (!components.ContainsKey(component)) return "";
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.GetEditInstructionCategory();
-            default: //Want all components to be scriptable? Adjust here.
-                return "";
-        } 
-    }
-    public string GetEditInstructionText(string component)
-    {
-        if (!components.ContainsKey(component)) return "";
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.GetEditInstructionText();
-            default: //Want all components to be scriptable? Adjust here.
-                return "";
-        } 
-    }
-    public string GetNextLabel(string component)
-    {
-        if (!components.ContainsKey(component)) return "";
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.GetNextLabel();
-            default: //Want all components to be scriptable? Adjust here.
-                return "";
-        } 
-    }
-    public string GetNextVariable(string component)
-    {        
-        if (!components.ContainsKey(component)) return "";
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.GetNextVariable();
-            default: //Want all components to be scriptable? Adjust here.
-                return "";
-        } 
-    }
-    public string[] GetVariables(string component)
-    {        
-        if (!components.ContainsKey(component)) return null;
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.GetVariables();
-            default: //Want all components to be scriptable? Adjust here.
-                return null;
-        } 
-    }
-    public string[] GetLabels(string component)
-    {
-        if (!components.ContainsKey(component)) return null;
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.GetLabels();
-            default: //Want all components to be scriptable? Adjust here.
-                return null;
-        }
-    }
-    public bool IsVariable(string component, string variable)
-    {        
-        if (!components.ContainsKey(component)) return false;
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.IsVariable(variable);
-            default: //Want all components to be scriptable? Adjust here.
-                return false;
-        } 
-    }
-    public bool IsLabel (string component, string label)
-    {
-        if (!components.ContainsKey(component)) return false;
-        switch (components[component]) {
-            case ProcessorController processor:
-                return processor.IsLabel(label);
-            default: //Want all components to be scriptable? Adjust here.
-                return false;
-        }     
-    }
-
     float gimbal_test = 0f;
     float gimbal_step = 10f;
     float thrust_rotation = 0f;
@@ -353,14 +280,15 @@ public class StructureController : MonoBehaviour
            if (controller != null && controller.enabled) {
                 center_of_mass += new Vector3(controller.GetTransform().position.x, 0, controller.GetTransform().position.z);
                 active_component_count++;
-                switch (controller) {
-                    case ProcessorController processor:
-                        processor.Action(components);
-                        break;
-                    case CannonController cannon:
-                        cannon.Cooldown();
-                        break;
-                }
+                controller.Ping();
+                // switch (controller) {
+                    // case ProcessorController processor:
+                    //     processor.Action(components);
+                    //     break;
+                    // case CannonController cannon:
+                    //     cannon.Cooldown();
+                    //     break;
+                // }
            }
         }
         
@@ -398,7 +326,15 @@ public class StructureController : MonoBehaviour
                     // rotation += thrust_rotation;
                     break;
                 
-                // case BoosterController booster:
+                case BoosterController booster:
+                    // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
+                    Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
+                    // print (Pos);//booster.GetThrustVector());
+                    // Pos.x += booster.GetThrustVector().x;
+                    // Pos.y += booster.GetThrustVector().y;
+                    
+                    //  print("BOOST" +booster.GetThrustVector());
+                    translation -= booster.GetThrustVector();
                 //     Debug.DrawLine(booster.GetPosition(), booster.GetPosition() + booster.GetThrustVector(), Color.green, debug_duration, false);
                 //     Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
                 //     translation -= booster.GetThrustVector();
@@ -414,17 +350,18 @@ public class StructureController : MonoBehaviour
         }
         if (Launched && active_component_count > 0) {
             rotator.Rotate(new Vector3(0, 0, rotation / active_component_count));
+            // print(translation);
             transform.Translate(translation / active_component_count);
         }
-        foreach (var controller in components.Values)
-        {
-            if (controller != null && controller.enabled) switch (controller) {
-                case BulkheadController bulkhead:
-                    // print (translation.magnitude);
-                    bulkhead.Action(translation.magnitude / 100f);
-                    break;
-            }
-        }
+        // foreach (var controller in components.Values)
+        // {
+        //     if (controller != null && controller.enabled) switch (controller) {
+        //         case BulkheadController bulkhead:
+        //             // print (translation.magnitude);
+        //             bulkhead.Action(translation.magnitude / 100f);
+        //             break;
+        //     }
+        // }
         if (explosion_timer > 0) {
             explosion_timer++;
             GameObject explosion = Instantiate(
@@ -466,8 +403,8 @@ public class StructureController : MonoBehaviour
                 case SensorController sensor:
                     objects.Add(sensor.name);
                     break;
-                case CacheController cache:
-                    objects.Add(cache.name);
+                case PrinterController printer:
+                    objects.Add(printer.name);
                     break;
             }
         }
@@ -503,10 +440,10 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = "Objects:";
+        string output = "";
         foreach (var component in components.Values)
         {
-            output += "\n" + component.ToString() + ";";
+            output += component.ToString() + "\n";
         }
         return output;
     }

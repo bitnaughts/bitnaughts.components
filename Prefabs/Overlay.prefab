@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7781099168931195280}
   - component: {fileID: 3905640389931513079}
+  - component: {fileID: 7453486642397805970}
   m_Layer: 0
   m_Name: Overlay
   m_TagString: Untagged
@@ -82,3 +83,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7453486642397805970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994649752499894179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a1b7c8249fcdc488df9debf0e892d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverlayInteractor: {fileID: 0}
+  Interactor: {fileID: 0}
+  sprite: {fileID: 21300000, guid: c165a9ca20725434a9f6d0c72ae639e4, type: 3}
+  inverse: {fileID: 21300000, guid: c165a9ca20725434a9f6d0c72ae639e4, type: 3}

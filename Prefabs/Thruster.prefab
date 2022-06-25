@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -4620893349632408741}
   - component: {fileID: 6928745132279863510}
   - component: {fileID: 2994117166033538303}
+  - component: {fileID: 8886625754540836577}
   m_Layer: 0
   m_Name: Thruster
   m_TagString: Untagged
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9897970cfee8345966a2e80e145f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverlayInteractor: {fileID: 0}
   sprite: {fileID: 21300000, guid: 81768779e2860474ca637f4f287599f4, type: 3}
   inverse: {fileID: 21300000, guid: 2b0bad623eccb264ea74d1465c2a5c6f, type: 3}
 --- !u!199 &6928745132279863510
@@ -4883,3 +4885,29 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!61 &8886625754540836577
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9119799471000701731}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 3, y: 1, z: 3, w: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 7, y: 4}
+    newSize: {x: 6, y: 4}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6, y: 4}
+  m_EdgeRadius: 0

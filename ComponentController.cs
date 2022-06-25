@@ -20,14 +20,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public abstract class ComponentController : MonoBehaviour
 {
-    PlotterController controller;
+    public OverlayInteractor OverlayInteractor;
+    public Interactor Interactor;
     public Sprite sprite, inverse;
     void Start()
     {
-        if (GameObject.Find("PlotterOverlay") != null) controller = GameObject.Find("PlotterOverlay").GetComponent<PlotterController>();
+        OverlayInteractor = GameObject.Find("OverlayBorder").GetComponent<OverlayInteractor>();
+        Interactor = GameObject.Find("Content").GetComponent<Interactor>();
         Action(0);
         Focus();
     }
@@ -47,6 +50,7 @@ public abstract class ComponentController : MonoBehaviour
     public abstract void Focus();
 
     public abstract float Action(float input);
+    public abstract void Ping();
     
     public abstract Vector2 GetMinimumSize();
 
@@ -56,22 +60,31 @@ public abstract class ComponentController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    // Calculate this manually instead of event-driven
     void OnMouseOver() 
     {
-        if (controller != null) controller.Focus(this.name, this.GetType());
     }
     void OnMouseExit() 
     {
-        if (controller != null) controller.Unfocus();
     }
 
     void OnMouseUp()
     {
+        if (OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
+            for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
+                if (OverlayInteractor.OverlayDropdown.options[i].text == name) OverlayInteractor.OverlayDropdown.value = i; 
+            }
+            OverlayInteractor.gameObject.SetActive(true);
+            OverlayInteractor.OnDropdownChange(); 
 
+            // Interactor.RenderText("public class " + this.name + " : Component {\n public void Start() {\n }\n}");
+        }
     }
-    public override string ToString() {
-        return "\n " + GetType().ToString().Replace("Controller", "") + "(" + name + ")\n╟ ↧ " + transform.localPosition.ToString() + "\n╟ Size: ⮽ " + GetComponent<SpriteRenderer>().size.ToString() + "\n╟ Rote: " + gameObject.transform.localEulerAngles.z;
+    public string GetTypeClass() {
+        return GetType().ToString().Replace("Controller", "");
+    }
+    public abstract string GetIcon();
+    public string ComponentToString() {
+        return $" : Component {{\n  Vector pos = new Vector ({transform.localPosition.x}, {transform.localPosition.y});\n  Vector siz = new Vector ({GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y});\n  double rot = {gameObject.transform.localEulerAngles.z.ToString("0.000")};";
     }
 
 }
