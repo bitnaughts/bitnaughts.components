@@ -26,6 +26,7 @@ public abstract class ComponentController : MonoBehaviour
 {
     public OverlayInteractor OverlayInteractor;
     public Interactor Interactor;
+    private ClassController classController;
     public Sprite sprite, inverse;
     void Start()
     {
@@ -84,7 +85,7 @@ public abstract class ComponentController : MonoBehaviour
     }
     public abstract string GetIcon();
     public string ComponentToString() {
-        return $" : Component {{\n  Vector pos = new Vector ({transform.localPosition.x}, {transform.localPosition.y});\n  Vector siz = new Vector ({GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y});\n  double rot = {gameObject.transform.localEulerAngles.z.ToString("0.000")};";
+        return $"    pos = new Vector ({transform.localPosition.x}, {transform.localPosition.y});\n    siz = new Vector ({GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y});\n    rot = {gameObject.transform.localEulerAngles.z.ToString("0.00")};";
     }
 
 }

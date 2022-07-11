@@ -108,10 +108,10 @@ public class ProcessorController : ComponentController
         instructions[edit_line] = String.Join(" ", parts);
         SetInstructions(instructions);
     }
-    public override string GetIcon() { return "▥"; }
+    public override string GetIcon() { return "▩"; }
     public override string ToString()
     {    
-        return $"{GetIcon()} {name}\nfinal class {name}{ComponentToString()}\n\n  <i>/*_Main_method_*/</i>\n  public static void Main () {{\n    <a>$</a>\n  }}\n}}\n\n<a>Exit</a>";
+        return $"{GetIcon()} {name}\nfinal class {name}{ComponentToString()}\n  <i>/*_Main_method_*/</i>\n  public static void Main () {{\n    <a>$</a>\n  }}\n}}\n<a>Exit</a>";
             // "⋅  var ship = System.Read (@\"example\");\n" +
             // "⋅  if (size < ship.size) break;\n" +
             // "⋅  foreach (c in ship.components) {\n" +

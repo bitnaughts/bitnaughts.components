@@ -50,26 +50,17 @@ public class CannonController : ComponentController {
         return new Vector2(2, 2);
     }
     public string GetReloadString() {
-        string output = "  double[] barrels = new double[] {\n    ";
+        string output = "";
         for (int i = 0; i < reload_timer.Length; i++) {
-            if (i == reload_timer.Length - 1) output += $"{reload_timer[i].ToString("0.000")}";
-            else output += $"{reload_timer[i].ToString("0.000")}, ";
+            if (i == reload_timer.Length - 1) output += $"{reload_timer[i].ToString("0.00")}";
+            else output += $"{reload_timer[i].ToString("0.00")}, ";
         }
-        return output + "\n  }";
-        //     if (reload_timer[i] <= 0) output += "\n  ┣ READY";
-        //     else output += "\n  ┠ " + reload_timer[i].ToString("0.0");
-        // } 
-        // var last = reload_timer.Length - 1;
-        // if (reload_timer[last] <= 0) 
-        //     output += "\n  ┗ READY";
-        // else 
-        //     output += "\n  ┖ " + reload_timer[last].ToString("0.0");
-        // return output;
+        return  $"{{ {output} }}";
     }
     public override string GetIcon() { return "◍"; }
     public override string ToString()
     {
-        return $"{GetIcon()} {name}\nfinal class {name}{ComponentToString()}\n{GetReloadString()}\n\n  <i>/*_Gets_a_loaded_barrel_*/</i>\n  public int GetBarrel () {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n\n  <i>/*_Fires_a_loaded_barrel_*/</i>\n  public void Fire () {{\n    int b = GetBarrel();\n    if (b != -1) {{\n      Shell s = new Shell ();\n      s.pos = new Vector (getBarrel(), 0);\n      barrels[b] = 5;\n    }}\n  }}\n}}\n\n<a>Exit</a>";
+        return $"{GetIcon()} {name}\nfinal class {name} : Component {{\n  double[] barrels = {GetReloadString()};\n  <i>/*_Constructor_*/</i>\n  public class {name} () {{\n{ComponentToString()}\n    barrels = new double[{reload_timer.Length}];\n  <i>/*_Use_weapon_control_*/</i>\n  public void Fire () {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b);\n      barrels[b] = 5;\n    }}\n  }}\n  <i>/*_Gets_a_loaded_barrel_*/</i>\n  public int GetBarrel () {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n<a>Exit</a>";
         //
     }
 }

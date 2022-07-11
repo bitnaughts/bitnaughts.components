@@ -47,7 +47,7 @@ public class StructureController : MonoBehaviour
     public void Move(string component, Vector2 direction) 
     {
         if (!components.ContainsKey(component)) return;
-        components[component].transform.Translate(direction);
+        components[component].transform.Translate(direction * .5f);
     }
     public void SetPosition(string component, Vector2 position) 
     {
