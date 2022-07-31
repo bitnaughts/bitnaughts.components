@@ -46,7 +46,7 @@ public class GimbalController : ComponentController
     public override string GetIcon() { return "▣"; }
     public override string ToString()
     { //▤<b>≣ Data</b>
-        return $"{GetIcon()} {name}\nfinal class {name}{ComponentToString()}\n  <i>/*_Rotates_attached_objects_*/</i>\n  public void Rotate (double r) {{\n    rot += r;\n  }}\n}}\n<a>Exit</a>";
+        return $"{GetIcon()} {name}\nfinal class {name} : Component {{\n  <i>/*_Constructor_*/</i>\n  public class {name} () {{\n{ComponentToString()}\n  }}\n  <i>/*_Rotates_attached_objects_*/</i>\n  public void Rotate (double r) {{\n    rot += r;\n  }}\n}}\n<b>Exit</b>";
             // "⋅ double angle = " + gimbal_grid.transform.localEulerAngles.z.ToString("0.0") + ";\n" +  
             // "⋅ double speed = " + speed.ToString("0.0") + ";\n" +  
             // "⋅ \n" +
