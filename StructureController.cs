@@ -15,7 +15,6 @@ public class StructureController : MonoBehaviour
     protected Transform rotator;       
     protected UnityEngine.Color debug_color;
     RaycastHit hit;
-    public string default_content = "\n None... \n\n To add, tap\n plotter grid.";
     public GameObject Explosion;
     public bool Launched = false;
     public float explosion_timer = 0;
