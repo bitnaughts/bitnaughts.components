@@ -28,7 +28,7 @@ public class CannonController : ComponentController {
         if (input >= 1 && input <= reload_timer.Length)
         {
             int barrel = Mathf.FloorToInt(input - 1);
-            if (reload_timer[barrel] < 0)
+            if (reload_timer[barrel] <= 0)
             {
                 reload_timer[barrel] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1) / 10f;
                 GameObject shell = Instantiate(
@@ -39,6 +39,7 @@ public class CannonController : ComponentController {
                 ) as GameObject;
                 shell.transform.Translate(new Vector2((barrel + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
                 shell.transform.SetParent(GameObject.Find("World").transform);
+                shell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 return 1;
             }
         }
@@ -60,7 +61,7 @@ public class CannonController : ComponentController {
     public override string GetIcon() { return "◍"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double [] barrels = {GetReloadString()};\n  <i>/*_Constructor_*/</i>\n  public class {name} () {{\n{ComponentToString()}\n    barrels = new double [{reload_timer.Length}];\n  }}\n  <i>/*_Use_weapon_control_*/</i>\n  public void Fire () {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b);\n      barrels[b] = 5;\n    }}\n  }}\n  <i>/*_Gets_a_loaded_barrel_*/</i>\n  public int GetBarrel () {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{name}\nclass {name} : Component {{\n  double [] barrels = {GetReloadString()};\n  <i>/*_Constructor_*/</i>\n  public class {name} () {{\n{ComponentToString()}\n    barrels = new double [{reload_timer.Length}];\n  }}\n  <i>/*_Use_weapon_*/</i>\n  public void Fire () {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b);\n      barrels[b] = 5;\n    }}\n  }}\n  <i>/*_Gets_a_loaded_barrel_*/</i>\n  public int GetBarrel () {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
         //
     }
 }

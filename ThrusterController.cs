@@ -41,7 +41,7 @@ public class ThrusterController : ComponentController {
 
     public Vector2 GetThrustVector() 
     {
-        return transform.forward * thrust / 100f;
+        return transform.up * thrust / 100f;
     }
     public Vector3 GetPosition() 
     {

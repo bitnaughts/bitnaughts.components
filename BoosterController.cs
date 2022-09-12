@@ -49,11 +49,11 @@ public class BoosterController : ComponentController {
     public Vector2 GetThrustVector() 
     {
         // return new Vector2(0, -.1f);
-        return transform.forward * thrust / 100f;
+        return transform.up * thrust / 100f;
     }
-    public Vector2 GetPosition() 
+    public Vector3 GetPosition() 
     {
-        return new Vector2(transform.position.x, transform.position.z);
+        return transform.position;
     }
     public override string GetIcon() { return "◎"; }
     public override string ToString()
