@@ -70,14 +70,18 @@ public abstract class ComponentController : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
+        if (Interactor.GetClickDuration() < 0.25 && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
             for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
                 if (OverlayInteractor.OverlayDropdown.options[i].text == name) OverlayInteractor.OverlayDropdown.value = i; 
             }
+            if (GetType().ToString().Contains("Cannon")) {
+                Interactor.TargetTutorial();
+            }
+            if (GetType().ToString().Contains("Thruster")) {
+                Interactor.ThrustTutorial();
+            }
             OverlayInteractor.gameObject.SetActive(true);
             OverlayInteractor.OnDropdownChange(); 
-
-            // Interactor.RenderText("public class " + this.name + " : Component {\n public void Start() {\n }\n}");
         }
     }
     public string GetTypeClass() {

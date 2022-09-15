@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8721200378412927844}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1095808377954117696
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 5, y: 7}
+  m_Size: {x: 4, y: 6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverlayInteractor: {fileID: 0}
+  Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: f5027949d42d83841a409523bf525f84, type: 3}
   inverse: {fileID: 21300000, guid: d0e1441bcd0b2cb4baa2c81401b1429e, type: 3}
   object_class_string: "class Object {\n\tfloat x, y, w, h;\n}"
@@ -120,7 +121,7 @@ BoxCollider2D:
     border: {x: 2, y: 2, z: 2, w: 2}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 5, y: 7}
-    newSize: {x: 5, y: 7}
+    newSize: {x: 4, y: 6}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0

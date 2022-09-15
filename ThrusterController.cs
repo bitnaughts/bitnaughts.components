@@ -51,6 +51,6 @@ public class ThrusterController : ComponentController {
     public override string GetIcon() { return "◉"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double thrust = {thrust.ToString("0.000")};\n  <i>/*_Constructor_*/</i>\n  public class {name} () {{\n{ComponentToString()}\n    thrust = 0;\n  }}\n  <i>/*_Throttle_modifiers_*/</i>\n  public void ThrustOn () {{\n    Thrust(100);\n  }}\n  public void ThrustOff () {{\n    Thrust(0);\n  }}\n\n  public void Thrust (double throttle) {{\n    thrust = throttle;\n  }}}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{name}\nclass {name} : Component {{\n  double thrust = {thrust.ToString("0.000")};\n  <i>/*_Constructor_*/</i>\n  public class {name} () {{\n{ComponentToString()}\n    thrust = 0;\n  }}\n  <i>/*_Throttle_control_*/</i>\n  public void ThrustMax () {{\n    Thrust(999);\n  }}\n  public void ThrustMin () {{\n    Thrust(0);\n  }}\n\n  public void Thrust (double throttle) {{\n    thrust = throttle;\n  }}}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }

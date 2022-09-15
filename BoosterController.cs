@@ -18,12 +18,13 @@ public class BoosterController : ComponentController {
         sh.radius = (GetComponent<SpriteRenderer>().size.x * .35f);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .5f;
+        exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * 5f;
 
         var main = GetComponent<ParticleSystem>().main;
         main.startSize = new ParticleSystem.MinMaxCurve(2, GetComponent<SpriteRenderer>().size.x / 2);
     }    
     public override void Ping() {
+        thrust = Mathf.Clamp(thrust - 1, THRUST_MIN, THRUST_MAX);
     }
     public override float Action (float input) 
     {
@@ -32,7 +33,7 @@ public class BoosterController : ComponentController {
         thrust = Mathf.Clamp(thrust + Mathf.Clamp(input, INPUT_MIN, INPUT_MAX), THRUST_MIN, max_thrust);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .1f;
+        exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * 5f;
 
         return thrust;
     }
