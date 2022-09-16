@@ -70,18 +70,36 @@ public abstract class ComponentController : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (Interactor.GetClickDuration() < 0.25 && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
-            for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
-                if (OverlayInteractor.OverlayDropdown.options[i].text == name) OverlayInteractor.OverlayDropdown.value = i; 
+        if (Interactor.GetClickDuration() < 0.25) {// && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
+            if (OverlayInteractor.gameObject.activeSelf) {
+                if (Input.mousePosition.x < 3f * Screen.width / 4f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f || Input.mousePosition.x > 3f * Screen.width / 4f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f || Input.mousePosition.y > Screen.height / 2f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f || Input.mousePosition.y < Screen.height / 2f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f) {
+                    for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
+                        if (OverlayInteractor.OverlayDropdown.options[i].text == name) OverlayInteractor.OverlayDropdown.value = i; 
+                    }
+                    if (GetType().ToString().Contains("Cannon")) {
+                        Interactor.TargetTutorial();
+                    }
+                    if (GetType().ToString().Contains("Thruster")) {
+                        Interactor.ThrustTutorial();
+                    }
+                    OverlayInteractor.gameObject.SetActive(true);
+                    OverlayInteractor.OnDropdownChange(); 
+
+                }
             }
-            if (GetType().ToString().Contains("Cannon")) {
-                Interactor.TargetTutorial();
+            else {
+                for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
+                    if (OverlayInteractor.OverlayDropdown.options[i].text == name) OverlayInteractor.OverlayDropdown.value = i; 
+                }
+                if (GetType().ToString().Contains("Cannon")) {
+                    Interactor.TargetTutorial();
+                }
+                if (GetType().ToString().Contains("Thruster")) {
+                    Interactor.ThrustTutorial();
+                }
+                OverlayInteractor.gameObject.SetActive(true);
+                OverlayInteractor.OnDropdownChange(); 
             }
-            if (GetType().ToString().Contains("Thruster")) {
-                Interactor.ThrustTutorial();
-            }
-            OverlayInteractor.gameObject.SetActive(true);
-            OverlayInteractor.OnDropdownChange(); 
         }
     }
     public string GetTypeClass() {
