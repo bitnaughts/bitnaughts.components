@@ -25,21 +25,20 @@ public class CannonController : ComponentController {
     public override float Action (float input) 
     {
         if (this == null) { Destroy(this); return -999; }
-        if (input >= 1 && input <= reload_timer.Length)
-        {
-            int barrel = Mathf.FloorToInt(input - 1);
-            if (reload_timer[barrel] <= 0)
+        // if (input >= 1 && input <= reload_timer.Length)
+        for (int i = 0; i < reload_timer.Length; i++) {
+            if (reload_timer[i] <= 0)
             {
-                reload_timer[barrel] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1) / 10f;
+                reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1);
                 GameObject shell = Instantiate(
                     Shell,
                     this.transform.position,
                     this.transform.rotation,      
                     this.transform
                 ) as GameObject;
-                shell.transform.Translate(new Vector2((barrel + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
+                shell.transform.Translate(new Vector2((i + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
                 shell.transform.SetParent(GameObject.Find("World").transform);
-                shell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                // shell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 return 1;
             }
         }

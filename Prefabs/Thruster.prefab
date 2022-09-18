@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverlayInteractor: {fileID: 0}
+  Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: 81768779e2860474ca637f4f287599f4, type: 3}
   inverse: {fileID: 21300000, guid: 2b0bad623eccb264ea74d1465c2a5c6f, type: 3}
 --- !u!199 &6928745132279863510

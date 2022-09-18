@@ -277,7 +277,7 @@ public class StructureController : MonoBehaviour
         float active_component_count = 0;
         foreach (var controller in components.Values) {
            if (controller != null && controller.enabled) {
-                center_of_mass += new Vector3(controller.GetTransform().position.x, 0, controller.GetTransform().position.z);
+                center_of_mass += new Vector3(controller.GetTransform().position.x, controller.GetTransform().position.y);
                 active_component_count++;
                 controller.Ping();
                 // switch (controller) {
@@ -311,54 +311,36 @@ public class StructureController : MonoBehaviour
                 case ThrusterController thruster:
                     // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
                     // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
-                    // print (Pos);//thruster.GetThrustVector());
-                    // Pos.x += thruster.GetThrustVector().x;
-                    // Pos.y += thruster.GetThrustVector().y;
                     translation += thruster.GetThrustVector();
-                    // thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(
-                    //     Vector2.SignedAngle(
-                    //         thruster.GetThrustVector(), 
-                    //         thruster.GetPosition() - center_of_mass
-                    //     ) * Mathf.Deg2Rad
-                    // );
-                    // rotation += thrust_rotation;
+                    thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(
+                        Vector2.SignedAngle(
+                            thruster.GetThrustVector(), 
+                            thruster.GetPosition() - center_of_mass
+                        ) * Mathf.Deg2Rad
+                    );
+                    rotation += thrust_rotation;
                     break;
-                
                 case BoosterController booster:
                     // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
-                    Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
-                    // print (Pos);//booster.GetThrustVector());
-                    // Pos.x += booster.GetThrustVector().x;
-                    // Pos.y += booster.GetThrustVector().y;
-                    
-                    //  print("BOOST" +booster.GetThrustVector());
+                    // Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
+                    print (booster.GetThrustVector());
                     translation += booster.GetThrustVector();
-                //     Debug.DrawLine(booster.GetPosition(), booster.GetPosition() + booster.GetThrustVector(), Color.green, debug_duration, false);
-                //     Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
-                //     translation -= booster.GetThrustVector();
-                    // thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(
-                    //     Vector2.SignedAngle(
-                    //         booster.GetThrustVector(), 
-                    //         booster.GetPosition() - center_of_mass
-                    //     ) * Mathf.Deg2Rad
-                    // );
-                    // rotation += thrust_rotation;
+                    // Debug.DrawLine(booster.GetPosition(), booster.GetPosition() + booster.GetThrustVector(), Color.green, debug_duration, false);
+                    // Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
+                    thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(
+                        Vector2.SignedAngle(
+                            booster.GetThrustVector(), 
+                            booster.GetPosition() - center_of_mass
+                        ) * Mathf.Deg2Rad
+                    );
+                    rotation += thrust_rotation;
                     break;
             }
         }
         if (active_component_count > 0) {
-            // rotator.Rotate(new Vector3(0, 0, -rotation));
+            rotator.Rotate(new Vector3(0, 0, -rotation));
             transform.Translate(translation / active_component_count);
         }
-        // foreach (var controller in components.Values)
-        // {
-        //     if (controller != null && controller.enabled) switch (controller) {
-        //         case BulkheadController bulkhead:
-        //             // print (translation.magnitude);
-        //             bulkhead.Action(translation.magnitude / 100f);
-        //             break;
-        //     }
-        // }
         if (explosion_timer > 0) {
             explosion_timer++;
             GameObject explosion = Instantiate(

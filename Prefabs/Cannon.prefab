@@ -97,9 +97,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverlayInteractor: {fileID: 0}
+  Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: f930b987420bac5499aa555b7b419097, type: 3}
   inverse: {fileID: 21300000, guid: 74f86962ebb069b4e9effa3d7a3dbfb8, type: 3}
-  Shell: {fileID: 197393248728540889, guid: ee9ed37a76a7d1549a236c75745f365a, type: 3}
+  Shell: {fileID: 6963139264250304831, guid: 15336ac24c5d5b34e87f2c699e4dd85f, type: 3}
   reload_timer: []
 --- !u!61 &3164856314794874526
 BoxCollider2D:
