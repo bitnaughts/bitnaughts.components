@@ -61,7 +61,7 @@ public class CannonController : ComponentController {
     public override string GetIcon() { return "◍"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double [] barrels = {GetReloadString()};\n  <i>/*_Constructor_*/</i>\n  public class {name} () {{\n{ComponentToString()}\n    barrels = new double [{reload_timer.Length}];\n  }}\n  <i>/*_\"Use_weapon\"_control_*/</i>\n  public void Fire () {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b);\n      barrels[b] = 5;\n    }}\n  }}\n  <i>/*_Gets_a_loaded_barrel_*/</i>\n  public int GetBarrel () {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{name}\nclass {name} : Component {{\n  double [] barrels = {GetReloadString()};\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n    barrels = new double [{reload_timer.Length}];\n  }}\n  /*_Use_weapon_control_*/\n  public void Fire () {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b);\n      barrels[b] = 5;\n    }}\n  }}\n  /*_Get_loaded_barrel_*/\n  public int GetBarrel () {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
         //
     }
 }
