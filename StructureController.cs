@@ -366,6 +366,9 @@ public class StructureController : MonoBehaviour
         foreach (var controller in components.Values)
         {
             switch (controller) {
+                case ProcessorController processor:
+                    objects.Add(processor.name);
+                    break;
                 case ThrusterController thruster:
                     objects.Add(thruster.name);
                     break;
@@ -380,6 +383,9 @@ public class StructureController : MonoBehaviour
                     break;
                 case SensorController sensor:
                     objects.Add(sensor.name);
+                    break;
+                case BulkheadController bulkhead:
+                    objects.Add(bulkhead.name);
                     break;
                 case PrinterController printer:
                     objects.Add(printer.name);

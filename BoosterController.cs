@@ -87,6 +87,6 @@ public class BoosterController : ComponentController {
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n    thr = 0;\n  }}\n  /*_Thrust_sets_the_throttle_*/\n  public void Thrust (double throttle) {{\n    thr = throttle;\n  }}\n  /*_Fire_launches_torpedos_*/\n  public void Fire () {{\n    Fire(100);\n  }}\n  public void Fire (double throttle) {{\n    Torpedo t = new Torpedo (throttle);\n  }}\n}}\n\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n    thr = 0;\n  }}\n  /*_Boost_control_*/\n  public void Boost () {{\n    thr = 100;\n  }}\n  /*_Launch_torpedo_control_*/\n  public void Launch () {{\n    Torpedo t = new Torpedo ();\n  }}\n}}\n\n\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }

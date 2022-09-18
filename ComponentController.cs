@@ -77,10 +77,14 @@ public abstract class ComponentController : MonoBehaviour
     {
         if (Interactor.GetClickDuration() < 0.25) {// && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
             if (CheckInsideEdge()) {
-                Interactor.PlayClick();
                 if (OverlayInteractor.gameObject.activeSelf && !CheckOutsideOverlay()) return;
                 for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
-                    if (OverlayInteractor.OverlayDropdown.options[i].text == name) OverlayInteractor.OverlayDropdown.value = i; 
+                    if (OverlayInteractor.OverlayDropdown.options[i].text == name) {
+                        if (OverlayInteractor.OverlayDropdown.value != i) {
+                            OverlayInteractor.OverlayDropdown.value = i; 
+                            Interactor.Sound("OnMouse");
+                        }
+                    }
                 }
                 if (GetType().ToString().Contains("Cannon")) {
                     Interactor.TargetTutorial();

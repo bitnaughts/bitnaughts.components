@@ -24,5 +24,8 @@ public class ProjectileController : MonoBehaviour
             if (hit.collider.gameObject.layer == 9) Destroy(hit.collider.gameObject);
             Destroy(this.gameObject);
         }
+        if (GetComponent<AudioSource>() != null) {
+            GetComponent<AudioSource>().volume -= .0001f;
+        }
     }
 }
