@@ -23,7 +23,7 @@ public class StructureController : MonoBehaviour
         components = new Dictionary<string, ComponentController>();
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {
-            print (controller.name);
+            // print (controller.name);
             components.Add(controller.name, controller);
             // switch (controller) {
             //     case GimbalController gimbal:
@@ -93,7 +93,6 @@ public class StructureController : MonoBehaviour
     public void Remove(string component) 
     {
         if (component.Contains("_")) component = component.Split('_')[1];
-        print (component);
         Destroy(components[component].transform.gameObject);
     }
 
@@ -323,7 +322,7 @@ public class StructureController : MonoBehaviour
                 case BoosterController booster:
                     // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
                     // Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
-                    print (booster.GetThrustVector());
+                    // print (booster.GetThrustVector());
                     translation += booster.GetThrustVector();
                     // Debug.DrawLine(booster.GetPosition(), booster.GetPosition() + booster.GetThrustVector(), Color.green, debug_duration, false);
                     // Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
