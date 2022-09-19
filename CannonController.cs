@@ -29,6 +29,7 @@ public class CannonController : ComponentController {
         for (int i = 0; i < reload_timer.Length; i++) {
             if (reload_timer[i] <= 0)
             {
+                Interactor.Sound("Cannon" + ((i % 3) + 1));
                 reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1);
                 GameObject shell = Instantiate(
                     Shell,
@@ -60,7 +61,7 @@ public class CannonController : ComponentController {
     public override string GetIcon() { return "◍"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double [] barrels = {GetReloadString()};\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n    barrels = new double [{reload_timer.Length}];\n  }}\n  /*_Use_weapon_control_*/\n  public void Fire () {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b);\n      barrels[b] = 5;\n    }}\n  }}\n  /*_Get_loaded_barrel_*/\n  public int GetBarrel () {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{name}\nclass {name} : Component {{\n  double [] barrels = {GetReloadString()};\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n    barrels = new double [{reload_timer.Length}];\n  }}\n  /*_Use_weapon_control_*/\n  public void Fire () {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b);\n      barrels[b] = 5;\n    }}\n  }}\n  /*_Get_loaded_barrel_*/\n  public int GetBarrel () {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
         //
     }
 }

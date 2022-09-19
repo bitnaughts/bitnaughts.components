@@ -55,6 +55,7 @@ public class BoosterController : ComponentController {
         for (int i = 0; i < reload_timer.Length; i++) {
             if (reload_timer[i] <= 0)
             {
+                Interactor.Sound("Torpedo" + ((i % 2) + 1));
                 reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1);
                 GameObject torpedo = Instantiate(
                     Torpedo,
@@ -87,6 +88,6 @@ public class BoosterController : ComponentController {
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n    thr = 0;\n  }}\n  /*_Boost_control_*/\n  public void Boost () {{\n    thr = 100;\n  }}\n  /*_Launch_torpedo_control_*/\n  public void Launch () {{\n    Torpedo t = new Torpedo ();\n  }}\n}}\n\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n    thr = 0;\n  }}\n  /*_Boost_control_*/\n  public void Boost () {{\n    thr = 100;\n  }}\n  /*_Launch_torpedo_control_*/\n  public void Launch () {{\n    Torpedo t = new Torpedo ();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

@@ -392,6 +392,35 @@ public class StructureController : MonoBehaviour
                     break;
             }
         }
+        foreach (var controller in components.Values)
+        {
+            switch (controller) {
+                case ProcessorController processor:
+                    objects.Add(processor.name);
+                    break;
+                case ThrusterController thruster:
+                    objects.Add(thruster.name);
+                    break;
+                case GimbalController gimbal:
+                    objects.Add(gimbal.name);
+                    break;
+                case BoosterController booster:
+                    objects.Add(booster.name);
+                    break;
+                case CannonController cannon:
+                    objects.Add(cannon.name);
+                    break;
+                case SensorController sensor:
+                    objects.Add(sensor.name);
+                    break;
+                case BulkheadController bulkhead:
+                    objects.Add(bulkhead.name);
+                    break;
+                case PrinterController printer:
+                    objects.Add(printer.name);
+                    break;
+            }
+        }
         return objects.ToArray();
     }
     public string[] GetOtherComponents(string selected) 
