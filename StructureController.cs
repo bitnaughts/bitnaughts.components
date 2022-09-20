@@ -13,6 +13,7 @@ public class StructureController : MonoBehaviour
     protected Vector3 center_of_mass;
     protected int child_count;
     protected Transform rotator;       
+    protected Vector2 translation;
     protected UnityEngine.Color debug_color;
     RaycastHit hit;
     public GameObject Explosion;
@@ -302,7 +303,7 @@ public class StructureController : MonoBehaviour
 
 
         float rotation = 0f;
-        Vector2 translation = new Vector2(0, 0);
+        translation = new Vector2(0, 0);
 
         foreach (var controller in components.Values)
         {
@@ -452,12 +453,12 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = "";
+        string output = $"{{\n\"position\": [{this.center_of_mass.x}, {this.center_of_mass.y}, {this.rotator.rotation.z}],\n\"translation\": [{this.translation.x}, {this.translation.y}],\n";
         foreach (var component in components.Values)
         {
-            output += component.ToString() + "\n";
+            output += component.ComponentToString() + "\n";
         }
-        return output;
+        return output + "}";
     }
 }
 
