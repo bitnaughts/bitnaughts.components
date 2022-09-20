@@ -101,12 +101,15 @@ public abstract class ComponentController : MonoBehaviour
         return GetType().ToString().Replace("Controller", "");
     }
     public abstract string GetIcon();
+    public static string Neaten(float input) {
+        return input.ToString("0.00").TrimEnd('0').TrimEnd('.');
+    }
     public string ComponentToString() {
         
-        return $"{'"' + this.GetIcon() + this.name + '"'}: [{transform.localPosition.x}, {transform.localPosition.y}, {GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y}, {gameObject.transform.localEulerAngles.z.ToString("0.00")}],";
+        return $"{'"' + this.GetIcon() + this.name + '"'}: [{Neaten(transform.localPosition.x)}, {Neaten(transform.localPosition.y)}, {Neaten(GetComponent<SpriteRenderer>().size.x)}, {Neaten(GetComponent<SpriteRenderer>().size.y)}, {Neaten(gameObject.transform.localEulerAngles.z)}],";
     }
     public override string ToString() {
-        return $"    pos = new Vector ({transform.localPosition.x}, {transform.localPosition.y});\n    size = new Vector ({GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y});\n    rot = {gameObject.transform.localEulerAngles.z.ToString("0.00")};";
+        return $"    pos = new Vector ({Neaten(transform.localPosition.x)}, {Neaten(transform.localPosition.y)});\n    size = new Vector ({Neaten(GetComponent<SpriteRenderer>().size.x)}, {Neaten(GetComponent<SpriteRenderer>().size.y)});\n    rot = {Neaten(gameObject.transform.localEulerAngles.z)};";
     }
 
 }

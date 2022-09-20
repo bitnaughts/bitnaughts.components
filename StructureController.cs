@@ -465,7 +465,7 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = $"{{\n\"position\": [{this.center_of_mass.x + this.transform.position.x}, {this.center_of_mass.y + this.transform.position.y}, {this.rotator.rotation.z}],\n\"translation\": [{this.translation.x}, {this.translation.y}],\n";
+        string output = $"{{\n\"position\": [{Neaten(this.center_of_mass.x + this.transform.position.x)}, {Neaten(this.center_of_mass.y + this.transform.position.y)}, {Neaten(this.rotator.localEulerAngles.z)}],\n\"translation\": [{Neaten(this.translation.x)}, {Neaten(this.translation.y)}],\n";
         output += "\"classes\": [\n";
         if (classes != null) {
             foreach (ClassController c in classes.Values) {
@@ -478,23 +478,29 @@ public class StructureController : MonoBehaviour
         }
         output += "]\n\"entities\": [\n";
         foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>()) {
-            output += $"\"{entity.name}\": [{entity.transform.position.x}, {entity.transform.position.y},{entity.speed},{entity.transform.localEulerAngles.z.ToString("0.00")}],\n";
+            output += $"\"{entity.name}\": [{Neaten(entity.transform.position.x)}, {Neaten(entity.transform.position.y)},{Neaten(entity.speed)},{Neaten(entity.transform.localEulerAngles.z)}],\n";
         }
         return output + "]\n}";
     }
+    public static string Neaten(float input) {
+        return input.ToString("0.00").TrimEnd('0').TrimEnd('.');
+    }
 }
 
-public static class ExtensionMethods {
-    public static float Remap (this float value, float from1, float to1, float from2, float to2) {
-        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
-    }
-    // Or IsNanOrInfinity
-    public static bool HasValue(this float value)
-    {
-        return !float.IsNaN(value) && !float.IsInfinity(value);
-    }
-    public static string Repeat(this string s, int n)
-    {
-        return String.Concat(Enumerable.Repeat(s, n));
-    }
-}
+// public static class ExtensionMethods {
+//     public static string Neaten(float input) {
+//         return input.ToString("0.00").TrimEnd('0').TrimEnd('.');
+//     }
+//     public static float Remap (this float value, float from1, float to1, float from2, float to2) {
+//         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+//     }
+//     // Or IsNanOrInfinity
+//     public static bool HasValue(this float value)
+//     {
+//         return !float.IsNaN(value) && !float.IsInfinity(value);
+//     }
+//     public static string Repeat(this string s, int n)
+//     {
+//         return String.Concat(Enumerable.Repeat(s, n));
+//     }
+// }
