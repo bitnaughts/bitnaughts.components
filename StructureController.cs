@@ -453,7 +453,7 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = $"{{\n\"position\": [{this.center_of_mass.x}, {this.center_of_mass.y}, {this.rotator.rotation.z}],\n\"translation\": [{this.translation.x}, {this.translation.y}],\n";
+        string output = $"{{\n\"position\": [{this.center_of_mass.x + this.transform.position.x}, {this.center_of_mass.y + this.transform.position.y}, {this.rotator.rotation.z}],\n\"translation\": [{this.translation.x}, {this.translation.y}],\n";
         
         output += "\"components\": [\n";
         foreach (var component in components.Values)
@@ -464,7 +464,7 @@ public class StructureController : MonoBehaviour
 
         foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>())
         {
-            output += $"\"{entity.name}\": [{entity.transform.position.x}, {entity.transform.position.y},{entity.transform.localEulerAngles.z.ToString("0.00")}]\n";
+            output += $"\"{entity.name}\": [{entity.transform.position.x}, {entity.transform.position.y},{entity.speed},{entity.transform.localEulerAngles.z.ToString("0.00")}]\n";
         }
         return output + "]\n}";
     }

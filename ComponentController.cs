@@ -103,7 +103,7 @@ public abstract class ComponentController : MonoBehaviour
     public abstract string GetIcon();
     public string ComponentToString() {
         
-        return $"\n{'"' + this.name + '"'}: [{transform.localPosition.x}, {transform.localPosition.y}, {GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y}, {gameObject.transform.localEulerAngles.z.ToString("0.00")}],";
+        return $"\n{'"' + this.GetIcon() + this.name + '"'}: [{transform.localPosition.x}, {transform.localPosition.y}, {GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y}, {gameObject.transform.localEulerAngles.z.ToString("0.00")}],";
     }
 
 }
