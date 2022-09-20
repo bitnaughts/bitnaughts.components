@@ -464,7 +464,7 @@ public class StructureController : MonoBehaviour
 
         foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>())
         {
-            output += $"\"{entity.name}\": [{entity.transform.position.x}, {entity.transform.position.y},{entity.speed},{entity.transform.localEulerAngles.z.ToString("0.00")}]\n";
+            output += $"\"{entity.name}\": [{entity.transform.position.x}, {entity.transform.position.y},{entity.speed},{entity.transform.localEulerAngles.z.ToString("0.00")}],\n";
         }
         return output + "]\n}";
     }
