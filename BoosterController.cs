@@ -12,6 +12,7 @@ public class BoosterController : ComponentController {
     public const int INPUT_MIN = -10, INPUT_MAX = 10, THRUST_MIN = 0, THRUST_MAX = 999;
     public float[] reload_timer;
     public const float RELOAD_TIME = 1f;
+    private int torpedo_count = 0;
 
     public override void Focus() {
         max_thrust = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, THRUST_MIN, THRUST_MAX);
@@ -64,6 +65,7 @@ public class BoosterController : ComponentController {
                     this.transform
                 ) as GameObject;
                 torpedo.transform.Translate(new Vector3((i + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
+                torpedo.name = this.name + "Torpedo" + torpedo_count;
                 torpedo.transform.SetParent(GameObject.Find("World").transform);
                 // torpedo.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 return;
