@@ -105,5 +105,8 @@ public abstract class ComponentController : MonoBehaviour
         
         return $"{'"' + this.GetIcon() + this.name + '"'}: [{transform.localPosition.x}, {transform.localPosition.y}, {GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y}, {gameObject.transform.localEulerAngles.z.ToString("0.00")}],";
     }
+    public override string ToString() {
+        return $"    pos = new Vector ({transform.localPosition.x}, {transform.localPosition.y});\n    size = new Vector ({GetComponent<SpriteRenderer>().size.x}, {GetComponent<SpriteRenderer>().size.y});\n    rot = {gameObject.transform.localEulerAngles.z.ToString("0.00")};";
+    }
 
 }

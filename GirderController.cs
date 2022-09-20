@@ -21,6 +21,6 @@ public class GirderController : ComponentController {
     public override string GetIcon() { return "▨"; }
     public override string ToString()
     {
-        return $"{name}\nclass{name} {{\n{ComponentToString()}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{name}\nclass{name} {{\n{base.ToString()}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }

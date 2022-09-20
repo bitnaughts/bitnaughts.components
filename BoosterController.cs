@@ -65,7 +65,7 @@ public class BoosterController : ComponentController {
                     this.transform
                 ) as GameObject;
                 torpedo.transform.Translate(new Vector3((i + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
-                torpedo.name = this.name + "Torpedo" + torpedo_count;
+                torpedo.name = this.name + "Torpedo" + torpedo_count++;
                 torpedo.transform.SetParent(GameObject.Find("World").transform);
                 // torpedo.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 return;
@@ -90,6 +90,6 @@ public class BoosterController : ComponentController {
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n    thr = 0;\n  }}\n  /*_Boost_control_*/\n  public void Boost () {{\n    thr = 100;\n  }}\n  /*_Launch_torpedo_control_*/\n  public void Launch () {{\n    Torpedo t = new Torpedo ();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  /*_Constructor_*/\n  public class {name} () {{\n{base.ToString()}\n    thr = 0;\n  }}\n  /*_Boost_control_*/\n  public void Boost () {{\n    thr = 100;\n  }}\n  /*_Launch_torpedo_control_*/\n  public void Launch () {{\n    Torpedo t = new Torpedo ();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

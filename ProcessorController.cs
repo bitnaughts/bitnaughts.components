@@ -111,7 +111,7 @@ public class ProcessorController : ComponentController
     public override string GetIcon() { return "▩"; }
     public override string ToString()
     {    
-        return $"{name}\nclass {name} : Component {{\n  /*_Constructor_*/\n  public class {name} () {{\n{ComponentToString()}\n  }}\n  /*_Main_method_*/\n  public static void Main () {{\n    <b>$</b>\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{name}\nclass {name} : Component {{\n  /*_Constructor_*/\n  public class {name} () {{\n{base.ToString()}\n  }}\n  /*_Main_method_*/\n  public static void Main () {{\n    <b>$</b>\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             // "⋅  var ship = System.Read (@\"example\");\n" +
             // "⋅  if (size < ship.size) break;\n" +
             // "⋅  foreach (c in ship.components) {\n" +
