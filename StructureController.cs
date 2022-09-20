@@ -10,6 +10,7 @@ public class StructureController : MonoBehaviour
 {
     const float debug_duration = .001f;
     public Dictionary<string, ComponentController> components;
+    public Dictionary<string, ClassController> classes;
     protected Vector3 center_of_mass;
     protected int child_count;
     protected Transform rotator;       
@@ -21,6 +22,17 @@ public class StructureController : MonoBehaviour
     public float explosion_timer = 0;
     public void Start()
     {
+        if (classes == null) {
+            classes = new Dictionary<string, ClassController>();
+            classes.Add("◎", new ClassController("◎")); //Booster
+            classes.Add("◉", new ClassController("◉")); //Thruster
+            classes.Add("◍", new ClassController("◍")); //Cannon
+            classes.Add("▥", new ClassController("▥")); //Bulkhead
+            classes.Add("▩", new ClassController("▩")); //Processor
+            classes.Add("▣", new ClassController("▣")); //Gimbal
+            classes.Add("◌", new ClassController("◌"));  //Sensor
+            // classes.Add("▦", new ClassController("▦")); //Printer
+        }
         components = new Dictionary<string, ComponentController>();
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {
@@ -454,16 +466,18 @@ public class StructureController : MonoBehaviour
     public override string ToString()
     {
         string output = $"{{\n\"position\": [{this.center_of_mass.x + this.transform.position.x}, {this.center_of_mass.y + this.transform.position.y}, {this.rotator.rotation.z}],\n\"translation\": [{this.translation.x}, {this.translation.y}],\n";
-        
-        output += "\"components\": [\n";
-        foreach (var component in components.Values)
-        {
+        output += "\"classes\": [\n";
+        if (classes != null) {
+            foreach (ClassController c in classes.Values) {
+                output += c.ToString() + "\n";
+            }
+        }
+        output += "]\n\"components\": [\n";
+        foreach (var component in components.Values) {
             output += component.ComponentToString() + "\n";
         }
         output += "]\n\"entities\": [\n";
-
-        foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>())
-        {
+        foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>()) {
             output += $"\"{entity.name}\": [{entity.transform.position.x}, {entity.transform.position.y},{entity.speed},{entity.transform.localEulerAngles.z.ToString("0.00")}],\n";
         }
         return output + "]\n}";
