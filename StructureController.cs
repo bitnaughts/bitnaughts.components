@@ -454,11 +454,19 @@ public class StructureController : MonoBehaviour
     public override string ToString()
     {
         string output = $"{{\n\"position\": [{this.center_of_mass.x}, {this.center_of_mass.y}, {this.rotator.rotation.z}],\n\"translation\": [{this.translation.x}, {this.translation.y}],\n";
+        
+        output += "\"components\": [\n";
         foreach (var component in components.Values)
         {
             output += component.ComponentToString() + "\n";
         }
-        return output + "}";
+        output += "]\n\"entities\": [\n";
+
+        foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>())
+        {
+            output += $"\"{entity.name}\": [{entity.transform.position.x}, {entity.transform.position.y},{entity.transform.localEulerAngles.z.ToString("0.00")}]\n";
+        }
+        return output + "]\n}";
     }
 }
 
