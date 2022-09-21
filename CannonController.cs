@@ -38,7 +38,7 @@ public class CannonController : ComponentController {
                     this.transform
                 ) as GameObject;
                 shell.transform.Translate(new Vector2((i + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
-                shell.name = + "⤒" + this.name + shell_count++;
+                shell.name = "⤒" + this.name + shell_count++;
                 shell.transform.SetParent(GameObject.Find("World").transform);
                 // shell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 return 1;
