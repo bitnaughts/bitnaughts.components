@@ -65,7 +65,7 @@ public class BoosterController : ComponentController {
                     this.transform
                 ) as GameObject;
                 torpedo.transform.Translate(new Vector3((i + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
-                torpedo.name = this.name + "Torpedo" + torpedo_count++;
+                torpedo.name = "↥" + this.name + torpedo_count++;
                 torpedo.transform.SetParent(GameObject.Find("World").transform);
                 // torpedo.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 return;
