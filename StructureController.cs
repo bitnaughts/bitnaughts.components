@@ -465,7 +465,7 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = $"♘position:[{Neaten(this.center_of_mass.x + this.transform.position.x)},{Neaten(this.center_of_mass.y + this.transform.position.y)},{Neaten(this.rotator.localEulerAngles.z)}],♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}],";
+        string output = $"♘position:[{Neaten(this.transform.position.x)},{Neaten(this.transform.position.y)},{Neaten(this.rotator.localEulerAngles.z)}],♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}],";
         output += "♘classes:";
         if (classes != null) {
             foreach (ClassController c in classes.Values) {
