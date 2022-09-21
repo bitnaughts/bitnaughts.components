@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public float Acceleration = 0f;
+    public float acceleration = 0f;
     public float speed = 1f;
     // Start is called before the first frame update
     void Start()
@@ -13,9 +13,9 @@ public class ProjectileController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        speed += Time.deltaTime * Acceleration;
+        speed += Time.deltaTime * acceleration;
         transform.Translate(new Vector3(0f, speed));
         // if (transform.position.x > 410 || transform.position.x < -10 || transform.position.z > 410 || transform.position.z < -10) Destroy(this.gameObject);
         RaycastHit hit;
@@ -24,8 +24,8 @@ public class ProjectileController : MonoBehaviour
             if (hit.collider.gameObject.layer == 9) Destroy(hit.collider.gameObject);
             Destroy(this.gameObject);
         }
-        if (GetComponent<AudioSource>() != null) {
-            GetComponent<AudioSource>().volume -= .0001f;
-        }
+        // if (GetComponent<AudioSource>() != null) {
+        //     GetComponent<AudioSource>().volume -= .0001f;
+        // }
     }
 }

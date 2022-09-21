@@ -27,10 +27,14 @@ public abstract class ComponentController : MonoBehaviour
     public OverlayInteractor OverlayInteractor;
     public Interactor Interactor;
     private ClassController classController;
+    private GameObject MapScreenPanOverlay;
     public Sprite sprite, inverse;
     void Start()
     {
-        OverlayInteractor = GameObject.Find("OverlayBorder").GetComponent<OverlayInteractor>();
+        if (GameObject.Find("OverlayBorder") != null) {
+            OverlayInteractor = GameObject.Find("OverlayBorder").GetComponent<OverlayInteractor>();
+        }
+        MapScreenPanOverlay = GameObject.Find("MapScreenPanOverlay");
         Interactor = GameObject.Find("Content").GetComponent<Interactor>();
         Action(0);
         Focus();
@@ -75,25 +79,28 @@ public abstract class ComponentController : MonoBehaviour
     }
     void OnMouseUp()
     {
-        if (Interactor.GetClickDuration() < 0.25) {// && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
-            if (CheckInsideEdge()) {
-                if (OverlayInteractor.gameObject.activeSelf && !CheckOutsideOverlay()) return;
-                for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
-                    if (OverlayInteractor.OverlayDropdown.options[i].text == name) {
-                        if (OverlayInteractor.OverlayDropdown.value != i) {
-                            OverlayInteractor.OverlayDropdown.value = i; 
-                            Interactor.Sound("OnMouse");
+        if (OverlayInteractor != null) {
+            if (Interactor.GetClickDuration() < 0.25) {// && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
+                if (CheckInsideEdge()) {
+                    if (OverlayInteractor.gameObject.activeSelf && !CheckOutsideOverlay()) return;
+                    for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
+                        if (OverlayInteractor.OverlayDropdown.options[i].text == name) {
+                            if (OverlayInteractor.OverlayDropdown.value != i) {
+                                OverlayInteractor.OverlayDropdown.value = i; 
+                                Interactor.Sound("OnMouse");
+                            }
                         }
                     }
+                    if (GetType().ToString().Contains("Cannon")) {
+                        Interactor.TargetTutorial();
+                    }
+                    if (GetType().ToString().Contains("Thruster")) {
+                        Interactor.ThrustTutorial();
+                    }
+                    MapScreenPanOverlay.gameObject.SetActive(false);
+                    OverlayInteractor.gameObject.SetActive(true);
+                    OverlayInteractor.OnDropdownChange(); 
                 }
-                if (GetType().ToString().Contains("Cannon")) {
-                    Interactor.TargetTutorial();
-                }
-                if (GetType().ToString().Contains("Thruster")) {
-                    Interactor.ThrustTutorial();
-                }
-                OverlayInteractor.gameObject.SetActive(true);
-                OverlayInteractor.OnDropdownChange(); 
             }
         }
     }
