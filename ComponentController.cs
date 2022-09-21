@@ -106,7 +106,7 @@ public abstract class ComponentController : MonoBehaviour
     }
     public string ComponentToString() {
         
-        return $"{'"' + this.GetIcon() + this.name + '"'}: [{Neaten(transform.localPosition.x)}, {Neaten(transform.localPosition.y)}, {Neaten(GetComponent<SpriteRenderer>().size.x)}, {Neaten(GetComponent<SpriteRenderer>().size.y)}, {Neaten(gameObject.transform.localEulerAngles.z)}],";
+        return $"♘{this.GetIcon() + this.name}:[{Neaten(transform.localPosition.x)},{Neaten(transform.localPosition.y)},{Neaten(GetComponent<SpriteRenderer>().size.x)},{Neaten(GetComponent<SpriteRenderer>().size.y)},{Neaten(gameObject.transform.localEulerAngles.z)}]";
     }
     public override string ToString() {
         return $"    pos = new Vector ({Neaten(transform.localPosition.x)}, {Neaten(transform.localPosition.y)});\n    size = new Vector ({Neaten(GetComponent<SpriteRenderer>().size.x)}, {Neaten(GetComponent<SpriteRenderer>().size.y)});\n    rot = {Neaten(gameObject.transform.localEulerAngles.z)};";

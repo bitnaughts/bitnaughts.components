@@ -465,22 +465,25 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = $"{{\n\"position\": [{Neaten(this.center_of_mass.x + this.transform.position.x)}, {Neaten(this.center_of_mass.y + this.transform.position.y)}, {Neaten(this.rotator.localEulerAngles.z)}],\n\"translation\": [{Neaten(this.translation.x)}, {Neaten(this.translation.y)}],\n";
-        output += "\"classes\": [\n";
+        string output = $"♘position:[{Neaten(this.center_of_mass.x + this.transform.position.x)},{Neaten(this.center_of_mass.y + this.transform.position.y)},{Neaten(this.rotator.localEulerAngles.z)}],♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}],";
+        output += "♘classes:";
         if (classes != null) {
             foreach (ClassController c in classes.Values) {
-                output += c.ToString() + "\n";
+                output += c.ToString();
             }
         }
-        output += "]\n\"components\": [\n";
-        foreach (var component in components.Values) {
-            output += component.ComponentToString() + "\n";
+        output += "♘components:";
+        foreach (var component in components.Values)
+        {
+            output += component.ComponentToString();
         }
-        output += "]\n\"entities\": [\n";
-        foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>()) {
-            output += $"\"{entity.name}\": [{Neaten(entity.transform.position.x)}, {Neaten(entity.transform.position.y)},{Neaten(entity.speed)},{Neaten(entity.transform.localEulerAngles.z)}],\n";
+        output += "♘entities:";
+
+        foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>())
+        {
+            output += $"♘{entity.name}:[{Neaten(entity.transform.position.x)},{Neaten(entity.transform.position.y)},{Neaten(entity.speed)},{Neaten(entity.transform.localEulerAngles.z)}]";
         }
-        return output + "]\n}";
+        return output;
     }
     public static string Neaten(float input) {
         return input.ToString("0.00").TrimEnd('0').TrimEnd('.');
