@@ -97,7 +97,7 @@ public abstract class ComponentController : MonoBehaviour
                     if (GetType().ToString().Contains("Thruster")) {
                         Interactor.ThrustTutorial();
                     }
-                    MapScreenPanOverlay.gameObject.SetActive(false);
+                    if (MapScreenPanOverlay != null) MapScreenPanOverlay.gameObject.SetActive(false);
                     OverlayInteractor.gameObject.SetActive(true);
                     OverlayInteractor.OnDropdownChange(); 
                 }

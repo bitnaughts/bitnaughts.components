@@ -8,13 +8,15 @@ using UnityEngine.UI;
 
 public class StructureController : MonoBehaviour
 {
-    const float debug_duration = .001f;
+    public bool isAi = false;
+    const float debug_duration = .01f;
     public Dictionary<string, ComponentController> components;
     public Dictionary<string, ClassController> classes;
-    protected Vector3 center_of_mass;
+    protected Vector2 center_of_mass;
     protected int child_count;
     protected Transform rotator;       
-    protected Vector2 translation;
+    public Vector2 translation;
+    public float average_rotation;
     protected UnityEngine.Color debug_color;
     RaycastHit hit;
     public GameObject Explosion;
@@ -79,13 +81,16 @@ public class StructureController : MonoBehaviour
         if (!components.ContainsKey(component)) return;
         components[component].transform.Translate(direction/2);
         components[component].GetComponent<SpriteRenderer>().size += new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
+        components[component].GetComponent<BoxCollider2D>().size = components[component].GetComponent<SpriteRenderer>().size;
+
     }
 
     public void Downsize(string component, Vector2 direction) 
     {
         if (!components.ContainsKey(component)) return;
         components[component].transform.Translate(-direction/2);
-        components[component].transform.GetComponent<SpriteRenderer>().size -= new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
+        components[component].GetComponent<SpriteRenderer>().size -= new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
+        components[component].GetComponent<BoxCollider2D>().size = components[component].GetComponent<SpriteRenderer>().size;
     }
 
     public void Rotate90(string component)
@@ -279,79 +284,78 @@ public class StructureController : MonoBehaviour
     float gimbal_test = 0f;
     float gimbal_step = 10f;
     float thrust_rotation = 0f;
+    float active_component_count = 0f;
 
     void FixedUpdate()
     {
         if (child_count != GetComponentsInChildren<ComponentController>().Length) Start();
         if (components == null) return;
-
-        center_of_mass = Vector3.zero;
-        float active_component_count = 0;
+        active_component_count = 0;
         foreach (var controller in components.Values) {
-           if (controller != null && controller.enabled) {
-                center_of_mass += new Vector3(controller.GetTransform().position.x, controller.GetTransform().position.y);
-                active_component_count++;
-                controller.Ping();
-                // switch (controller) {
-                    // case ProcessorController processor:
-                    //     processor.Action(components);
-                    //     break;
-                    // case CannonController cannon:
-                    //     cannon.Cooldown();
-                    //     break;
-                // }
-           }
-        }
-        
-
-        center_of_mass /= active_component_count;
-
-        // Testing Center of Mass:
-        // Debug.DrawLine(center_of_mass, center_of_mass + Vector3.up, Color.green, debug_duration, false);
-
-        //Checking surrounding components
-        // if (Physics.Raycast(transform.position, -Vector3.up, out hit))
-            // print("Found an object - distance: " + hit.distance);
-
-
-        float rotation = 0f;
-        translation = new Vector2(0, 0);
-
-        foreach (var controller in components.Values)
-        {
-            if (controller != null && controller.enabled) switch (controller) {
-                case ThrusterController thruster:
-                    // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
-                    // Debug.DrawLine(thruster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
-                    translation += thruster.GetThrustVector();
-                    thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(
-                        Vector2.SignedAngle(
-                            thruster.GetThrustVector(), 
-                            thruster.GetPosition() - center_of_mass
-                        ) * Mathf.Deg2Rad
-                    );
-                    rotation += thrust_rotation;
-                    break;
-                case BoosterController booster:
-                    // Debug.DrawLine(thruster.GetPosition(), thruster.GetPosition() + thruster.GetThrustVector(), Color.green, debug_duration, false);
-                    // Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
-                    // print (booster.GetThrustVector());
-                    translation += booster.GetThrustVector();
-                    // Debug.DrawLine(booster.GetPosition(), booster.GetPosition() + booster.GetThrustVector(), Color.green, debug_duration, false);
-                    // Debug.DrawLine(booster.GetPosition(), center_of_mass, Color.green, debug_duration, false);
-                    thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(
-                        Vector2.SignedAngle(
-                            booster.GetThrustVector(), 
-                            booster.GetPosition() - center_of_mass
-                        ) * Mathf.Deg2Rad
-                    );
-                    rotation += thrust_rotation;
-                    break;
+            if (controller != null && controller.enabled) {
+                    active_component_count++;
             }
         }
-        if (active_component_count > 0) {
+        if (!isAi) {
+            center_of_mass = Vector2.zero;
+            foreach (var controller in components.Values) {
+            if (controller != null && controller.enabled) {
+                    center_of_mass += new Vector2(controller.GetTransform().localPosition.x, controller.GetTransform().localPosition.y);
+                    controller.Ping();
+                    // switch (controller) {
+                        // case ProcessorController processor:
+                        //     processor.Action(components);
+                        //     break;
+                        // case CannonController cannon:
+                        //     cannon.Cooldown();
+                        //     break;
+                    // }
+            }
+            }
+            
+
+            // center_of_mass /= active_component_count;
+
+            // Testing Center of Mass:
+            Debug.DrawLine(center_of_mass, center_of_mass + Vector2.up, Color.yellow, debug_duration, false);
+
+            //Checking surrounding components
+            // if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+                // print("Found an object - distance: " + hit.distance);
+
+
+            float rotation = 0f;
+            translation = new Vector2(0, 0);
+            float angle = 0;
+            foreach (var controller in components.Values)
+            {
+                if (controller != null && controller.enabled) switch (controller) {
+                    case ThrusterController thruster:
+                        angle = Vector2.SignedAngle(
+                            thruster.GetThrustVector(), 
+                            thruster.GetPosition() - center_of_mass
+                        ) + this.rotator.localEulerAngles.z;
+                        translation += thruster.GetThrustVector();
+                        thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
+                        rotation += thrust_rotation;
+                        break;
+                    case BoosterController booster:
+                        angle = Vector2.SignedAngle(
+                            booster.GetThrustVector(), 
+                            booster.GetPosition() - center_of_mass
+                        ) + this.rotator.localEulerAngles.z;
+                        translation += booster.GetThrustVector();
+                        thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
+                        rotation += thrust_rotation;
+                        break;
+                }
+            }
             rotator.Rotate(new Vector3(0, 0, -rotation));
-            transform.Translate(translation / active_component_count);
+            // average_rotation += rotation / Time.deltaTime;
+        }
+        if (active_component_count > 0) {
+            transform.Translate(new Vector2(translation.x / active_component_count, translation.y / active_component_count));
+            // if (isAi) rotator.Rotate(new Vector3(0,0,-average_rotation * Time.deltaTime));
         }
         if (explosion_timer > 0) {
             explosion_timer++;
@@ -465,7 +469,7 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = $"♘position:[{Neaten(this.transform.position.x)},{Neaten(this.transform.position.y)},{Neaten(this.rotator.localEulerAngles.z)}],♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}],";
+        string output = $"♘position:[{Neaten(this.transform.position.x)},{Neaten(this.transform.position.y)},{Neaten(this.rotator.localEulerAngles.z)}]♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}]";//,{Neaten(average_rotation)}]";
         output += "♘classes:";
         if (classes != null) {
             foreach (ClassController c in classes.Values) {

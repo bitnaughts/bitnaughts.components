@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b673e2503ba1348baba90c705ed19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAi: 1
   Explosion: {fileID: 0}
   Launched: 1
   explosion_timer: 0

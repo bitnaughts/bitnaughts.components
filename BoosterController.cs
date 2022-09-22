@@ -37,6 +37,7 @@ public class BoosterController : ComponentController {
         {
             reload_timer[i] = Mathf.Clamp(reload_timer[i] - .01f, 0, 10);
         }
+        // GetComponent<ConstantForce2D>().force = new Vector2(0, -thrust);
     }
     public override float Action (float input) 
     {
@@ -49,6 +50,7 @@ public class BoosterController : ComponentController {
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * 5f;
+        
 
         return thrust;
     }
@@ -81,11 +83,11 @@ public class BoosterController : ComponentController {
     public Vector2 GetThrustVector() 
     {
         // return new Vector2(0, -.1f);
-        return Vector2.up * thrust / 10f;
+        return transform.up * thrust / 10f;
     }
-    public Vector3 GetPosition() 
+    public Vector2 GetPosition() 
     {
-        return transform.position;
+        return new Vector2(transform.localPosition.x, transform.localPosition.y);
     }
     public override string GetIcon() { return "◎"; }
     public override string ToString()

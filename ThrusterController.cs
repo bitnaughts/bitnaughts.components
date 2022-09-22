@@ -30,7 +30,7 @@ public class ThrusterController : ComponentController {
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = thrust * GetComponent<SpriteRenderer>().size.x * .1f;
-
+        
         return thrust;
     }
 
@@ -43,9 +43,9 @@ public class ThrusterController : ComponentController {
     {
         return transform.up * thrust / 100f;
     }
-    public Vector3 GetPosition() 
+    public Vector2 GetPosition() 
     {
-        return transform.position;
+        return new Vector2(transform.localPosition.x, transform.localPosition.y);
     }
 
     public override string GetIcon() { return "◉"; }

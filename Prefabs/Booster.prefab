@@ -169,7 +169,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -339,7 +339,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 3
-      minScalar: 2
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -656,7 +656,7 @@ ParticleSystem:
     randomizeRotationDirection: 0
     maxNumParticles: 1000
     size3D: 0
-    rotation3D: 0
+    rotation3D: 1
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
@@ -798,7 +798,7 @@ ParticleSystem:
     m_TextureBilinearFiltering: 0
     randomDirectionAmount: 0.1
     sphericalDirectionAmount: 0
-    randomPositionAmount: 0
+    randomPositionAmount: 0.1
     radius:
       value: 0.0001
       mode: 0
@@ -4887,6 +4887,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: f35035e1d75b49c4c91f3c20c06df4cd, type: 3}
   inverse: {fileID: 21300000, guid: 3c8a0916dd25c9040a3ff83171948a3c, type: 3}
   Torpedo: {fileID: 5731378661357680756, guid: 08dfe51600a8dc1449e2bd703757b175, type: 3}
+  reload_timer: []
 --- !u!61 &-4192890731681490461
 BoxCollider2D:
   m_ObjectHideFlags: 0
