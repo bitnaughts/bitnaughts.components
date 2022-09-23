@@ -18,10 +18,10 @@ public class ProjectileController : MonoBehaviour
     {
         speed += Time.deltaTime * acceleration;
         transform.Translate(new Vector3(0f, speed * Time.deltaTime));
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, speed * 2 * Time.deltaTime );
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, speed * Time.deltaTime * (this.gameObject.layer + 1) / 2 );
         if (hit.collider != null)
         {
-            if (this.gameObject.layer == 0 && hit.collider.gameObject.layer == 9 || this.gameObject.layer == 9 && hit.collider.gameObject.layer == 0)  {
+            if (this.gameObject.layer == 0 && hit.collider.gameObject.layer == 3 || this.gameObject.layer == 3 && hit.collider.gameObject.layer == 0)  {
                 this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(this.transform.position);
                 this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position);
                 Destroy(hit.collider.gameObject);
