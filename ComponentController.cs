@@ -40,11 +40,11 @@ public abstract class ComponentController : MonoBehaviour
         Focus();
     }
     public void Design() {
-        GetComponent<SpriteRenderer>().sprite = inverse;
+        // GetComponent<SpriteRenderer>().sprite = inverse;
     }
     public void Launch() {
-        GetComponent<SpriteRenderer>().sprite = sprite;
-        GetComponent<SpriteRenderer>().enabled = true;
+        // GetComponent<SpriteRenderer>().sprite = sprite;
+        // GetComponent<SpriteRenderer>().enabled = true;
     }
     
     public Transform GetTransform()

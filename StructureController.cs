@@ -321,7 +321,7 @@ public class StructureController : MonoBehaviour
             // center_of_mass /= active_component_count;
 
             // Testing Center of Mass:
-            Debug.DrawLine(center_of_mass, center_of_mass + Vector2.up, Color.yellow, debug_duration, false);
+            // Debug.DrawLine(center_of_mass, center_of_mass + Vector2.up, Color.yellow, debug_duration, false);
 
             //Checking surrounding components
             // if (Physics.Raycast(transform.position, -Vector3.up, out hit))
@@ -341,7 +341,7 @@ public class StructureController : MonoBehaviour
                         ) + this.rotator.localEulerAngles.z;
                         translation += thruster.GetThrustVector();
                         thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation += thrust_rotation;
+                        rotation += thrust_rotation / 5f;
                         break;
                     case BoosterController booster:
                         angle = Vector2.SignedAngle(
@@ -350,7 +350,7 @@ public class StructureController : MonoBehaviour
                         ) + this.rotator.localEulerAngles.z;
                         translation += booster.GetThrustVector();
                         thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation += thrust_rotation;
+                        rotation += thrust_rotation * 10f;
                         break;
                 }
             }

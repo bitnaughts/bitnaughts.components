@@ -22,7 +22,6 @@ public class ProjectileController : MonoBehaviour
         if (hit.collider != null)
         {
             if (this.gameObject.layer == 0 && hit.collider.gameObject.layer == 3 || this.gameObject.layer == 3 && hit.collider.gameObject.layer == 0)  {
-                this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(this.transform.position);
                 this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position);
                 Destroy(hit.collider.gameObject);
                 Destroy(this.gameObject);

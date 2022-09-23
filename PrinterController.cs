@@ -28,7 +28,7 @@ public class PrinterController : ComponentController {
     public override string GetIcon() { return "▦"; }
     public override string ToString()
     { //▤<b>≣ Data</b>
-        return $"{name}\nclass {name}{base.ToString()}\n public static void Print () {{ }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{name}\nclass {name}{base.ToString()}\n void Print () {{ }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
             // "⋅ Nozzle noz = new N?
             //  ┣ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  ";
     }

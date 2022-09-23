@@ -6,6 +6,7 @@ public class PrefabCache : MonoBehaviour
 {
     public List<GameObject> explosions;
     public GameObject explosion_prefab;
+    public AudioClip[] explosion_clips;
     public int explosion_cache_size = 50;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,9 @@ public class PrefabCache : MonoBehaviour
             if (explosions[i].activeSelf == false) {
                 explosions[i].SetActive(true);
                 explosions[i].transform.position = position;
-                explosions[i].GetComponent<ExplosionController>().timer = 2;
+                explosions[i].GetComponent<ExplosionController>().timer = 1;
+                explosions[i].GetComponent<AudioSource>().clip = explosion_clips[i % explosion_clips.Length];
+                explosions[i].GetComponent<AudioSource>().Play();
                 return;
             }
         }
