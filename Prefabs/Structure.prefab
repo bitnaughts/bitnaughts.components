@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAi: 1
+  translation: {x: 0, y: 0}
+  average_rotation: 0
   Explosion: {fileID: 0}
   Launched: 1
   explosion_timer: 0

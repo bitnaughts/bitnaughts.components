@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
+
     public float acceleration = 0f;
     public float speed = 1f;
     // Start is called before the first frame update
@@ -16,13 +17,16 @@ public class ProjectileController : MonoBehaviour
     void FixedUpdate()
     {
         speed += Time.deltaTime * acceleration;
-        transform.Translate(new Vector3(0f, speed));
-        // if (transform.position.x > 410 || transform.position.x < -10 || transform.position.z > 410 || transform.position.z < -10) Destroy(this.gameObject);
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 1f))
+        transform.Translate(new Vector3(0f, speed * Time.deltaTime));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, speed * 2 * Time.deltaTime );
+        if (hit.collider != null)
         {
-            if (hit.collider.gameObject.layer == 9) Destroy(hit.collider.gameObject);
-            Destroy(this.gameObject);
+            if (this.gameObject.layer == 0 && hit.collider.gameObject.layer == 9 || this.gameObject.layer == 9 && hit.collider.gameObject.layer == 0)  {
+                this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(this.transform.position);
+                this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position);
+                Destroy(hit.collider.gameObject);
+                Destroy(this.gameObject);
+            }
         }
         // if (GetComponent<AudioSource>() != null) {
         //     GetComponent<AudioSource>().volume -= .0001f;
