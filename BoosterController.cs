@@ -8,8 +8,8 @@ using UnityEngine;
 
 public class BoosterController : ComponentController {   
     public GameObject Torpedo;
-    private float thrust = 0, max_thrust = 999;
-    public const int INPUT_MIN = -10, INPUT_MAX = 10, THRUST_MIN = 0, THRUST_MAX = 999;
+    private float thrust = 0;
+    public const int INPUT_MIN = -100, INPUT_MAX = 25, THRUST_MIN = 0, THRUST_MAX = 100;
     public float[] reload_timer;
     public const float RELOAD_TIME = 1f;
     private int torpedo_count = 0;
@@ -25,7 +25,7 @@ public class BoosterController : ComponentController {
         main.startSize = new ParticleSystem.MinMaxCurve(2, GetComponent<SpriteRenderer>().size.x / 2);
     }    
     public override void Ping() {
-        thrust = Mathf.Clamp(thrust - .5f, THRUST_MIN, THRUST_MAX);
+        thrust = Mathf.Clamp(thrust - 1f, THRUST_MIN, THRUST_MAX);
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = thrust / 2f * GetComponent<SpriteRenderer>().size.x;
 
@@ -45,7 +45,7 @@ public class BoosterController : ComponentController {
         thrust = Mathf.Clamp(thrust + Mathf.Clamp(input, INPUT_MIN, INPUT_MAX), THRUST_MIN, THRUST_MAX);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = thrust / 10f * GetComponent<SpriteRenderer>().size.x;
+        exhaust_emission.rate = thrust / 2f * GetComponent<SpriteRenderer>().size.x;
 
         return thrust;
     }
@@ -82,9 +82,17 @@ public class BoosterController : ComponentController {
     {
         return new Vector2(transform.localPosition.x, transform.localPosition.y);
     }
+    public string GetReloadString() {
+        string output = "";
+        for (int i = 0; i < reload_timer.Length; i++) {
+            if (i == reload_timer.Length - 1) output += $"{reload_timer[i].ToString("0.00")}";
+            else output += $"{reload_timer[i].ToString("0.00")}, ";
+        }
+        return  $"{{ {output} }}";
+    }
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  /*_Constructor_*/\n  class {name} () {{\n{base.ToString()}\n  }}\n  /*_Boost_control_*/\n  void Boost () {{\n    thr = 999;\n  }}\n  /*_Torpedo_control_*/\n  Torpedo Launch () {{\n    return new Torpedo ();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  double [] barrels = {GetReloadString()};\n  /*_Constructor_*/\n  class {name} () {{\n{base.ToString()}\n  }}\n  /*_Boost_control_*/\n  void Boost () {{\n    thr += 25;\n  }}\n  /*_Torpedo_control_*/\n  Torpedo Launch () {{\n    return new Torpedo ();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

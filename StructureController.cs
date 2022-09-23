@@ -54,7 +54,7 @@ public class StructureController : MonoBehaviour
         Design();   
         if (this.transform.position.x == 0 && this.transform.position.y == 0) {
             float random = UnityEngine.Random.Range(0f, 360f);
-            this.transform.position = new Vector2(Mathf.Cos(random) * 100f, Mathf.Sin(random) * 100f);
+            this.transform.position = new Vector2(Mathf.Cos(random) * 50f, Mathf.Sin(random) * 50f);
         }
     }
 
@@ -350,7 +350,7 @@ public class StructureController : MonoBehaviour
                         ) + this.rotator.localEulerAngles.z;
                         translation += booster.GetThrustVector();
                         thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation += thrust_rotation * 10f;
+                        rotation += thrust_rotation * 5f;
                         break;
                 }
             }
@@ -483,7 +483,9 @@ public class StructureController : MonoBehaviour
         output += "♘components:";
         foreach (var component in components.Values)
         {
-            output += component.ComponentToString();
+            if (component != null && component.gameObject != null) {
+                output += component.ComponentToString();
+            }
         }
         output += "♘entities:";
 

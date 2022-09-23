@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class CannonController : ComponentController {   
     public GameObject Shell;
-    public float[] reload_timer;
+    float[] reload_timer;
     public const float RELOAD_TIME = 1f;
     private int shell_count = 0;
     public override void Focus() {
@@ -16,7 +16,7 @@ public class CannonController : ComponentController {
     }
     public override void Ping() {
         int num_cannons = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.x - 1);
-        if (reload_timer.Length != num_cannons) reload_timer = new float[num_cannons];
+        if (reload_timer == null || reload_timer.Length != num_cannons) reload_timer = new float[num_cannons];
         for (int i = 0; i < reload_timer.Length; i++)
         {
             reload_timer[i] = Mathf.Clamp(reload_timer[i] - .01f, 0, 10);
@@ -25,10 +25,11 @@ public class CannonController : ComponentController {
     public override float Action (float input) 
     {
         if (this == null) { Destroy(this); return -999; }
-        // if (input >= 1 && input <= reload_timer.Length)
+        if (reload_timer == null) Ping();
         for (int i = 0; i < reload_timer.Length; i++) {
             if (reload_timer[i] <= 0)
             {
+                print ("what");
                 Interactor.Sound("Cannon" + ((i % 3) + 1));
                 reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1);
                 GameObject shell = Instantiate(
