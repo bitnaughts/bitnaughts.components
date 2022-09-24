@@ -40,7 +40,7 @@ public class CannonController : ComponentController {
                 shell.transform.Translate(new Vector2((i + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
                 shell.name = "⤒" + this.name + shell_count++;
                 shell.transform.SetParent(GameObject.Find("World").transform);
-                shell.GetComponent<ProjectileController>().speed = GetComponent<SpriteRenderer>().size.y * 2f;
+                shell.GetComponent<ProjectileController>().speed = GetComponent<SpriteRenderer>().size.y * 2f  + (GetComponentInParent<StructureController>().translation.magnitude * 7f);
                 // shell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 return 1;
             }
