@@ -65,7 +65,7 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     public override string GetIcon() { return "◌"; }
     public override string ToString() //double dis = {distance.ToString("0.0")};
     {
-        return $"{name}\nclass {name} : Component {{\n  Ray r;\n  /*_Constructor_*/\n  public class {name} () {{\n{base.ToString()}\n  }}\n  /*_Scan_casts_a_ray_*/\n  double Scan () {{\n    r = new Ray (Vector.Forward);\n    return r.Length();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{name}\nclass {name} : Component {{\n  Ray r;\n  /*_Constructor_*/\n  class {name}_() {{\n{base.ToString()}\n  }}\n  /*_Ray_caster_*/\n  double Scan_() {{\n    r = new Ray (Vector.Forward);\n    return r.Length();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             //  ┣ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  ";
     }
 //     {

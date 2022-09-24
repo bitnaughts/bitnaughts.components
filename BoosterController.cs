@@ -9,7 +9,7 @@ using UnityEngine;
 public class BoosterController : ComponentController {   
     public GameObject Torpedo;
     private float thrust = 0;
-    public const int INPUT_MIN = -100, INPUT_MAX = 25, THRUST_MIN = 0, THRUST_MAX = 100;
+    public const int THRUST_MIN = 0, THRUST_MAX = 999;
     public float[] reload_timer;
     public const float RELOAD_TIME = 1f;
     private int torpedo_count = 0;
@@ -19,15 +19,16 @@ public class BoosterController : ComponentController {
         sh.radius = (GetComponent<SpriteRenderer>().size.x * .35f);
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = thrust / 2f * GetComponent<SpriteRenderer>().size.x;
-
+        exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
         var main = GetComponent<ParticleSystem>().main;
-        main.startSize = new ParticleSystem.MinMaxCurve(2, GetComponent<SpriteRenderer>().size.x / 2);
+        main.startSize = new ParticleSystem.MinMaxCurve(GetComponent<SpriteRenderer>().size.x / 2, GetComponent<SpriteRenderer>().size.x);
     }    
     public override void Ping() {
         thrust = Mathf.Clamp(thrust - 1f, THRUST_MIN, THRUST_MAX);
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = thrust / 2f * GetComponent<SpriteRenderer>().size.x;
+        exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
+        var sh = GetComponent<ParticleSystem>().shape;
+        sh.position = new Vector2(0, -(GetComponent<SpriteRenderer>().size.y / 2));
 
         int num_cannons = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.x);
         if (reload_timer.Length != num_cannons) reload_timer = new float[num_cannons];
@@ -42,10 +43,10 @@ public class BoosterController : ComponentController {
         if (input == -1) {
             Fire();
         }
-        thrust = Mathf.Clamp(thrust + Mathf.Clamp(input, INPUT_MIN, INPUT_MAX), THRUST_MIN, THRUST_MAX);
+        thrust = Mathf.Clamp(thrust + input, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, THRUST_MIN, THRUST_MAX));
 
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = thrust / 2f * GetComponent<SpriteRenderer>().size.x;
+        exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
 
         return thrust;
     }
@@ -61,9 +62,14 @@ public class BoosterController : ComponentController {
                     this.transform.rotation,      
                     this.transform
                 ) as GameObject;
-                torpedo.transform.Translate(new Vector3((i + .5f) - reload_timer.Length / 2f, GetComponent<SpriteRenderer>().size.y / 2f));
+                torpedo.transform.Translate(new Vector3((i + .5f) - reload_timer.Length / 2f, (-0.5f * GetComponent<SpriteRenderer>().size.y) + 2));
                 torpedo.name = "↥" + this.name + torpedo_count++;
                 torpedo.transform.SetParent(GameObject.Find("World").transform);
+                torpedo.GetComponent<ProjectileController>().speed = GetComponent<SpriteRenderer>().size.y * 2f;
+                torpedo.GetComponent<ProjectileController>().acceleration = GetComponent<SpriteRenderer>().size.y / 10f;
+                torpedo.GetComponent<SpriteRenderer>().size = new Vector2 (.65f, GetComponent<SpriteRenderer>().size.y);
+                var sh = torpedo.GetComponent<ParticleSystem>().shape;
+                sh.position = new Vector2(0, -(GetComponent<SpriteRenderer>().size.y / 2));
                 return;
             }
         }
@@ -93,6 +99,6 @@ public class BoosterController : ComponentController {
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  double thr = {thrust.ToString("0.000")};\n  double [] barrels = {GetReloadString()};\n  /*_Constructor_*/\n  class {name} () {{\n{base.ToString()}\n  }}\n  /*_Boost_control_*/\n  void Boost () {{\n    thr += 25;\n  }}\n  /*_Torpedo_control_*/\n  Torpedo Launch () {{\n    return new Torpedo ();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{name}\nclass {name} : Component {{\n  thrust = {thrust.ToString("0.000")};\n  barrels = {GetReloadString()};\n  /*_Constructor_*/\n  class {name}_() {{\n{base.ToString()}\n  }}\n  /*_Throttle_control_*/\n  void Boost_() {{\n    thrust += 25;\n  }}\n  /*_Torpedo_control_*/\n  void Launch_() {{\n    new Torpedo (size.y);\n  }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

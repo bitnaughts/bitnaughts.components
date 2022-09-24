@@ -10,7 +10,8 @@ public class ProjectileController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Destroy(this.gameObject, 30f);
+        Destroy(GetComponent<ParticleSystem>(), 15f);
     }
 
     // Update is called once per frame
@@ -25,6 +26,7 @@ public class ProjectileController : MonoBehaviour
                 this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position);
                 Destroy(hit.collider.gameObject);
                 Destroy(this.gameObject);
+                // this.SetActive(false); //TODO: Enable projectile caching (see PrefabCache)
             }
         }
         // if (GetComponent<AudioSource>() != null) {

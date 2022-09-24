@@ -102,6 +102,7 @@ MonoBehaviour:
   Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: 81768779e2860474ca637f4f287599f4, type: 3}
   inverse: {fileID: 21300000, guid: 2b0bad623eccb264ea74d1465c2a5c6f, type: 3}
+  deleteTime: 10
 --- !u!199 &6928745132279863510
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -736,7 +737,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 2000
     size3D: 0
     rotation3D: 1
     gravityModifier:
@@ -801,7 +802,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 10}
+    m_Position: {x: 0, y: -2, z: 10}
     m_Rotation: {x: 0, y: 0, z: 180}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0

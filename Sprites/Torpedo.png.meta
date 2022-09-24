@@ -166,8 +166,8 @@ TextureImporter:
         width: 24
         height: 94
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 26, z: 0, w: 38}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -183,12 +183,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 24
-        y: 0
+        y: 26
         width: 24
-        height: 94
+        height: 68
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 38}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -204,12 +204,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 0
+        y: 26
         width: 24
-        height: 94
+        height: 68
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 38}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -229,8 +229,8 @@ TextureImporter:
         width: 24
         height: 94
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 26, z: 0, w: 38}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -250,8 +250,8 @@ TextureImporter:
         width: 24
         height: 94
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 26, z: 0, w: 38}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -271,8 +271,8 @@ TextureImporter:
         width: 24
         height: 94
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 26, z: 0, w: 38}
       outline: []
       physicsShape: []
       tessellationDetail: 0

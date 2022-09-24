@@ -53,8 +53,7 @@ public class StructureController : MonoBehaviour
 
         Design();   
         if (this.transform.position.x == 0 && this.transform.position.y == 0) {
-            float random = UnityEngine.Random.Range(0f, 360f);
-            this.transform.position = new Vector2(Mathf.Cos(random) * 50f, Mathf.Sin(random) * 50f);
+            this.transform.position = new Vector2(UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
         }
     }
 
@@ -339,9 +338,9 @@ public class StructureController : MonoBehaviour
                             thruster.GetThrustVector(), 
                             thruster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += thruster.GetThrustVector();
+                        translation += thruster.GetThrustVector() * 2f;
                         thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation += thrust_rotation / 5f;
+                        rotation += thrust_rotation / 2f;
                         break;
                     case BoosterController booster:
                         angle = Vector2.SignedAngle(
@@ -350,7 +349,7 @@ public class StructureController : MonoBehaviour
                         ) + this.rotator.localEulerAngles.z;
                         translation += booster.GetThrustVector();
                         thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation += thrust_rotation * 5f;
+                        rotation += thrust_rotation * 4f;
                         break;
                 }
             }
@@ -491,7 +490,9 @@ public class StructureController : MonoBehaviour
 
         foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>())
         {
-            output += $"♘{entity.name}:[{Neaten(entity.transform.position.x)},{Neaten(entity.transform.position.y)},{Neaten(entity.speed)},{Neaten(entity.transform.localEulerAngles.z)}]";
+            if (entity.gameObject.activeSelf) {
+                output += $"♘{entity.name}:[{Neaten(entity.transform.position.x)},{Neaten(entity.transform.position.y)},{Neaten(entity.speed)},{Neaten(entity.transform.localEulerAngles.z)}]";
+            }
         }
         return output;
     }

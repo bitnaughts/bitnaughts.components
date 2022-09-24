@@ -719,7 +719,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 10}
+    m_Position: {x: 0, y: 1, z: 10}
     m_Rotation: {x: 0, y: 0, z: 180}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
@@ -4886,6 +4886,7 @@ MonoBehaviour:
   Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: f35035e1d75b49c4c91f3c20c06df4cd, type: 3}
   inverse: {fileID: 21300000, guid: 3c8a0916dd25c9040a3ff83171948a3c, type: 3}
+  deleteTime: 10
   Torpedo: {fileID: 5731378661357680756, guid: 08dfe51600a8dc1449e2bd703757b175, type: 3}
   reload_timer: []
 --- !u!61 &-4192890731681490461

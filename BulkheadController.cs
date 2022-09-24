@@ -35,7 +35,7 @@ public class BulkheadController : ComponentController {
     public override string GetIcon() { return "▥"; }
     public override string ToString()
     { //▤<b>≣ Data</b>
-        return $"{name}\nclass {name} : Component {{\n  Heap heap = new Heap ({(int)(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y)});\n  /*_Constructor_*/\n  class {name} () {{\n{base.ToString()}\n  }}  \n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{name}\nclass {name} : Component {{\n  /*_Constructor_*/\n  class {name}_() {{\n{base.ToString()}\n    heap = new Heap ({(int)(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y)});\n  }}  \n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             //  ┣ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  ";
     }
     // {
