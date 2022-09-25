@@ -44,10 +44,7 @@ public class BoosterController : ComponentController {
             Fire();
         }
         thrust = Mathf.Clamp(thrust + input, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, THRUST_MIN, THRUST_MAX));
-
-        var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
-
+        Focus();
         return thrust;
     }
     public void Fire () {

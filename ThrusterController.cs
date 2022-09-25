@@ -17,8 +17,8 @@ public class ThrusterController : ComponentController {
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
         var main = GetComponent<ParticleSystem>().main;
-        main.startLifetime = thrust / 20f;
-        main.startSize = new ParticleSystem.MinMaxCurve((GetComponent<SpriteRenderer>().size.x - 2) / 2, GetComponent<SpriteRenderer>().size.x);
+        main.startLifetime = thrust / 25f;
+        main.startSize = new ParticleSystem.MinMaxCurve((GetComponent<SpriteRenderer>().size.x - 2) / 2, GetComponent<SpriteRenderer>().size.x - 2);
     }    
     public override void Ping() {
     }
@@ -26,8 +26,7 @@ public class ThrusterController : ComponentController {
     {
         if (this == null) { Destroy(this.gameObject); return -999; }
         thrust = Mathf.Clamp(thrust + input, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, THRUST_MIN, THRUST_MAX));
-        var exhaust_emission = GetComponent<ParticleSystem>().emission;
-        exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
+        Focus();
         return thrust;
     }
 
