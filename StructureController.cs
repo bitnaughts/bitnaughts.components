@@ -53,7 +53,7 @@ public class StructureController : MonoBehaviour
 
         Design();   
         if (this.transform.position.x == 0 && this.transform.position.y == 0) {
-            this.transform.position = new Vector2(UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
+            // this.transform.position = new Vector2(UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
         }
     }
 
