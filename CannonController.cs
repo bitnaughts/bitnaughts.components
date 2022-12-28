@@ -30,7 +30,7 @@ public class CannonController : ComponentController {
             if (reload_timer[i] <= 0)
             {
                 Interactor.Sound("Cannon" + ((i % 3) + 1));
-                reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y);
+                reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y) / 2f;
                 GameObject shell = Instantiate(
                     Shell,
                     this.transform.position,
@@ -41,7 +41,7 @@ public class CannonController : ComponentController {
                 shell.name = "⤒" + this.name + shell_count++;
                 shell.transform.SetParent(GameObject.Find("World").transform);
                 shell.GetComponent<ProjectileController>().speed = GetComponent<SpriteRenderer>().size.y * 5f  + (GetComponentInParent<StructureController>().translation.magnitude * 7f);
-                // shell.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                shell.GetComponent<ProjectileController>().damage = Mathf.FloorToInt((GetComponent<SpriteRenderer>().size.y + 1) / 2f);
                 return 1;
             }
         }

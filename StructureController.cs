@@ -24,6 +24,11 @@ public class StructureController : MonoBehaviour
     public bool Launched = false;
     public float explosion_timer = 0;
     float random_initial_speed = 0, random_rotation = 0;
+    public int Hitpoints;
+    public void Hit(int damage) {
+        Hitpoints -= damage;
+        if (Hitpoints < 0) Explode();
+    }
     public void Start()
     {
         random_initial_speed = UnityEngine.Random.Range(0.05f, 0.1f);
@@ -63,7 +68,7 @@ public class StructureController : MonoBehaviour
     }
 
     public void Explode() {
-        explosion_timer = 1;
+        explosion_timer++;
     }
 
     public void Move(string component, Vector2 direction) 
@@ -364,26 +369,40 @@ public class StructureController : MonoBehaviour
         else {
             //set ai speed later UnityEngine.Random.Range(-8f, 8f)
             this.transform.Translate(new Vector2(0, random_initial_speed));
-            random_rotation += UnityEngine.Random.Range(-.05f, .05f);
+            random_rotation += UnityEngine.Random.Range(-.025f, .025f);
             this.transform.Rotate(new Vector3(0, 0, random_rotation));
-            random_rotation = random_rotation / 1.5f;
+            random_rotation = random_rotation / 2f;
         }
         if (active_component_count > 0) {
             transform.Translate(new Vector2(translation.x / active_component_count, translation.y / active_component_count));
             // if (isAi) rotator.Rotate(new Vector3(0,0,-average_rotation * Time.deltaTime));
         }
         if (explosion_timer > 0) {
-            explosion_timer++;
-            GameObject explosion = Instantiate(
-                Explosion,
-                this.transform.position,
-                this.transform.rotation,      
-                this.transform
-            ) as GameObject;
-            explosion.transform.localScale = new Vector2(explosion_timer, explosion_timer);
-            explosion.transform.SetParent(GameObject.Find("World").transform);
-            if (explosion_timer == 30) {
+            explosion_timer += Time.deltaTime;
+            // if (GetComponent<ParticleSystem>()) GetComponent<ParticleSystem>().Stop();
+            if (GetComponent<ParticleSystem>()) {
+                var exhaust_emission = GetComponent<ParticleSystem>().emission;
+                exhaust_emission.rate = Mathf.Clamp(1 - explosion_timer / GetComponent<SpriteRenderer>().size.magnitude * 1.5f, 0, 1);
+            }
+            GetComponent<SpriteRenderer>().color = new Color(1,1,1,Mathf.Clamp(1 - (explosion_timer/(GetComponent<SpriteRenderer>().size.magnitude*2f)), 0, 1));
+            if (UnityEngine.Random.Range(0f, GetComponent<SpriteRenderer>().size.magnitude * 2f) > explosion_timer) 
+            {
+                random_initial_speed += Time.deltaTime / (10 * explosion_timer);
+                random_rotation += UnityEngine.Random.Range(-.25f, .25f);
+                GameObject.Find("World").GetComponent<PrefabCache>()
+                    .PlayExplosion(
+                        transform.position + new Vector3(
+                            UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x), 
+                            UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.y, GetComponent<SpriteRenderer>().size.y)
+                        ), GetComponent<SpriteRenderer>().size.magnitude
+                    );
+            }
+            if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude * 2f + 2) {
                 Destroy(this.gameObject);
+            } else if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude * 1f + 2) {
+                if (GetComponent<ParticleSystem>()) 
+                    GetComponent<ParticleSystem>().Stop();
+                Destroy(GetComponent<BoxCollider2D>());
             }
         }
     }

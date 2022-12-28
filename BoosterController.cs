@@ -64,6 +64,7 @@ public class BoosterController : ComponentController {
                 torpedo.transform.SetParent(GameObject.Find("World").transform);
                 torpedo.GetComponent<ProjectileController>().speed = GetComponent<SpriteRenderer>().size.y + (GetComponentInParent<StructureController>().translation.magnitude * 7f);
                 torpedo.GetComponent<ProjectileController>().acceleration = 1f / GetComponent<SpriteRenderer>().size.y;
+                torpedo.GetComponent<ProjectileController>().damage = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1) * 2;
                 torpedo.GetComponent<SpriteRenderer>().size = new Vector2 (.65f, GetComponent<SpriteRenderer>().size.y);
                 var sh = torpedo.GetComponent<ParticleSystem>().shape;
                 sh.position = new Vector2(0, -(GetComponent<SpriteRenderer>().size.y / 2));

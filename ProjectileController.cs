@@ -7,6 +7,7 @@ public class ProjectileController : MonoBehaviour
 
     public float acceleration = 0f;
     public float speed = 1f;
+    public int damage;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +24,9 @@ public class ProjectileController : MonoBehaviour
         if (hit.collider != null)
         {
             if (this.gameObject.layer == 0 && hit.collider.gameObject.layer == 3 || this.gameObject.layer == 3 && hit.collider.gameObject.layer == 0)  {
-                this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position);
-                Destroy(hit.collider.gameObject);
+                this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position, hit.collider.gameObject.GetComponent<SpriteRenderer>().size.magnitude);
+                hit.collider.gameObject.GetComponent<StructureController>().Hit(damage);
+                // Destroy(hit.collider.gameObject);
                 Destroy(this.gameObject);
                 // this.SetActive(false); //TODO: Enable projectile caching (see PrefabCache)
             }

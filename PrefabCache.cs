@@ -16,14 +16,16 @@ public class PrefabCache : MonoBehaviour
             explosions.Add(Instantiate(explosion_prefab, this.transform) as GameObject);
         } 
     }
-    public void PlayExplosion(Vector2 position) {
+    public void PlayExplosion(Vector2 position, float size) {
         for (int i = 0; i < explosion_cache_size; i++) {
             if (explosions[i].activeSelf == false) {
                 explosions[i].SetActive(true);
                 explosions[i].transform.position = position;
-                explosions[i].GetComponent<ExplosionController>().timer = 1;
+                explosions[i].GetComponent<ExplosionController>().timer = 5;
                 explosions[i].GetComponent<AudioSource>().clip = explosion_clips[i % explosion_clips.Length];
                 explosions[i].GetComponent<AudioSource>().Play();
+                var main = explosions[i].GetComponent<ParticleSystem>().main;
+                main.startSize = new ParticleSystem.MinMaxCurve(size * 2, size * 4);
                 return;
             }
         }
