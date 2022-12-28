@@ -11,7 +11,8 @@ public class StructureController : MonoBehaviour
     public bool isAi = false;
     const float debug_duration = .01f;
     public Dictionary<string, ComponentController> components;
-    public Dictionary<string, ClassController> classes;
+    public List<ClassObj> classes;
+    public InterpreterV3 interpreter;
     protected Vector2 center_of_mass;
     protected int child_count;
     protected Transform rotator;       
@@ -22,19 +23,21 @@ public class StructureController : MonoBehaviour
     public GameObject Explosion;
     public bool Launched = false;
     public float explosion_timer = 0;
+    float random_initial_speed = 0, random_rotation = 0;
     public void Start()
     {
-        if (classes == null) {
-            classes = new Dictionary<string, ClassController>();
-            classes.Add("◎", new ClassController("◎")); //Booster
-            classes.Add("◉", new ClassController("◉")); //Thruster
-            classes.Add("◍", new ClassController("◍")); //Cannon
-            classes.Add("▥", new ClassController("▥")); //Bulkhead
-            classes.Add("▩", new ClassController("▩")); //Processor
-            classes.Add("▣", new ClassController("▣")); //Gimbal
-            classes.Add("◌", new ClassController("◌"));  //Sensor
-            // classes.Add("▦", new ClassController("▦")); //Printer
-        }
+        random_initial_speed = UnityEngine.Random.Range(0.05f, 0.1f);
+        classes = new List<ClassObj>();
+        classes.Add(new ClassObj("▩")); //Processor
+        classes.Add(new ClassObj("◎")); //Booster
+        classes.Add(new ClassObj("◉")); //Thruster
+        classes.Add(new ClassObj("◍")); //Cannon
+        classes.Add(new ClassObj("▥")); //Bulkhead
+        classes.Add(new ClassObj("▣")); //Gimbal
+        classes.Add(new ClassObj("◌")); //Sensor
+        // classes.Add("▦", new ClassController("▦")); //Printer
+        /* Load interpreter */
+        interpreter = new InterpreterV3(classes);
         components = new Dictionary<string, ComponentController>();
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {
@@ -53,7 +56,9 @@ public class StructureController : MonoBehaviour
 
         Design();   
         if (this.transform.position.x == 0 && this.transform.position.y == 0) {
-            // this.transform.position = new Vector2(UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
+            // float x = UnityEngine.Random.Range(-8f, 8f) * 30f, y = UnityEngine.Random.Range(-8f, 8f) * 30f;
+            // this.transform.position = new Vector2(x, y);
+            // GameObject.Find("Debris").transform.position = new Vector2(x, y);
         }
     }
 
@@ -356,6 +361,13 @@ public class StructureController : MonoBehaviour
             rotator.Rotate(new Vector3(0, 0, -rotation));
             // average_rotation += rotation / Time.deltaTime;
         }
+        else {
+            //set ai speed later UnityEngine.Random.Range(-8f, 8f)
+            this.transform.Translate(new Vector2(0, random_initial_speed));
+            random_rotation += UnityEngine.Random.Range(-.05f, .05f);
+            this.transform.Rotate(new Vector3(0, 0, random_rotation));
+            random_rotation = random_rotation / 1.5f;
+        }
         if (active_component_count > 0) {
             transform.Translate(new Vector2(translation.x / active_component_count, translation.y / active_component_count));
             // if (isAi) rotator.Rotate(new Vector3(0,0,-average_rotation * Time.deltaTime));
@@ -474,11 +486,11 @@ public class StructureController : MonoBehaviour
     {
         string output = $"♘position:[{Neaten(this.transform.position.x)},{Neaten(this.transform.position.y)},{Neaten(this.rotator.localEulerAngles.z)}]♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}]";//,{Neaten(average_rotation)}]";
         output += "♘classes:";
-        if (classes != null) {
-            foreach (ClassController c in classes.Values) {
-                output += c.ToString();
-            }
-        }
+        // if (classes != null) {
+        //     foreach (ClassController c in classes.Values) {
+        //         output += c.ToString();
+        //     }
+        // }
         output += "♘components:";
         foreach (var component in components.Values)
         {

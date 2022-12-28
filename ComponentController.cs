@@ -26,7 +26,6 @@ public abstract class ComponentController : MonoBehaviour
 {
     public OverlayInteractor OverlayInteractor;
     public Interactor Interactor;
-    private ClassController classController;
     private GameObject MapScreenPanOverlay;
     public Sprite sprite, inverse;
     public float deleteTime = 10f;
@@ -36,7 +35,7 @@ public abstract class ComponentController : MonoBehaviour
             OverlayInteractor = GameObject.Find("OverlayBorder").GetComponent<OverlayInteractor>();
         }
         MapScreenPanOverlay = GameObject.Find("MapScreenPanOverlay");
-        Interactor = GameObject.Find("Content").GetComponent<Interactor>();
+        Interactor = GameObject.Find("ScreenCanvas").GetComponent<Interactor>();
         Focus();
     }
     public void Design() {

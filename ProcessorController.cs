@@ -15,7 +15,7 @@ public class ProcessorController : ComponentController
     List<string> instructions;
     int edit_line = 1;
     float speed = 1;
-    Interpreter interpreter;
+    // Interpreter interpreter;
 
     Dictionary<string, ComponentController> components;
     
@@ -35,22 +35,13 @@ public class ProcessorController : ComponentController
     public void Action(Dictionary<string, ComponentController> components)
     {
         this.components = components;
-        if (interpreter == null) {
             // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
             // if (override_instructions.Length == 0) 
                 // SetInstructions(new string[]{"class Processor {","void Start() { }","}"});
             // else 
                 // SetInstructions(override_instructions);
-        }
     }
     float timer;
-    public void Update() {
-        timer += Time.deltaTime;
-        if (timer > 1f/speed && interpreter != null) {
-            timer -= 1f/speed;
-            // interpreter.step();
-        }
-    }
     public void SetInstructions(string instructions_string)
     {
         SetInstructions(instructions_string.Split('\n'));
@@ -58,13 +49,13 @@ public class ProcessorController : ComponentController
     public void SetInstructions(List<string> instructions_list)
     {
         this.instructions = instructions_list;
-        interpreter = new Interpreter(instructions.ToArray());
+        // interpreter = new Interpreter(instructions.ToArray());
         Scroll(0);
     }
     public void SetInstructions(string[] instructions)
     {
         this.instructions = instructions.ToList<string>();
-        interpreter = new Interpreter(instructions);
+        // interpreter = new Interpreter(instructions);
         Scroll(0);
     }
     public override Vector2 GetMinimumSize ()

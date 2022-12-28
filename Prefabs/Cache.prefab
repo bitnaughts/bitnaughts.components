@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8219868952814657140}
   - component: {fileID: 8219868952814657141}
-  - component: {fileID: 6741223965780609395}
   - component: {fileID: -4509775108309320393}
   m_Layer: 0
   m_Name: Cache
@@ -84,21 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6741223965780609395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8219868952814657143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9a9e26123ddb524aaa9126febc074e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OverlayInteractor: {fileID: 0}
-  sprite: {fileID: 21300000, guid: 8f773866a7ab7164199ea0704defba8a, type: 3}
-  inverse: {fileID: 21300000, guid: 230364a9e824b2f47a4d9691b9a9851e, type: 3}
 --- !u!61 &-4509775108309320393
 BoxCollider2D:
   m_ObjectHideFlags: 0
