@@ -20,19 +20,18 @@ public class ProjectileController : MonoBehaviour
     {
         speed += Time.deltaTime * acceleration;
         transform.Translate(new Vector3(0f, speed * Time.deltaTime));
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, speed * Time.deltaTime * (this.gameObject.layer + 1) / 2 );
-        if (hit.collider != null)
-        {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.up, out hit, speed * 2f * Time.deltaTime * (this.gameObject.layer + 1) / 2 )) {
             if (this.gameObject.layer == 0 && hit.collider.gameObject.layer == 3 || this.gameObject.layer == 3 && hit.collider.gameObject.layer == 0)  {
                 this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position, hit.collider.gameObject.GetComponent<SpriteRenderer>().size.magnitude);
                 hit.collider.gameObject.GetComponent<StructureController>().Hit(damage);
-                // Destroy(hit.collider.gameObject);
                 Destroy(this.gameObject);
-                // this.SetActive(false); //TODO: Enable projectile caching (see PrefabCache)
-            }
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
+            } 
         }
-        // if (GetComponent<AudioSource>() != null) {
-        //     GetComponent<AudioSource>().volume -= .0001f;
-        // }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1000, Color.white);
+        }
     }
 }

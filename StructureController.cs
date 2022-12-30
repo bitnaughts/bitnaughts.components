@@ -16,7 +16,7 @@ public class StructureController : MonoBehaviour
     protected Vector2 center_of_mass;
     protected int child_count;
     protected Transform rotator;       
-    public Vector2 translation;
+    public Vector3 translation;
     public float average_rotation;
     protected UnityEngine.Color debug_color;
     RaycastHit hit;
@@ -338,24 +338,26 @@ public class StructureController : MonoBehaviour
 
 
             float rotation = 0f;
-            translation = new Vector2(0, 0);
+            translation = new Vector3(0, 0, 0);
             float angle = 0;
             foreach (var controller in components.Values)
             {
                 if (controller != null && controller.enabled) switch (controller) {
                     case ThrusterController thruster:
-                        angle = Vector2.SignedAngle(
+                        angle = Vector3.SignedAngle(
                             thruster.GetThrustVector(), 
-                            thruster.GetPosition() - center_of_mass
+                            thruster.GetPosition() - center_of_mass,
+                            Vector3.up
                         ) + this.rotator.localEulerAngles.z;
                         translation += thruster.GetThrustVector() * 2f;
                         thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
                         rotation += thrust_rotation / 2f;
                         break;
                     case BoosterController booster:
-                        angle = Vector2.SignedAngle(
+                        angle = Vector3.SignedAngle(
                             booster.GetThrustVector(), 
-                            booster.GetPosition() - center_of_mass
+                            booster.GetPosition() - center_of_mass,
+                            Vector3.up
                         ) + this.rotator.localEulerAngles.z;
                         translation += booster.GetThrustVector();
                         thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
@@ -363,7 +365,7 @@ public class StructureController : MonoBehaviour
                         break;
                 }
             }
-            rotator.Rotate(new Vector3(0, 0, -rotation));
+            rotator.Rotate(new Vector3(0, 0, rotation));
             // average_rotation += rotation / Time.deltaTime;
         }
         else {
@@ -389,13 +391,14 @@ public class StructureController : MonoBehaviour
             {
                 random_initial_speed += Time.deltaTime / (10 * explosion_timer);
                 random_rotation += UnityEngine.Random.Range(-.25f, .25f);
-                GameObject.Find("World").GetComponent<PrefabCache>()
-                    .PlayExplosion(
-                        transform.position + new Vector3(
-                            UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x), 
-                            UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.y, GetComponent<SpriteRenderer>().size.y)
-                        ), GetComponent<SpriteRenderer>().size.magnitude
-                    );
+                // print (transform.position);
+                // print (transform.localPosition);
+                GameObject.Find("World").GetComponent<PrefabCache>().PlayExplosion(
+                    transform.position + new Vector3(
+                        UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x),
+                        UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x),
+                        UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.y * 2, GetComponent<SpriteRenderer>().size.y * 8)),
+                    UnityEngine.Random.Range(GetComponent<SpriteRenderer>().size.magnitude, GetComponent<SpriteRenderer>().size.magnitude * 5));
             }
             if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude * 2f + 2) {
                 Destroy(this.gameObject);
@@ -406,6 +409,10 @@ public class StructureController : MonoBehaviour
             }
         }
     }
+    // + new Vector3(
+                            // UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x), 
+                            // UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.y, GetComponent<SpriteRenderer>().size.y)
+                        // )
     public bool IsComponent(string component)
     {
         if (component.Contains("\t")) component = component.Substring(2);

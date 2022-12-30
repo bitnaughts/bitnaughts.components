@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5731378661357680758}
   - component: {fileID: 5731378661357680759}
   - component: {fileID: 5731378661357680714}
-  - component: {fileID: 4849627676400793080}
+  - component: {fileID: 1225528146215616709}
   m_Layer: 0
   m_Name: Torpedo
   m_TagString: Untagged
@@ -4905,29 +4905,16 @@ MonoBehaviour:
   acceleration: 2
   speed: 7.5
   damage: 10
---- !u!61 &4849627676400793080
-BoxCollider2D:
+--- !u!65 &1225528146215616709
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5731378661357680756}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.6, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0.7027027, z: 0, w: 1.027027}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.6486486, y: 2.5405405}
-    newSize: {x: 0.71667874, y: 5}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 2
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 4}
-  m_EdgeRadius: 0
+  m_Size: {x: 0.71667874, y: 5, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
