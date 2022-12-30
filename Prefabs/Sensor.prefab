@@ -97,9 +97,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverlayInteractor: {fileID: 0}
+  Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: 851a8b91119009848b27bc6e208ecaf0, type: 3}
   inverse: {fileID: 21300000, guid: 19d63f741ce1c0548b855b5d2b34af60, type: 3}
+  deleteTime: 10
   organicSensor: 0
+  Laser: {fileID: 6963139264250304831, guid: d731ad24f01b9404493e4bbe3947ec2f, type: 3}
 --- !u!61 &4830809798732037282
 BoxCollider2D:
   m_ObjectHideFlags: 0
