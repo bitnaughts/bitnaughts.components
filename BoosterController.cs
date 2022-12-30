@@ -78,9 +78,9 @@ public class BoosterController : ComponentController {
         return new Vector2(2, 2);
     }
 
-    public Vector2 GetThrustVector() 
+    public Vector3 GetThrustVector() 
     {
-        return transform.up * thrust / 100f;
+        return -transform.forward * thrust / 100f;
     }
     public Vector2 GetPosition() 
     {
