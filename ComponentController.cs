@@ -68,7 +68,7 @@ public abstract class ComponentController : MonoBehaviour
         return (Input.mousePosition.x < 3f * Screen.width / 4f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f - 50f || Input.mousePosition.x > 3f * Screen.width / 4f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f + 50f || Input.mousePosition.y > Screen.height / 2f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f + 50f || Input.mousePosition.y < Screen.height / 2f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f - 50f);
     }
     bool CheckInsideEdge() {
-        return (Input.mousePosition.y > 60 && Input.mousePosition.y < Screen.height - 60 && Input.mousePosition.x > Screen.width / 2 && Input.mousePosition.x < Screen.width - 60);
+        return (Input.mousePosition.y > 100 && Input.mousePosition.y < Screen.height - 100 && Input.mousePosition.x > 100 && Input.mousePosition.x < Screen.width - 100);
     }
     void OnMouseUp()
     {

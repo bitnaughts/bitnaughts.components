@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1953694855423057547}
   - component: {fileID: 1953694855423057546}
   - component: {fileID: 5205989674773068667}
-  - component: {fileID: 4306500749941752636}
+  - component: {fileID: -5585087986201263631}
   m_Layer: 0
   m_Name: Gimbal
   m_TagString: Untagged
@@ -98,34 +98,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverlayInteractor: {fileID: 0}
+  Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: 753df7ce4f993b94ebe79ba06773dd7d, type: 3}
   inverse: {fileID: 21300000, guid: d92df233a5d584d43a2e07e89ba907dc, type: 3}
---- !u!61 &4306500749941752636
-BoxCollider2D:
+  deleteTime: 10
+  speed: 0
+--- !u!65 &-5585087986201263631
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953694855423057548}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 1, y: 1, z: 1, w: 1}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 3}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 2
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
-  m_EdgeRadius: 0
+  m_Size: {x: 2, y: 2, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4014729094875030951
 GameObject:
   m_ObjectHideFlags: 0

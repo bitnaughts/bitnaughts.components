@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 953175894827133543}
   - component: {fileID: 953175894827133542}
   - component: {fileID: 6754699099662943750}
-  - component: {fileID: -4192890731681490461}
+  - component: {fileID: -3757343716661211123}
   m_Layer: 0
   m_Name: Booster
   m_TagString: Untagged
@@ -4889,29 +4889,16 @@ MonoBehaviour:
   deleteTime: 10
   Torpedo: {fileID: 5731378661357680756, guid: 08dfe51600a8dc1449e2bd703757b175, type: 3}
   reload_timer: []
---- !u!61 &-4192890731681490461
-BoxCollider2D:
+--- !u!65 &-3757343716661211123
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953175894827133546}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 1, y: 1, z: 1, w: 1}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 3}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 2
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
-  m_EdgeRadius: 0
+  m_Size: {x: 2, y: 2, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}

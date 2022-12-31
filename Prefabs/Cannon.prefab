@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2982528453959733197}
   - component: {fileID: 1218915087118587499}
   - component: {fileID: 4177239414056628807}
-  - component: {fileID: 3164856314794874526}
+  - component: {fileID: 3470155990648172621}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -100,31 +100,18 @@ MonoBehaviour:
   Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: f930b987420bac5499aa555b7b419097, type: 3}
   inverse: {fileID: 21300000, guid: 74f86962ebb069b4e9effa3d7a3dbfb8, type: 3}
+  deleteTime: 10
   Shell: {fileID: 6963139264250304831, guid: 15336ac24c5d5b34e87f2c699e4dd85f, type: 3}
-  reload_timer: []
---- !u!61 &3164856314794874526
-BoxCollider2D:
+--- !u!65 &3470155990648172621
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6258904477058048182}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 1, y: 1, z: 1, w: 1}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 3}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 2
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
-  m_EdgeRadius: 0
+  m_Size: {x: 2, y: 2, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
