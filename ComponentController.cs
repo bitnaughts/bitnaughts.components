@@ -26,10 +26,7 @@ public abstract class ComponentController : MonoBehaviour
 {
     public OverlayInteractor OverlayInteractor;
     public Interactor Interactor;
-<<<<<<< Updated upstream
-=======
     // private ClassController classController;
->>>>>>> Stashed changes
     private GameObject MapScreenPanOverlay;
     public Sprite sprite, inverse;
     public float deleteTime = 10f;
@@ -66,13 +63,6 @@ public abstract class ComponentController : MonoBehaviour
     {
         // foreach (var part in parts) Destroy (part.Value);
         Destroy(this.gameObject);
-    }
-
-    void OnMouseOver() 
-    {
-    }
-    void OnMouseExit() 
-    {
     }
     bool CheckOutsideOverlay() {
         return (Input.mousePosition.x < 3f * Screen.width / 4f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f - 50f || Input.mousePosition.x > 3f * Screen.width / 4f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f + 50f || Input.mousePosition.y > Screen.height / 2f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f + 50f || Input.mousePosition.y < Screen.height / 2f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f - 50f);
