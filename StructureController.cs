@@ -397,7 +397,7 @@ public class StructureController : MonoBehaviour
                     transform.position + new Vector3(
                         UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x),
                         UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x),
-                        UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.y * 2, GetComponent<SpriteRenderer>().size.y * 8)),
+                        UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.y * 2, GetComponent<SpriteRenderer>().size.y * 4)),
                     UnityEngine.Random.Range(GetComponent<SpriteRenderer>().size.magnitude, GetComponent<SpriteRenderer>().size.magnitude * 5));
             }
             if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude * 2f + 2) {
