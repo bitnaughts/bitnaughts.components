@@ -26,6 +26,10 @@ public abstract class ComponentController : MonoBehaviour
 {
     public OverlayInteractor OverlayInteractor;
     public Interactor Interactor;
+<<<<<<< Updated upstream
+=======
+    // private ClassController classController;
+>>>>>>> Stashed changes
     private GameObject MapScreenPanOverlay;
     public Sprite sprite, inverse;
     public float deleteTime = 10f;
