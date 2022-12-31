@@ -11,8 +11,12 @@ public class StructureController : MonoBehaviour
     public bool isAi = false;
     const float debug_duration = .01f;
     public Dictionary<string, ComponentController> components;
+<<<<<<< Updated upstream
     public List<ClassObj> classes;
     public InterpreterV3 interpreter;
+=======
+    // public Dictionary<string, ClassController> classes;
+>>>>>>> Stashed changes
     protected Vector2 center_of_mass;
     protected int child_count;
     protected Transform rotator;       
@@ -31,6 +35,7 @@ public class StructureController : MonoBehaviour
     }
     public void Start()
     {
+<<<<<<< Updated upstream
         random_initial_speed = UnityEngine.Random.Range(0.05f, 0.1f);
         classes = new List<ClassObj>();
         classes.Add(new ClassObj("▩")); //Processor
@@ -43,6 +48,19 @@ public class StructureController : MonoBehaviour
         // classes.Add("▦", new ClassController("▦")); //Printer
         /* Load interpreter */
         interpreter = new InterpreterV3(classes);
+=======
+        // if (classes == null) {
+            // classes = new Dictionary<string, ClassController>();
+            // classes.Add("◎", new ClassController("◎")); //Booster
+            // classes.Add("◉", new ClassController("◉")); //Thruster
+            // classes.Add("◍", new ClassController("◍")); //Cannon
+            // classes.Add("▥", new ClassController("▥")); //Bulkhead
+            // classes.Add("▩", new ClassController("▩")); //Processor
+            // classes.Add("▣", new ClassController("▣")); //Gimbal
+            // classes.Add("◌", new ClassController("◌"));  //Sensor
+            // classes.Add("▦", new ClassController("▦")); //Printer
+        // }
+>>>>>>> Stashed changes
         components = new Dictionary<string, ComponentController>();
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {

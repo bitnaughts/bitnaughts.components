@@ -15,7 +15,11 @@ public class ProcessorController : ComponentController
     List<string> instructions;
     int edit_line = 1;
     float speed = 1;
+<<<<<<< Updated upstream
     // Interpreter interpreter;
+=======
+    // InterpreterV3 interpreter;
+>>>>>>> Stashed changes
 
     Dictionary<string, ComponentController> components;
     
@@ -35,13 +39,30 @@ public class ProcessorController : ComponentController
     public void Action(Dictionary<string, ComponentController> components)
     {
         this.components = components;
+<<<<<<< Updated upstream
+=======
+        // if (interpreter == null) {
+>>>>>>> Stashed changes
             // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
             // if (override_instructions.Length == 0) 
                 // SetInstructions(new string[]{"class Processor {","void Start() { }","}"});
             // else 
                 // SetInstructions(override_instructions);
+<<<<<<< Updated upstream
     }
     float timer;
+=======
+        // }
+    }
+    float timer;
+    public void Update() {
+        timer += Time.deltaTime;
+        // if (timer > 1f/speed && interpreter != null) {
+            // timer -= 1f/speed;
+            // interpreter.step();
+        // }
+    }
+>>>>>>> Stashed changes
     public void SetInstructions(string instructions_string)
     {
         SetInstructions(instructions_string.Split('\n'));
