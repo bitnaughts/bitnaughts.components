@@ -31,7 +31,7 @@ public class ProjectileController : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1000, Color.white);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * speed * 2f * Time.deltaTime * (this.gameObject.layer + 1) / 2, Color.white);
         }
     }
 }

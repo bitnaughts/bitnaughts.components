@@ -22,8 +22,8 @@ public class PrefabCache : MonoBehaviour
                 explosions[i].SetActive(true);
                 explosions[i].transform.position = position;
                 explosions[i].GetComponent<ExplosionController>().timer = 3;
-                explosions[i].GetComponent<AudioSource>().clip = explosion_clips[i % explosion_clips.Length];
-                explosions[i].GetComponent<AudioSource>().Play();
+                // explosions[i].GetComponent<AudioSource>().clip = explosion_clips[i % explosion_clips.Length];
+                // explosions[i].GetComponent<AudioSource>().Play();
                 var main = explosions[i].GetComponent<ParticleSystem>().main;
                 main.startSize = new ParticleSystem.MinMaxCurve(size * 1, size * 2);
                 return;

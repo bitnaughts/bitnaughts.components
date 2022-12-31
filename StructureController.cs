@@ -342,25 +342,25 @@ public class StructureController : MonoBehaviour
             {
                 if (controller != null && controller.enabled) switch (controller) {
                     case ThrusterController thruster:
-                        angle = Vector3.SignedAngle(
-                            thruster.GetThrustVector(), 
-                            thruster.GetPosition() - center_of_mass,
-                            Vector3.up
-                        ) + this.rotator.localEulerAngles.z;
-                        print ( thruster.GetThrustVector() + " angle " + angle);
-                        translation += thruster.GetThrustVector() * 2f;
-                        thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation += thrust_rotation / 2f;
+                        // angle = Vector3.SignedAngle(
+                        //     thruster.GetThrustVector(), 
+                        //     thruster.GetPosition() - center_of_mass,
+                        //     Vector3.forward
+                        // );
+                        // print ( thruster.GetThrustVector() + " angle " + angle);
+                        translation += thruster.GetThrustVector();
+                        // thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
+                        // rotation += thrust_rotation / 2f;
                         break;
                     case BoosterController booster:
                         angle = Vector3.SignedAngle(
                             booster.GetThrustVector(), 
                             booster.GetPosition() - center_of_mass,
-                            Vector3.up
-                        ) + this.rotator.localEulerAngles.z;
-                        translation += booster.GetThrustVector();
+                            Vector3.forward
+                        );
+                        // translation += booster.GetThrustVector();
                         thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation += thrust_rotation * 4f;
+                        rotation += thrust_rotation;
                         break;
                 }
             }
@@ -396,7 +396,7 @@ public class StructureController : MonoBehaviour
                     transform.position + new Vector3(
                         UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x),
                         UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x),
-                        UnityEngine.Random.Range(GetComponent<SpriteRenderer>().size.y * 4, GetComponent<SpriteRenderer>().size.y * 8)),
+                        UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.y * 2, GetComponent<SpriteRenderer>().size.y * 4)),
                     UnityEngine.Random.Range(GetComponent<SpriteRenderer>().size.magnitude, GetComponent<SpriteRenderer>().size.magnitude * 5));
             }
             if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude * 2f + 2) {
