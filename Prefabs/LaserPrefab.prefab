@@ -4883,7 +4883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 0
-  speed: 100
+  speed: 1000
   damage: 1
 --- !u!65 &-2386206043547448271
 BoxCollider:
