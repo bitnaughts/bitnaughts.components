@@ -17,9 +17,9 @@ public class GimbalController : ComponentController
         gimbal_grid = transform.GetChild(0).gameObject;
     }
     void FixedUpdate () {
-        // if (speed != 0) {
-        //     gimbal_grid.transform.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(gimbal_grid.transform.localEulerAngles.z - speed % 360, INPUT_MIN, INPUT_MAX)); //gimbal_grid.transform.localEulerAngles.z + 
-        // }
+        if (speed != 0) {
+            gimbal_grid.transform.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(gimbal_grid.transform.localEulerAngles.z - speed % 360, INPUT_MIN, INPUT_MAX)); //gimbal_grid.transform.localEulerAngles.z + 
+        }
     }
     // public override void Design() {
     //     GetComponent<SpriteRenderer>().sprite = inverse;

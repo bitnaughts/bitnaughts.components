@@ -35,11 +35,13 @@ public class ThrusterController : ComponentController {
         return new Vector2(6, 2);
     }
 
-    public Vector3 GetThrustVector() 
+    public Vector2 GetThrustVector() 
     {
-                // Debug.DrawRay(transform.position, transform.TransformDirection(-transform.up), Color.red);
-        Debug.DrawRay(transform.position, transform.TransformDirection(transform.up), Color.green);
-        return transform.up * thrust / 100f;
+        // Debug.DrawRay(transform.position, transform.TransformDirection(-transform.up), Color.red);
+        // Debug.DrawRay(transform.position, transform.up, Color.green);
+        Vector2 output = new Vector2(transform.up.x, transform.up.z) * thrust / 100f;
+        print (output);
+        return output;
     }
     public Vector2 GetPosition() 
     {
