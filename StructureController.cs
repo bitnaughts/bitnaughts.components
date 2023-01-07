@@ -345,18 +345,18 @@ public class StructureController : MonoBehaviour
                             thruster.GetThrustVector(), 
                             thruster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += thruster.GetThrustVector() / 2;
+                        translation += thruster.GetThrustVector() / 5;
                         thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation -= thrust_rotation * 2;
+                        rotation -= thrust_rotation;
                         break;
                     case BoosterController booster:
                         angle = Vector2.SignedAngle(
                             booster.GetThrustVector(), 
                             booster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += booster.GetThrustVector() / 2;
+                        translation += booster.GetThrustVector() / 5;
                         thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation -= thrust_rotation * 2;
+                        rotation -= thrust_rotation;
                         break;
                     //     // Debug.DrawRay(thruster.GetPosition() - center_of_mass, thruster.GetThrustVector(), Color.red);
                     //     // Debug.DrawRay(thruster.GetPosition() - center_of_mass, thruster.GetThrustVector(), Color.red);
