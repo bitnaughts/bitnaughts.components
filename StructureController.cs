@@ -23,7 +23,7 @@ public class StructureController : MonoBehaviour
     public GameObject Explosion;
     public bool Launched = false;
     public float explosion_timer = 0;
-    float random_initial_speed = 0, random_rotation = 0;
+    public float random_initial_speed = 0, random_rotation = 0;
     public int Hitpoints;
     public void Hit(int damage) {
         Hitpoints -= damage;
@@ -336,7 +336,7 @@ public class StructureController : MonoBehaviour
                             thruster.GetThrustVector(), 
                             thruster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += thruster.GetThrustVector() / active_component_count;
+                        translation += thruster.GetThrustVector() / (active_component_count * 4);// * Mathf.Cos(angle * Mathf.Deg2Rad);
                         thrust_rotation = thruster.GetThrustVector().magnitude / active_component_count * Mathf.Sin(angle * Mathf.Deg2Rad);//* -thruster.GetThrustVector().magnitude * 2; //(thruster.GetPosition().x - center_of_mass.x) 
                         rotation -= thrust_rotation;
                         print ("com " +  (center_of_mass).ToString());
@@ -347,7 +347,7 @@ public class StructureController : MonoBehaviour
                             booster.GetThrustVector(), 
                             booster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += booster.GetThrustVector() * Mathf.Cos(angle * Mathf.Deg2Rad) / active_component_count;
+                        translation += booster.GetThrustVector() / (active_component_count * 4);// * Mathf.Cos(angle * Mathf.Deg2Rad);
                         thrust_rotation = booster.GetThrustVector().magnitude / active_component_count * Mathf.Sin(angle * Mathf.Deg2Rad); //(booster.GetPosition().x - center_of_mass.x) 
                         rotation -= thrust_rotation;
                         print ("com " +  (center_of_mass).ToString());
