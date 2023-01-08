@@ -83,7 +83,6 @@ public class BoosterController : ComponentController {
         // Debug.DrawRay(transform.position, transform.TransformDirection(-transform.forward), Color.red);
         // Debug.DrawRay(transform.position, transform.TransformDirection(transform.up), Color.green);
         Vector2 output = new Vector2(transform.up.x, transform.up.z) * thrust / 100f;
-        print (output);
         return output;
     }
     public Vector2 GetPosition() 

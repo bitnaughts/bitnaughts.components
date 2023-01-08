@@ -311,7 +311,7 @@ public class StructureController : MonoBehaviour
         if (!isAi) {
             center_of_mass = Vector2.zero;
             foreach (var controller in components.Values) {
-            if (controller != null && controller.enabled) {
+                if (controller != null && controller.enabled) {
                     center_of_mass += new Vector2(controller.GetTransform().localPosition.x, controller.GetTransform().localPosition.y);
                     controller.Ping();
                     // switch (controller) {
@@ -322,21 +322,11 @@ public class StructureController : MonoBehaviour
                         //     cannon.Cooldown();
                         //     break;
                     // }
+                }
             }
-            }
-            
-
-            // center_of_mass /= active_component_count;
-
-            // Testing Center of Mass:
-            // Debug.DrawLine(center_of_mass, center_of_mass + Vector2.up, Color.yellow, debug_duration, false);
-
-            //Checking surrounding components
-            // if (Physics.Raycast(transform.position, -Vector3.up, out hit))
-                // print("Found an object - distance: " + hit.distance);
-
-            translation = translation * .9f;
-            rotation = rotation * .85f;
+            center_of_mass /= active_component_count;
+            translation = translation * .95f;
+            rotation = rotation * .95f;
             float angle = 0;
             foreach (var controller in components.Values)
             {
@@ -346,50 +336,23 @@ public class StructureController : MonoBehaviour
                             thruster.GetThrustVector(), 
                             thruster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += thruster.GetThrustVector() / 12;
-                        thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation -= thrust_rotation / 3;
+                        translation += thruster.GetThrustVector() / active_component_count;
+                        thrust_rotation = thruster.GetThrustVector().magnitude / active_component_count * Mathf.Sin(angle * Mathf.Deg2Rad);//* -thruster.GetThrustVector().magnitude * 2; //(thruster.GetPosition().x - center_of_mass.x) 
+                        rotation -= thrust_rotation;
+                        print ("com " +  (center_of_mass).ToString());
+                        print ("thruster pos " +  (thruster.GetPosition()).ToString());
                         break;
                     case BoosterController booster:
                         angle = Vector2.SignedAngle(
                             booster.GetThrustVector(), 
                             booster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += booster.GetThrustVector() / 12;
-                        thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation -= thrust_rotation / 3;
+                        translation += booster.GetThrustVector() * Mathf.Cos(angle * Mathf.Deg2Rad) / active_component_count;
+                        thrust_rotation = booster.GetThrustVector().magnitude / active_component_count * Mathf.Sin(angle * Mathf.Deg2Rad); //(booster.GetPosition().x - center_of_mass.x) 
+                        rotation -= thrust_rotation;
+                        print ("com " +  (center_of_mass).ToString());
+                        print ("booster pos " +  (booster.GetPosition()).ToString());
                         break;
-                    //     // Debug.DrawRay(thruster.GetPosition() - center_of_mass, thruster.GetThrustVector(), Color.red);
-                    //     // Debug.DrawRay(thruster.GetPosition() - center_of_mass, thruster.GetThrustVector(), Color.red);
-                    //     angle = Vector.SignedAngle(
-                    //         thruster.GetThrustVector(), 
-                    //         thruster.GetPosition() - center_of_mass, // thruster.GetPosition() - 
-                    //         Vector3.up//this.rotator.transform.forward
-                    //     );
-                    //     // print ("ang " + angle);
-                    //     print ("thr " +  thruster.GetThrustVector().ToString());
-                    //     // print ("pos " +  (thruster.GetPosition() - center_of_mass).ToString());
-                    //     // print ("rhr " +  Vector3.up);
-                    //     // print ("ang " +  angle);
-                    //     translation += thruster.GetThrustVector() * Mathf.Cos(angle * Mathf.Deg2Rad);//new Vector3(thruster.GetThrustVector().x * Mathf.Sin(this.transform.rotation.z * Mathf.Deg2Rad), thruster.GetThrustVector().y * Mathf.Cos(this.transform.rotation.z * Mathf.Deg2Rad), 0);
-                    //     // print ("thr sin" +  thruster.GetThrustVector() * Mathf.Sin(this.rotator.localEulerAngles.z * Mathf.Deg2Rad));
-                    //     // float distance = thruster.GetPosi/tion() - 
-                    //     thrust_rotation = thruster.GetThrustVector().x * Mathf.Sin(angle * Mathf.Deg2Rad);// * Mathf.Sin(angle * Mathf.Deg2Rad);
-                    //     rotation += thrust_rotation;
-                    //     break;
-                    // case BoosterController booster:
-                    //     angle = Vector3.SignedAngle(
-                    //         booster.GetThrustVector(), 
-                    //         booster.GetPosition() - center_of_mass, //booster.GetPosition() - 
-                    //         Vector3.up
-                    //         // this.rotator.transform.forward
-                    //     );
-                    //     print ("boost vec " + booster.GetThrustVector().ToString());
-                    //     print ("boost ang " + angle);
-                    //     translation += booster.GetThrustVector() * Mathf.Cos(angle * Mathf.Deg2Rad);
-                    //     thrust_rotation = booster.GetThrustVector().x * Mathf.Sin(angle * Mathf.Deg2Rad);
-                    //     rotation += thrust_rotation;
-                    //     break;
                 }
             }
             rotator.Rotate(new Vector3(0, 0, rotation));
