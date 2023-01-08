@@ -16,7 +16,7 @@ public class ProjectileController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         speed += Time.deltaTime * acceleration;
         transform.Translate(new Vector3(0f, speed * Time.deltaTime));

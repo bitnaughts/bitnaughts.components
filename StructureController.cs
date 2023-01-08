@@ -17,6 +17,7 @@ public class StructureController : MonoBehaviour
     protected Transform rotator;       
     public Vector2 translation;
     public float average_rotation;
+    public float rotation;
     protected UnityEngine.Color debug_color;
     RaycastHit hit;
     public GameObject Explosion;
@@ -334,8 +335,8 @@ public class StructureController : MonoBehaviour
             // if (Physics.Raycast(transform.position, -Vector3.up, out hit))
                 // print("Found an object - distance: " + hit.distance);
 
-            translation = new Vector2(0, 0);
-            float rotation = 0f;
+            translation = translation * .9f;
+            rotation = rotation * .85f;
             float angle = 0;
             foreach (var controller in components.Values)
             {
@@ -345,18 +346,18 @@ public class StructureController : MonoBehaviour
                             thruster.GetThrustVector(), 
                             thruster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += thruster.GetThrustVector() / 5;
+                        translation += thruster.GetThrustVector() / 12;
                         thrust_rotation = thruster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation -= thrust_rotation;
+                        rotation -= thrust_rotation / 3;
                         break;
                     case BoosterController booster:
                         angle = Vector2.SignedAngle(
                             booster.GetThrustVector(), 
                             booster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
-                        translation += booster.GetThrustVector() / 5;
+                        translation += booster.GetThrustVector() / 12;
                         thrust_rotation = booster.GetThrustVector().magnitude * Mathf.Sin(angle * Mathf.Deg2Rad);
-                        rotation -= thrust_rotation;
+                        rotation -= thrust_rotation / 3;
                         break;
                     //     // Debug.DrawRay(thruster.GetPosition() - center_of_mass, thruster.GetThrustVector(), Color.red);
                     //     // Debug.DrawRay(thruster.GetPosition() - center_of_mass, thruster.GetThrustVector(), Color.red);
