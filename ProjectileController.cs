@@ -25,6 +25,7 @@ public class ProjectileController : MonoBehaviour
             if (this.gameObject.layer == 0 && hit.collider.gameObject.layer == 3 || this.gameObject.layer == 3 && hit.collider.gameObject.layer == 0)  {
                 this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position, hit.collider.gameObject.GetComponent<SpriteRenderer>().size.magnitude);
                 hit.collider.gameObject.GetComponent<StructureController>().Hit(damage);
+                GameObject.Find("ScreenCanvas").GetComponent<Interactor>().HitSfx();
                 Destroy(this.gameObject);
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
             } 
