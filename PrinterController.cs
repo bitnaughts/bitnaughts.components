@@ -7,12 +7,26 @@ using UnityEngine;
 public class PrinterController : ComponentController {   
     public GameObject Head, Beam1, Beam2;
     public override void Focus() {
-        Head.transform.localPosition = Vector2.zero;
-        Beam1.transform.localPosition = Vector2.zero;
-        Beam1.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.y);
-        Beam2.transform.localPosition = Vector2.zero;
-        Beam2.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.x);
+            Beam1.transform.localPosition = new Vector2(Head.transform.localPosition.x, 0);
+            Beam1.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.y);
+            Beam2.transform.localPosition = new Vector2(0, Head.transform.localPosition.y);
+            Beam2.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.x);
         // Head.GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size;
+    }
+    public bool GoTo(Vector2 pos) {
+        Head.transform.Translate(
+            new Vector2(
+                Mathf.Clamp(pos.x - Head.transform.localPosition.x, -.1f, .1f),
+                Mathf.Clamp(pos.y - Head.transform.localPosition.y, -.1f, .1f)
+            )
+        );
+        if (Mathf.Abs(Head.transform.localPosition.x - pos.x) < .1f && Mathf.Abs(Head.transform.localPosition.y - pos.y) < .1f) {
+            Head.transform.localPosition = pos;
+            Focus();
+            return true;
+        }
+        Focus();
+        return false;
     }
     public override void Ping() {
     }

@@ -23,11 +23,11 @@ public class ProjectileController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.up, out hit, speed * 2f * Time.deltaTime * (this.gameObject.layer + 1) / 2 )) {
             if (this.gameObject.layer == 0 && hit.collider.gameObject.layer == 3 || this.gameObject.layer == 3 && hit.collider.gameObject.layer == 0)  {
-                this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position, hit.collider.gameObject.GetComponent<SpriteRenderer>().size.magnitude);
+                this.transform.parent.GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position + new Vector3(0, 10, 10), hit.collider.gameObject.GetComponent<SpriteRenderer>().size.magnitude * 5f);
                 hit.collider.gameObject.GetComponent<StructureController>().Hit(damage);
                 GameObject.Find("ScreenCanvas").GetComponent<Interactor>().HitSfx();
                 Destroy(this.gameObject);
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
+                // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
             } 
         }
         else

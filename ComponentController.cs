@@ -40,10 +40,10 @@ public abstract class ComponentController : MonoBehaviour
         Focus();
     }
     public void Design() {
-        // GetComponent<SpriteRenderer>().sprite = inverse;
+        GetComponent<SpriteRenderer>().sprite = inverse;
     }
     public void Launch() {
-        // GetComponent<SpriteRenderer>().sprite = sprite;
+        GetComponent<SpriteRenderer>().sprite = sprite;
         // GetComponent<SpriteRenderer>().enabled = true;
     }
     
@@ -64,18 +64,18 @@ public abstract class ComponentController : MonoBehaviour
         // foreach (var part in parts) Destroy (part.Value);
         Destroy(this.gameObject);
     }
-    bool CheckOutsideOverlay() {
-        return (Input.mousePosition.x < 3f * Screen.width / 4f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f - 50f || Input.mousePosition.x > 3f * Screen.width / 4f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f + 50f || Input.mousePosition.y > Screen.height / 2f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f + 50f || Input.mousePosition.y < Screen.height / 2f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f - 50f);
-    }
+    // bool CheckOutsideOverlay() {
+    //     return (Input.mousePosition.x < 3f * Screen.width / 4f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f - 100f || Input.mousePosition.x > 3f * Screen.width / 4f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f + 100f || Input.mousePosition.y > Screen.height / 2f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f + 100f || Input.mousePosition.y < Screen.height / 2f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f - 100f);
+    // }
     bool CheckInsideEdge() {
-        return (Input.mousePosition.y > 100 && Input.mousePosition.y < Screen.height - 100 && Input.mousePosition.x > 100 && Input.mousePosition.x < Screen.width - 100);
+        return (Input.mousePosition.y > 114 && Input.mousePosition.y < Screen.height - 150 && Input.mousePosition.x > 114 && Input.mousePosition.x < Screen.width - 114);
     }
     void OnMouseUp()
     {
         if (OverlayInteractor != null) {
             if (Interactor.GetClickDuration() < 0.25) {// && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
                 if (CheckInsideEdge()) {
-                    if (OverlayInteractor.gameObject.activeSelf && !CheckOutsideOverlay()) return;
+                    if (OverlayInteractor.gameObject.activeSelf) return;//&& !CheckOutsideOverlay()) return;
                     for (int i = 0; i < OverlayInteractor.OverlayDropdown.options.Count; i++) {
                         if (OverlayInteractor.OverlayDropdown.options[i].text == name) {
                             if (OverlayInteractor.OverlayDropdown.value != i) {

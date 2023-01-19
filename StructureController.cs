@@ -58,7 +58,7 @@ public class StructureController : MonoBehaviour
         rotator = transform.Find("Rotator");
         child_count = GetComponentsInChildren<ComponentController>().Length;
 
-        Design();   
+        // Design();   
         if (this.transform.position.x == 0 && this.transform.position.y == 0) {
             // float x = UnityEngine.Random.Range(-8f, 8f) * 30f, y = UnityEngine.Random.Range(-8f, 8f) * 30f;
             // this.transform.position = new Vector2(x, y);
