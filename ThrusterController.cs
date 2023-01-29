@@ -7,7 +7,7 @@ using UnityEngine;
 
 
 public class ThrusterController : ComponentController {   
-
+    public AudioClip ThrustFireSfx;
     private float thrust = 0;
     public const int INPUT_MIN = -100, INPUT_MAX = 100, THRUST_MIN = 0, THRUST_MAX = 999;
 
@@ -24,6 +24,14 @@ public class ThrusterController : ComponentController {
     }
     public override float Action (float input) 
     {
+        if (!GetComponent<AudioSource>().isPlaying) {
+            GetComponent<AudioSource>().clip = ThrustFireSfx;
+            GetComponent<AudioSource>().volume = .1f;
+            GetComponent<AudioSource>().Play();
+        }
+        else {
+            GetComponent<AudioSource>().volume = thrust / 400f;
+        }
         if (this == null) { Destroy(this.gameObject); return -999; }
         thrust = Mathf.Clamp(thrust + input, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 2.5f, THRUST_MIN, THRUST_MAX));
         Focus();

@@ -30,8 +30,7 @@ public abstract class ComponentController : MonoBehaviour
     private GameObject MapScreenPanOverlay;
     public Sprite sprite, inverse;
     public float deleteTime = 10f;
-    void Start()
-    {
+    void Start() {
         if (GameObject.Find("OverlayBorder") != null) {
             OverlayInteractor = GameObject.Find("OverlayBorder").GetComponent<OverlayInteractor>();
         }
@@ -92,7 +91,7 @@ public abstract class ComponentController : MonoBehaviour
                     }
                     if (MapScreenPanOverlay != null) MapScreenPanOverlay.gameObject.SetActive(false);
                     OverlayInteractor.gameObject.SetActive(true);
-                    OverlayInteractor.OnDropdownChange(); 
+                    OverlayInteractor.OnDropdownChange(this.name); 
                 }
             }
         }

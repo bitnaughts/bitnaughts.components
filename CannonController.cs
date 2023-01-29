@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class CannonController : ComponentController {   
     public GameObject Shell;
+    public AudioClip ShellFireSfx;
     float[] reload_timer;
     public const float RELOAD_TIME = 1f;
     private int shell_count = 0;
@@ -29,7 +30,10 @@ public class CannonController : ComponentController {
         for (int i = 0; i < reload_timer.Length; i++) {
             if (reload_timer[i] <= 0)
             {
-                Interactor.Sound("Cannon" + ((i % 3) + 1));
+                GetComponent<AudioSource>().clip = ShellFireSfx;
+                GetComponent<AudioSource>().volume = .1f;
+                GetComponent<AudioSource>().Play();
+                // Interactor.Sound("Cannon" + ((i % 3) + 1));
                 reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y) / 2f;
                 GameObject shell = Instantiate(
                     Shell,

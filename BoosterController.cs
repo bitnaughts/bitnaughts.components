@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class BoosterController : ComponentController {   
     public GameObject Torpedo;
+    public AudioClip TorpedoFireSfx, BoosterFireSfx;
     private float thrust = 0;
     public const int THRUST_MIN = 0, THRUST_MAX = 999;
     public float[] reload_timer;
@@ -43,7 +44,18 @@ public class BoosterController : ComponentController {
         if (input == -1) {
             Fire();
         }
-        thrust = Mathf.Clamp(thrust + input, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 2.5f, THRUST_MIN, THRUST_MAX));
+        else {
+            thrust = Mathf.Clamp(thrust + input, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 2.5f, THRUST_MIN, THRUST_MAX));
+            if (thrust > 0) {
+                if (!GetComponent<AudioSource>().isPlaying) {
+                    GetComponent<AudioSource>().clip = BoosterFireSfx;
+                    GetComponent<AudioSource>().volume = .1f;
+                    GetComponent<AudioSource>().Play();
+                } else {
+                    GetComponent<AudioSource>().volume = thrust / 400f;
+                }
+            }
+        }
         Focus();
         return thrust;
     }
@@ -51,7 +63,10 @@ public class BoosterController : ComponentController {
         for (int i = 0; i < reload_timer.Length; i++) {
             if (reload_timer[i] <= 0)
             {
-                Interactor.Sound("Torpedo" + ((i % 2) + 1));
+                GetComponent<AudioSource>().clip = TorpedoFireSfx;
+                GetComponent<AudioSource>().volume = .05f;
+                GetComponent<AudioSource>().Play();
+                // Interactor.Sound("Torpedo" + ((i % 2) + 1));
                 reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1);
                 GameObject torpedo = Instantiate(
                     Torpedo,

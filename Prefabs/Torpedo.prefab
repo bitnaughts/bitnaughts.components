@@ -4902,6 +4902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048ce991a977e8941aa569f09226c30d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitSFX1: {fileID: 8300000, guid: baf031c4878b09c44a7d7f7413622973, type: 3}
   acceleration: 2
   speed: 7.5
   damage: 10

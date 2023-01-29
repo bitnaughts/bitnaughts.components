@@ -15,7 +15,7 @@ public class ProcessorController : ComponentController
     List<string> instructions;
     int edit_line = 1;
     float speed = 1;
-    // InterpreterV3 interpreter;
+    public InterpreterV3 interpreter;
 
     Dictionary<string, ComponentController> components;
     
@@ -23,6 +23,13 @@ public class ProcessorController : ComponentController
     public const int SPEED_MIN = 0, SPEED_MAX = 999;
 
     public override void Focus() {
+               //, new ClassObj("a")
+            // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
+            // if (override_instructions.Length == 0) 
+                // SetInstructions(new string[]{"class Processor {","void Start() { }","}"});
+            // else 
+                // SetInstructions(override_instructions);
+        
         speed = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * .25f, SPEED_MIN, SPEED_MAX);
     }
     public override void Ping() {
@@ -35,13 +42,14 @@ public class ProcessorController : ComponentController
     public void Action(Dictionary<string, ComponentController> components)
     {
         this.components = components;
-        // if (interpreter == null) {
+        if (interpreter == null) {
+            // interpreter = new InterpreterV3(new List<ClassObj>(){new ClassObj("ℹ")}); //, new ClassObj("a")
             // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
             // if (override_instructions.Length == 0) 
                 // SetInstructions(new string[]{"class Processor {","void Start() { }","}"});
             // else 
                 // SetInstructions(override_instructions);
-        // }
+        }
     }
     // float timer;
     public void Update() {

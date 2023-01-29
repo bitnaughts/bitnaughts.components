@@ -338,7 +338,7 @@ public class StructureController : MonoBehaviour
                         ) + this.rotator.localEulerAngles.z;
                         translation += thruster.GetThrustVector() / (active_component_count * 10f);// * Mathf.Cos(angle * Mathf.Deg2Rad);
                         thrust_rotation = thruster.GetThrustVector().magnitude / active_component_count * Mathf.Sin(angle * Mathf.Deg2Rad);//* -thruster.GetThrustVector().magnitude * 2; //(thruster.GetPosition().x - center_of_mass.x) 
-                        rotation -= thrust_rotation;
+                        rotation -= thrust_rotation / 2f;
                         break;
                     case BoosterController booster:
                         angle = Vector2.SignedAngle(
@@ -373,7 +373,7 @@ public class StructureController : MonoBehaviour
                 exhaust_emission.rate = Mathf.Clamp(1 - explosion_timer / GetComponent<SpriteRenderer>().size.magnitude * 1.5f, 0, 1);
             }
             GetComponent<SpriteRenderer>().color = new Color(1,1,1,Mathf.Clamp(1 - (explosion_timer/(GetComponent<SpriteRenderer>().size.magnitude*2f)), 0, 1));
-            if (UnityEngine.Random.Range(0f, GetComponent<SpriteRenderer>().size.magnitude * 2f) > explosion_timer) 
+            if (UnityEngine.Random.Range(0f, GetComponent<SpriteRenderer>().size.magnitude + 1) > explosion_timer) 
             {
                 random_initial_speed += Time.deltaTime / (10 * explosion_timer);
                 random_rotation += UnityEngine.Random.Range(-.25f, .25f);
@@ -384,14 +384,16 @@ public class StructureController : MonoBehaviour
                         UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x),
                         UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.x, GetComponent<SpriteRenderer>().size.x),
                         UnityEngine.Random.Range(-GetComponent<SpriteRenderer>().size.y * 2, GetComponent<SpriteRenderer>().size.y * 4)),
-                    UnityEngine.Random.Range(GetComponent<SpriteRenderer>().size.magnitude, GetComponent<SpriteRenderer>().size.magnitude * 5));
+                    UnityEngine.Random.Range(GetComponent<SpriteRenderer>().size.magnitude, GetComponent<SpriteRenderer>().size.magnitude * 2),
+                    "Small Ship");
             }
-            if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude * 1.5f + 2) {
+            if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude + 2) {
                 if (this.gameObject.transform.GetComponentsInChildren<CameraController>().Length == 1) {
+                    this.gameObject.transform.GetComponentsInChildren<CameraController>()[0].CycleView();
                     this.gameObject.transform.GetComponentsInChildren<CameraController>()[0].CycleView();
                 }
                 Destroy(this.gameObject); 
-            } else if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude * 1f + 2) {
+            } else if (explosion_timer + 1 > GetComponent<SpriteRenderer>().size.magnitude + 1) {
                 if (GetComponent<ParticleSystem>()) 
                     GetComponent<ParticleSystem>().Stop();
                 Destroy(GetComponent<BoxCollider>());
