@@ -15,7 +15,7 @@ public class MapController : MonoBehaviour {
         if (Interactor.GetClickDuration() < 0.25) {// && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
             if (CheckInsideEdge()) {
                 Interactor.Sound("OnMouse");
-                Camera.main.transform.position = new Vector3(transform.position.x, 200, transform.position.z);
+                Camera.main.transform.localPosition = new Vector3(transform.position.x, transform.position.z, -200);
                 if (Interactor.Stage == "MapInterface") {
                     Interactor.MapInteractor();
                 }
