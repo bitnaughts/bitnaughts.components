@@ -17,7 +17,7 @@ public class MapController : MonoBehaviour {
                 Interactor.Sound("OnMouse");
                 Camera.main.transform.localPosition = new Vector3(transform.position.x, transform.position.z, -200);
                 if (Interactor.Stage == "MapInterface") {
-                    Interactor.MapInteractor();
+                    Interactor.MapInteractor(this.name);
                 }
             }
         }
