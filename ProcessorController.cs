@@ -6,22 +6,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.InputSystem;
 public class ProcessorController : ComponentController
 {
     public string object_class_string = "class Object {\n\tfloat x, y, w, h;\n}";
     public string class_string = "class Processor : Object {\n\tvoid main() {\n\t\tprint(\"Hello\");\n\t}\n}";
     public string[] override_instructions;
     List<string> instructions;
+    public InterpreterV3 interpreter;
+    public InterpreterInput interpreter_input;
+    // public InterpreterComponents interpreter_components;
     int edit_line = 1;
     float speed = 1;
-    public InterpreterV3 interpreter;
 
     Dictionary<string, ComponentController> components;
     
     string iterate_result;    
     public const int SPEED_MIN = 0, SPEED_MAX = 999;
 
+    public override void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+    }
     public override void Focus() {
                //, new ClassObj("a")
             // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
@@ -34,6 +39,10 @@ public class ProcessorController : ComponentController
     }
     public override void Ping() {
     }
+    public override float Action () 
+    {
+        return 0;
+    }
     public override float Action(float input)
     {
         return input;
@@ -41,7 +50,11 @@ public class ProcessorController : ComponentController
     float pointer;
     public void Action(Dictionary<string, ComponentController> components)
     {
-        this.components = components;
+        if (interpreter_input == null) 
+        {
+            interpreter_input = new InterpreterInput(0, 0, false, GetComponentInParent<StructureController>().GetComponentControllers());
+        }
+        interpreter_input.components = components;
         if (interpreter == null) {
             // interpreter = new InterpreterV3(new List<ClassObj>(){new ClassObj("ℹ")}); //, new ClassObj("a")
             // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
@@ -51,13 +64,70 @@ public class ProcessorController : ComponentController
                 // SetInstructions(override_instructions);
         }
     }
-    // float timer;
+    float timer;
     public void Update() {
-        // timer += Time.deltaTime;
-        // if (timer > 1f/speed && interpreter != null) {
-            // timer -= 1f/speed;
-            // interpreter.step();
-        // }
+        timer += Time.deltaTime;
+        Gamepad gamepad = Gamepad.current;
+        if (interpreter_input == null) 
+        {
+            interpreter_input = new InterpreterInput(0, 0, false, GetComponentInParent<StructureController>().GetComponentControllers());
+        }
+        if (gamepad != null)
+        {
+            Vector2 stickL = gamepad.leftStick.ReadValue(); 
+            if (Mathf.Abs(stickL.x) > Mathf.Abs(interpreter_input.x)) interpreter_input.x = stickL.x;
+            if (Mathf.Abs(stickL.y) > Mathf.Abs(interpreter_input.y)) interpreter_input.y = stickL.y;
+        }
+        if (Input.GetKey("q")) {
+            interpreter_input.x = -1;
+            interpreter_input.y = 1;
+        }
+        if (Input.GetKey("w")) {
+            interpreter_input.x = 0;
+            interpreter_input.y = 1;
+        }
+        if (Input.GetKey("e")) {
+            interpreter_input.x = 1;
+            interpreter_input.y = 1;
+        }
+        if (Input.GetKey("a")) {
+            interpreter_input.x = -1;
+            interpreter_input.y = 0;
+        }
+        if (Input.GetKey("s")) {
+            interpreter_input.x = 0;
+            interpreter_input.y = -1;
+        }
+        if (Input.GetKey("d")) {
+            interpreter_input.x = 1;
+            interpreter_input.y = 0;
+        }
+        if (Input.GetKey("z")) {
+            interpreter_input.x = -1;
+            interpreter_input.y = -1;
+        }
+        if (Input.GetKey("x")) {
+            interpreter_input.fire = true;
+        }
+        if (Input.GetKey("c")) {
+            interpreter_input.x = 1;
+            interpreter_input.y = -1;
+        }
+        if (Input.GetKey("space")) {
+            interpreter_input.fire = true;
+        }
+        if (timer > 1f/speed && interpreter != null) {
+            timer -= 1f/speed;
+            foreach (var component in interpreter_input.components.Keys) {
+                print (component);
+            }
+            print ("interpretting with inputs: " + interpreter_input.x + ", " + interpreter_input.y + ", " + interpreter_input.fire);
+            interpreter.Interpret(interpreter_input); //, interpreter_components);
+            Interactor.RenderProcess();
+            // interpreter_input.x = 0;
+            // interpreter_input.y = 0;
+            // interpreter_input.fire = false;
+        }
     }
     public void SetInstructions(string instructions_string)
     {
@@ -119,7 +189,11 @@ public class ProcessorController : ComponentController
     public override string GetIcon() { return "▩"; }
     public override string ToString()
     {    
-        return $"{name}\nclass {name} : Component {{\n  /*_Constructor_*/\n  class {name}_() {{\n{base.ToString()}\n  }}\n  /*_Main_method_*/\n  void Main_() {{\n    <b>$</b>\n  }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        if (interpreter_input == null) 
+        {
+            interpreter_input = new InterpreterInput(0, 0, false, GetComponentInParent<StructureController>().GetComponentControllers());
+        }
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n{interpreter.ToString(this.name)}}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             // "⋅  var ship = System.Read (@\"example\");\n" +
             // "⋅  if (size < ship.size) break;\n" +
             // "⋅  foreach (c in ship.components) {\n" +

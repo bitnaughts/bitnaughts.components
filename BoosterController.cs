@@ -24,12 +24,16 @@ public class BoosterController : ComponentController {
         var main = GetComponent<ParticleSystem>().main;
         main.startSize = new ParticleSystem.MinMaxCurve(GetComponent<SpriteRenderer>().size.x / 2, GetComponent<SpriteRenderer>().size.x);
     }    
+    public override void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+    }
     public override void Ping() {
-        thrust = Mathf.Clamp(thrust - 1f, THRUST_MIN, THRUST_MAX);
+        thrust = Mathf.Clamp(thrust * .95f, THRUST_MIN, THRUST_MAX);
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
         var sh = GetComponent<ParticleSystem>().shape;
         sh.position = new Vector2(0, -(GetComponent<SpriteRenderer>().size.y / 2));
+        GetComponent<AudioSource>().volume = Mathf.Clamp(thrust, 0, 100) / 150f * Interactor.GetVolume();
 
         int num_cannons = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.x);
         if (reload_timer.Length != num_cannons) reload_timer = new float[num_cannons];
@@ -38,24 +42,26 @@ public class BoosterController : ComponentController {
             reload_timer[i] = Mathf.Clamp(reload_timer[i] - .01f, 0, 10);
         }
     }
+    public override float Action () {
+        Fire ();
+        return 0;
+    }
     public override float Action (float input) 
     {
         if (this == null) { Destroy(this.gameObject); return -999; }
-        if (input == -1) {
-            Fire();
-        }
-        else {
-            thrust = Mathf.Clamp(thrust + input, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 2.5f, THRUST_MIN, THRUST_MAX));
+        // if (input == -1) {
+        //     Fire();
+        // }
+        // else {
+            thrust = Mathf.Clamp(thrust + input / 1, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f, THRUST_MIN, THRUST_MAX));
             if (thrust > 0) {
                 if (!GetComponent<AudioSource>().isPlaying) {
                     GetComponent<AudioSource>().clip = BoosterFireSfx;
-                    GetComponent<AudioSource>().volume = .1f;
+                    GetComponent<AudioSource>().volume = .05f;
                     GetComponent<AudioSource>().Play();
-                } else {
-                    GetComponent<AudioSource>().volume = thrust / 400f;
                 }
             }
-        }
+        // }
         Focus();
         return thrust;
     }
@@ -64,7 +70,7 @@ public class BoosterController : ComponentController {
             if (reload_timer[i] <= 0)
             {
                 GetComponent<AudioSource>().clip = TorpedoFireSfx;
-                GetComponent<AudioSource>().volume = .05f;
+                GetComponent<AudioSource>().volume = Interactor.GetVolume() / 8;
                 GetComponent<AudioSource>().Play();
                 // Interactor.Sound("Torpedo" + ((i % 2) + 1));
                 reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1);
@@ -115,6 +121,6 @@ public class BoosterController : ComponentController {
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  thrust = {thrust.ToString("0.000")};\n  barrels = {GetReloadString()};\n  /*_Constructor_*/\n  class {name}_() {{\n{base.ToString()}\n  }}\n  /*_Throttle_control_*/\n  void Boost_() {{\n    thrust += 25;\n  }}\n  /*_Torpedo_control_*/\n  void Launch_() {{\n    new Torpedo (size.y);\n  }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.000")};\n barrels = {GetReloadString()};\n /*_Throttle_control_*/\n void Boost (int delta) {{\n  thrust += delta;\n }}\n /*_Torpedo_control_*/\n void Launch_() {{\n  new Torpedo (size.y);\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

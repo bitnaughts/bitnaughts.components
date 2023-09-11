@@ -10,6 +10,7 @@ public class GimbalController : ComponentController
 {   
     public float speed;
     GameObject gimbal_grid;
+    public Sprite grid_sprite;
 
     public const int INPUT_MIN = -3600, INPUT_MAX = 360;
 
@@ -30,11 +31,19 @@ public class GimbalController : ComponentController
     public override void Focus() {
         // gimbal_grid.GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size;
     }
+    public override void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+        gimbal_grid.GetComponent<SpriteRenderer>().sprite = grid_sprite;
+    }
     public override void Ping() {
+    }
+    public override float Action () 
+    {
+        return 0;
     }
     public override float Action (float input) 
     {
-        gimbal_grid.transform.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(gimbal_grid.transform.localEulerAngles.z + input % 360, INPUT_MIN, INPUT_MAX)); //gimbal_grid.transform.localEulerAngles.z + 
+        gimbal_grid.transform.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(gimbal_grid.transform.localEulerAngles.z - input % 360, INPUT_MIN, INPUT_MAX)); //gimbal_grid.transform.localEulerAngles.z + 
         // gimbal_grid.GetComponent<SpriteRenderer>().enabled = true;
         return gimbal_grid.transform.localEulerAngles.z;
     }
@@ -46,7 +55,7 @@ public class GimbalController : ComponentController
     public override string GetIcon() { return "▣"; }
     public override string ToString()
     { //▤<b>≣ Data</b>
-        return $"{name}\nclass {name} : Component {{\n  rot = {gimbal_grid.transform.localEulerAngles.z.ToString("0.000")};\n  /*_Constructor_*/ class {name}_() {{\n{base.ToString()}\n  }}\n  /*_Rotates_units_(CW)_*/\n  void RotateCW_() {{\n    rot -15;\n   }}\n  /*_Rotates_units_(CCW)_*/\n  void RotateCCW_() {{\n    rot += 15;\n   }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n rot = {gimbal_grid.transform.localEulerAngles.z.ToString("0.000")};\n /*_Gimbal_Control_*/\n void Step (double theta) {{\n  rot += theta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             // "⋅ double angle = " + gimbal_grid.transform.localEulerAngles.z.ToString("0.0") + ";\n" +  
             // "⋅ double speed = " + speed.ToString("0.0") + ";\n" +  
             // "⋅ \n" +

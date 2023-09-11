@@ -17,6 +17,13 @@ public class BulkheadController : ComponentController {
     }
     public override void Ping() {
     }
+    public override void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+    }
+    public override float Action () 
+    {
+        return 0;
+    }
     public override float Action (float input) 
     {
         // if (mass == 0) mass = GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 10f;
@@ -35,7 +42,7 @@ public class BulkheadController : ComponentController {
     public override string GetIcon() { return "▥"; }
     public override string ToString()
     { //▤<b>≣ Data</b>
-        return $"{name}\nclass {name} : Component {{\n  /*_Constructor_*/\n  class {name}_() {{\n{base.ToString()}\n    heap = new Heap ({(int)(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y)});\n  }}  \n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n heap = new Heap ({(int)(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y)});\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             //  ┣ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  ";
     }
     // {

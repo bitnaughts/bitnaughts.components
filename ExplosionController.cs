@@ -6,10 +6,11 @@ public class ExplosionController : MonoBehaviour
 {
     public AudioClip TorpedoHitSFX1, TorpedoHitSFX2;
     public AudioClip SmallShipHitSFX1, SmallShipHitSFX2;
+    public Interactor interactor;
     // Start is called before the first frame update
     void Start()
     {
-        
+        interactor = GameObject.Find("ScreenCanvas").GetComponent<Interactor>();
     }
     public float timer = 0;
     public void Explode(float time, string type) {
@@ -38,7 +39,7 @@ public class ExplosionController : MonoBehaviour
                     }
                     break;
             }
-            GetComponent<AudioSource>().volume = .1f;
+            GetComponent<AudioSource>().volume = interactor.GetVolume() / 8;
             GetComponent<AudioSource>().Play();
         }
     }

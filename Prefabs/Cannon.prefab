@@ -97,7 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e9b21e74f6738479442b184657e829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OverlayInteractor: {fileID: 0}
   Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: f930b987420bac5499aa555b7b419097, type: 3}
   inverse: {fileID: 21300000, guid: 74f86962ebb069b4e9effa3d7a3dbfb8, type: 3}
@@ -115,7 +114,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 0.2}
+  m_Size: {x: 2, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &7542152974714094308
 AudioSource:

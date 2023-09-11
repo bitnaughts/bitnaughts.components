@@ -22,19 +22,27 @@ public class ThrusterController : ComponentController {
     }    
     public override void Ping() {
     }
+    public override void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+    }
+    public override float Action () 
+    {
+        return 0;
+    }
     public override float Action (float input) 
     {
         if (!GetComponent<AudioSource>().isPlaying) {
             GetComponent<AudioSource>().clip = ThrustFireSfx;
-            GetComponent<AudioSource>().volume = .1f;
+            GetComponent<AudioSource>().volume = .01f;
             GetComponent<AudioSource>().Play();
         }
         else {
-            GetComponent<AudioSource>().volume = thrust / 400f;
+            GetComponent<AudioSource>().volume = Mathf.Clamp(thrust, 0, 100) / 150f * Interactor.GetVolume();
         }
         if (this == null) { Destroy(this.gameObject); return -999; }
-        thrust = Mathf.Clamp(thrust + input, THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 2.5f, THRUST_MIN, THRUST_MAX));
+        thrust = Mathf.Clamp(thrust + (input/1), THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 2.5f, THRUST_MIN, THRUST_MAX));
         Focus();
+        // print (thrust);
         return thrust;
     }
 
@@ -58,6 +66,6 @@ public class ThrusterController : ComponentController {
     public override string GetIcon() { return "◉"; }
     public override string ToString()
     {
-        return $"{name}\nclass {name} : Component {{\n  thrust = {thrust.ToString("0.000")};\n  /*_Constructor_*/\n  class {name}_() {{\n{base.ToString()}\n  }}\n  /*_Thrust_control_(+)_*/\n  void ThrustUp_() {{\n    thrust += 25;\n  }}\n  /*_Thrust_control_(-)_*/\n  void ThrustDown_() {{\n    thrust -= 25;\n  }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.000")};\n /*_Thrust_Control_*/\n void Boost (double delta) {{\n  thrust += delta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

@@ -25,6 +25,7 @@ using UnityEngine.EventSystems;
 public abstract class ComponentController : MonoBehaviour
 {
     public Interactor Interactor;
+    
     // private ClassController classController;
     private GameObject MapScreenPanOverlay;
     public Sprite sprite, inverse;
@@ -37,10 +38,7 @@ public abstract class ComponentController : MonoBehaviour
     public void Design() {
         GetComponent<SpriteRenderer>().sprite = inverse;
     }
-    public void Launch() {
-        GetComponent<SpriteRenderer>().sprite = sprite;
-        // GetComponent<SpriteRenderer>().enabled = true;
-    }
+    public abstract void Launch();
     
     public Transform GetTransform()
     {
@@ -49,6 +47,7 @@ public abstract class ComponentController : MonoBehaviour
 
     public abstract void Focus();
 
+    public abstract float Action();
     public abstract float Action(float input);
     public abstract void Ping();
     
@@ -67,8 +66,6 @@ public abstract class ComponentController : MonoBehaviour
     }
     void OnMouseUp()
     {
-        print (Interactor.GetClickDuration());
-        print (CheckInsideEdge());
         if (Interactor.GetClickDuration() < 0.25) {// && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
             if (CheckInsideEdge()) {
                 if (Interactor.OverlayInteractor.gameObject.activeSelf) return;//&& !CheckOutsideOverlay()) return;
@@ -80,12 +77,12 @@ public abstract class ComponentController : MonoBehaviour
                         }
                     }
                 }
-                if (GetType().ToString().Contains("Cannon")) {
-                    Interactor.TargetTutorial();
-                }
-                if (GetType().ToString().Contains("Thruster")) {
-                    Interactor.ThrustTutorial();
-                }
+                // if (GetType().ToString().Contains("Cannon")) {
+                //     Interactor.TargetTutorial();
+                // }
+                // if (GetType().ToString().Contains("Thruster")) {
+                //     Interactor.ThrustTutorial();
+                // }
                 if (MapScreenPanOverlay != null) MapScreenPanOverlay.gameObject.SetActive(false);
                 Interactor.OverlayInteractor.gameObject.SetActive(true);
                 Interactor.OverlayInteractor.OnDropdownChange(this.name); 
@@ -104,7 +101,7 @@ public abstract class ComponentController : MonoBehaviour
         return $"♘{this.GetIcon() + this.name}:[{Neaten(transform.localPosition.x)},{Neaten(transform.localPosition.y)},{Neaten(GetComponent<SpriteRenderer>().size.x)},{Neaten(GetComponent<SpriteRenderer>().size.y)},{Neaten(gameObject.transform.localEulerAngles.z)}]";
     }
     public override string ToString() {
-        return $"    pos = new Vector ({Neaten(transform.localPosition.x)}, {Neaten(transform.localPosition.y)});\n    size = new Vector ({Neaten(GetComponent<SpriteRenderer>().size.x)}, {Neaten(GetComponent<SpriteRenderer>().size.y)});\n    rot = {Neaten(gameObject.transform.localEulerAngles.z)};";
+        return $"class {GetTypeClass()} : Component\n{{\n pos = new Vector ({Neaten(transform.localPosition.x)}, {Neaten(transform.localPosition.y)});\n size = new Vector ({Neaten(GetComponent<SpriteRenderer>().size.x)}, {Neaten(GetComponent<SpriteRenderer>().size.y)});\n rot = {Neaten(gameObject.transform.localEulerAngles.z)};";
     }
 
 }

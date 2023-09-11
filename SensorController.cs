@@ -14,6 +14,14 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     private int laser_count = 0;
     public override void Focus() {}
     public override void Ping() {
+        // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1000, Color.green);
+    }
+    public override void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+    }
+    public override float Action () 
+    {
+        return Action(0);
     }
     public override float Action (float input) 
     {
@@ -28,6 +36,7 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
 
             return -1;
         } else {
+            print ("Raycasting");
             
             // var random = new System.Random();
             // return (float)(random.NextDouble() * 1998f - 999f); 
@@ -37,27 +46,37 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
 
             // This would cast rays only against colliders in layer 8.
             // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
-            asteroidMask = ~asteroidMask;
-            enemyMask = ~enemyMask;
-
+            // asteroidMask = ~asteroidMask;
+            // enemyMask = ~enemyMask;
+            Fire();
             RaycastHit hit;
             float asteroidDistance = 0f, enemyDistance = 0f;
             // Does the ray intersect any objects excluding the player layer
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, asteroidMask))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, asteroidMask))
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                Debug.Log("Did Hit asteroidMask");
+                // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
+                Debug.Log("Did Hit asteroidMask" + hit.collider.gameObject.name + hit.distance);
                 asteroidDistance = hit.distance;
+                
+                // Fire();
+                return hit.distance;
             }
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, enemyMask))
+            else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, enemyMask))
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                Debug.Log("Did Hit enemyMask");
+                // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
+                Debug.Log("Did Hit enemyMask" + hit.collider.gameObject.name + hit.distance);
                 enemyDistance = hit.distance;
+                if (hit.collider.gameObject.name.StartsWith("HeatRay")) {
+                    Interactor.ProgressCampaign();
+                }
+                // Fire();
+                return hit.distance;
             }
-            if (asteroidDistance < enemyDistance) return asteroidDistance;
-            else return -enemyDistance;
+            // print (hit.distance);
+            // if (asteroidDistance < enemyDistance) return asteroidDistance;
+            // else return -enemyDistance;
         }// negative denotes "enemy" to sensor
+        return 0;
         // LayerMask mask = LayerMask.GetMask("Default"); //Larger sensors can detect more layers of detail (see individual components, shells, etc.)
         // RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up * 2, Vector2.up * 999,999, mask, -999, 999);
         // if (hit != null && hit.collider != null)
@@ -105,7 +124,7 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     public override string GetIcon() { return "◌"; }
     public override string ToString() //double dis = {distance.ToString("0.0")};
     {
-        return $"{name}\nclass {name} : Component {{\n  Ray r;\n  /*_Constructor_*/\n  class {name}_() {{\n{base.ToString()}\n  }}\n  /*_Ray_caster_*/\n  double Scan_() {{\n    r = new Ray (Vector.Forward);\n    return r.Length();\n  }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n /*_Cast_Ray_*/\n double Scan_() {{\n  return new Ray ().GetLength ();\n }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             //  ┣ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  ";
     }
 //     {

@@ -9,6 +9,10 @@ public class GirderController : ComponentController {
     }
     public override void Ping() {
     }    
+    public override float Action () 
+    {
+        return 0;
+    }
     public override float Action (float input) 
     {
         return input;
@@ -18,9 +22,12 @@ public class GirderController : ComponentController {
     {
         return new Vector2(2, 2);
     }
+    public override void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+    }
     public override string GetIcon() { return "▨"; }
     public override string ToString()
     {
-        return $"{name}\nclass{name} {{\n{base.ToString()}\n}}\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n}}\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }

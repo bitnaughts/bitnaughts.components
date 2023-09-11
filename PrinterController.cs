@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 public class PrinterController : ComponentController {   
     public GameObject Head, Beam1, Beam2;
+    public int print_index = -1;
     public override void Focus() {
             Beam1.transform.localPosition = new Vector2(Head.transform.localPosition.x, 0);
             Beam1.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.y);
@@ -23,18 +24,27 @@ public class PrinterController : ComponentController {
         if (Mathf.Abs(Head.transform.localPosition.x - pos.x) < .1f && Mathf.Abs(Head.transform.localPosition.y - pos.y) < .1f) {
             Head.transform.localPosition = pos;
             Focus();
+            print_index++;
             return true;
         }
         Focus();
         return false;
     }
     public override void Ping() {
+        // if (interpreter == null) interpreter = new InterpreterV3(new List<ClassObj>(){new ClassObj("▦")});
+    }
+    public override float Action () 
+    {
+        return 0;
     }
     public override float Action (float input) 
     {
         return input;
     }
 
+    public override void Launch() {
+        GetComponent<SpriteRenderer>().sprite = sprite;
+    }
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 2);
@@ -42,8 +52,16 @@ public class PrinterController : ComponentController {
     public override string GetIcon() { return "▦"; }
     public override string ToString()
     { //▤<b>≣ Data</b>
-        return $"{name}\nclass {name}_(){base.ToString()}\n void Print_() {{ }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
-            // "⋅ Nozzle noz = new N?
-            //  ┣ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  ";
+        var output = "";
+        var components = new string[]{"Processor Process = new Processor (0, 3, 4, 5);","Bulkhead Bulk = new Bulkhead (0, 0, 4, 4);","Booster Right = new Booster (4, 3, 2, 1);", "Booster Left = new Booster (1, 2, 3, 4);", "Thruster Engine = new Thruster (3, 4, 5, 6);"};
+        for (int i = 0; i < components.Length; i++) {
+            if (i == print_index) {
+                output += "  " + Formatter.Red(components[i].Replace(" ", "_")) + "\n";
+            }
+            else {
+                output += "  " + components[i] + "\n";
+            }
+        }
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n /*_Construct_Ship_*/\n void Print_() {{\n{output}  $\n }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }
