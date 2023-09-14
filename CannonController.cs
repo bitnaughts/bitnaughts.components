@@ -42,7 +42,7 @@ public class CannonController : ComponentController {
                     GetComponent<AudioSource>().Play();
                 }
                 // Interactor.Sound("Cannon" + ((i % 3) + 1));
-                reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y) * this.transform.localScale.y;
+                reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y) * this.transform.localScale.y / 2.5f;
                 GameObject shell = Instantiate(
                     Shell,
                     this.transform.position,

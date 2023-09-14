@@ -237,17 +237,17 @@ public class StructureController : MonoBehaviour
         }
     }
 
-    public void SetInstructions(string component, string instructions)
-    {
-        if (!components.ContainsKey(component)) return;
-        switch (components[component]) {
-            case ProcessorController processor:
-                processor.SetInstructions(instructions);
-                break;
-            default: //Want all components to be scriptable? Adjust here.
-                break;
-        }
-    }
+    // public void SetInstructions(string component, string instructions)
+    // {
+    //     if (!components.ContainsKey(component)) return;
+    //     switch (components[component]) {
+    //         case ProcessorController processor:
+    //             processor.SetInstructions(instructions);
+    //             break;
+    //         default: //Want all components to be scriptable? Adjust here.
+    //             break;
+    //     }
+    // }
     public void DeleteLine(string component)
     {
         if (!components.ContainsKey(component)) return;

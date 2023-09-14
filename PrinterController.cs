@@ -7,6 +7,7 @@ using UnityEngine;
 public class PrinterController : ComponentController {   
     public GameObject Head, Beam1, Beam2;
     public int print_index = -1;
+    public string[] components_declarations;
     public override void Focus() {
             Beam1.transform.localPosition = new Vector2(Head.transform.localPosition.x, 0);
             Beam1.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.y);
@@ -53,13 +54,13 @@ public class PrinterController : ComponentController {
     public override string ToString()
     { //▤<b>≣ Data</b>
         var output = "";
-        var components = new string[]{"Processor Process = new Processor (0, 3, 4, 5);","Bulkhead Bulk = new Bulkhead (0, 0, 4, 4);","Booster Right = new Booster (4, 3, 2, 1);", "Booster Left = new Booster (1, 2, 3, 4);", "Thruster Engine = new Thruster (3, 4, 5, 6);"};
-        for (int i = 0; i < components.Length; i++) {
+        // var components = new string[]{"Processor Process = new Processor (0, 3, 4, 5);","Bulkhead Bulk = new Bulkhead (0, 0, 4, 4);","Booster Right = new Booster (4, 3, 2, 1);", "Booster Left = new Booster (1, 2, 3, 4);", "Thruster Engine = new Thruster (3, 4, 5, 6);"};
+        for (int i = 0; i < components_declarations.Length; i++) {
             if (i == print_index) {
-                output += "  " + Formatter.Red(components[i].Replace(" ", "_")) + "\n";
+                output += "  " + Formatter.Red(components_declarations[i].Replace(" ", "_")) + "\n";
             }
             else {
-                output += "  " + components[i] + "\n";
+                output += "  " + components_declarations[i] + "\n";
             }
         }
         return $"{GetIcon()} {this.name}\n{base.ToString()}\n /*_Construct_Ship_*/\n void Print_() {{\n{output}  $\n }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";

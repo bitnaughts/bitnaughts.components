@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public abstract class ComponentController : MonoBehaviour
 {
@@ -70,7 +71,7 @@ public abstract class ComponentController : MonoBehaviour
             if (CheckInsideEdge()) {
                 if (Interactor.OverlayInteractor.gameObject.activeSelf) return;//&& !CheckOutsideOverlay()) return;
                 for (int i = 0; i < Interactor.OverlayInteractor.OverlayDropdown.options.Count; i++) {
-                    if (Interactor.OverlayInteractor.OverlayDropdown.options[i].text == name) {
+                    if (Interactor.OverlayInteractor.OverlayDropdown.options[i].text.Contains(name)) {
                         if (Interactor.OverlayInteractor.OverlayDropdown.value != i) {
                             Interactor.OverlayInteractor.OverlayDropdown.value = i; 
                             Interactor.Sound("OnMouse");
@@ -85,7 +86,9 @@ public abstract class ComponentController : MonoBehaviour
                 // }
                 if (MapScreenPanOverlay != null) MapScreenPanOverlay.gameObject.SetActive(false);
                 Interactor.OverlayInteractor.gameObject.SetActive(true);
-                Interactor.OverlayInteractor.OnDropdownChange(this.name); 
+                Interactor.OverlayInteractor.State = "";
+                Interactor.OverlayInteractor.OnDropdownChange(0);//this.name); 
+                Interactor.OverlayInteractor.OverlayCodeInput.GetComponent<InputField>().text = "";
             }
         }
     }

@@ -129,9 +129,23 @@ public class ProcessorController : ComponentController
             // interpreter_input.fire = false;
         }
     }
-    public void SetInstructions(string instructions_string)
+    public void SetInstructions(string class_name, string method_name, string instructions_string)
     {
-        SetInstructions(instructions_string.Split('\n'));
+        foreach (var class_var in interpreter.classes) {
+            if (class_var.name == class_name) {
+                foreach (var method_var in class_var.methods) {
+                    if (method_var.name == method_name) {
+                        var instructions_list = instructions_string.Split('\n');
+                        var index = 0;
+                        foreach (var instructions_instance in instructions_list) {
+                            method_var.lines.Insert(index++, instructions_instance);
+                        }
+                    }
+                }
+            }
+        }
+        // this.interpreter.classes
+        // SetInstructions(instructions_string.Split('\n'));
     }
     public void SetInstructions(List<string> instructions_list)
     {
