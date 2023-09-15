@@ -66,6 +66,6 @@ public class ThrusterController : ComponentController {
     public override string GetIcon() { return "◉"; }
     public override string ToString()
     {
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.000")};\n /*_Thrust_Control_*/\n void Boost (double delta) {{\n  thrust += delta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.000")};\n /*_Throttle_Control_*/\n void Throttle (double delta) {{\n  thrust += delta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

@@ -121,6 +121,6 @@ public class BoosterController : ComponentController {
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.000")};\n barrels = {GetReloadString()};\n /*_Throttle_control_*/\n void Boost (int delta) {{\n  thrust += delta;\n }}\n /*_Torpedo_control_*/\n void Launch_() {{\n  new Torpedo (size.y);\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.000")};\n barrels = {GetReloadString()};\n /*_Boost_Control_*/\n void Boost (int delta) {{\n  thrust += delta;\n }}\n /*_Torpedo_Control_*/\n void Launch_() {{\n  new Torpedo (size.y);\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

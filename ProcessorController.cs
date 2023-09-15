@@ -129,6 +129,7 @@ public class ProcessorController : ComponentController
             // interpreter_input.fire = false;
         }
     }
+    int index = 2;
     public void SetInstructions(string class_name, string method_name, string instructions_string)
     {
         foreach (var class_var in interpreter.classes) {
@@ -136,7 +137,7 @@ public class ProcessorController : ComponentController
                 foreach (var method_var in class_var.methods) {
                     if (method_var.name == method_name) {
                         var instructions_list = instructions_string.Split('\n');
-                        var index = 0;
+                        
                         foreach (var instructions_instance in instructions_list) {
                             method_var.lines.Insert(index++, instructions_instance);
                         }

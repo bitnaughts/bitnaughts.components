@@ -55,7 +55,7 @@ public class GimbalController : ComponentController
     public override string GetIcon() { return "▣"; }
     public override string ToString()
     { //▤<b>≣ Data</b>
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n rot = {gimbal_grid.transform.localEulerAngles.z.ToString("0.000")};\n /*_Gimbal_Control_*/\n void Step (double theta) {{\n  rot += theta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n rot = {gimbal_grid.transform.localEulerAngles.z.ToString("0.000")};\n /*_Gimbal_Control_*/\n void Rotate (double theta) {{\n  rot += theta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             // "⋅ double angle = " + gimbal_grid.transform.localEulerAngles.z.ToString("0.0") + ";\n" +  
             // "⋅ double speed = " + speed.ToString("0.0") + ";\n" +  
             // "⋅ \n" +

@@ -88,6 +88,7 @@ public abstract class ComponentController : MonoBehaviour
                 Interactor.OverlayInteractor.gameObject.SetActive(true);
                 Interactor.OverlayInteractor.State = "";
                 Interactor.OverlayInteractor.OnDropdownChange(0);//this.name); 
+                Interactor.OverlayInteractor.CloseAllOverlays();
                 Interactor.OverlayInteractor.OverlayCodeInput.GetComponent<InputField>().text = "";
             }
         }
