@@ -22,7 +22,7 @@ public class StructureController : MonoBehaviour
     RaycastHit hit;
     public GameObject Explosion;
     public bool Launched = false;
-    public float explosion_timer = 0;
+    public float explosion_timer = 0, delete_timer = 0;
     public float random_initial_speed = 0, random_rotation = 0;
     public int Hitpoints;
     public void Hit(int damage) {
@@ -321,6 +321,7 @@ public class StructureController : MonoBehaviour
 
     void FixedUpdate()
     {
+        delete_timer -= Time.deltaTime;
         if (child_count != GetComponentsInChildren<ComponentController>().Length) Start();
         if (components == null) return;
         active_component_count = 0;
@@ -433,6 +434,9 @@ public class StructureController : MonoBehaviour
                     GetComponent<ParticleSystem>().Stop();
                 Destroy(GetComponent<BoxCollider>());
             }
+            if (delete_timer < 0) {
+                Destroy(this.gameObject); 
+            }
         }
     }
     // + new Vector3(
@@ -536,7 +540,8 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        string output = $"♘position:[{Neaten(this.transform.position.x)},{Neaten(this.transform.position.y)},{Neaten(this.rotator.localEulerAngles.z)}]♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}]";//,{Neaten(average_rotation)}]";
+        // print ($"♘position:[{Neaten(this.transform.localPosition.x)},{Neaten(this.transform.localPosition.y)}");
+        string output = $"♘position:[{Neaten(this.transform.localPosition.x)},{Neaten(this.transform.localPosition.y)},{Neaten(this.rotator.localEulerAngles.z)}]♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}]";//,{Neaten(average_rotation)}]";
         output += "♘classes:";
         // if (classes != null) {
         //     foreach (ClassController c in classes.Values) {
@@ -555,7 +560,7 @@ public class StructureController : MonoBehaviour
         foreach (var entity in GameObject.Find("World").GetComponentsInChildren<ProjectileController>())
         {
             if (entity.gameObject.activeSelf) {
-                output += $"♘{entity.name}:[{Neaten(entity.transform.position.x)},{Neaten(entity.transform.position.y)},{Neaten(entity.speed)},{Neaten(entity.transform.localEulerAngles.z)}]";
+                output += $"♘{entity.name}:[{Neaten(entity.transform.localPosition.x)},{Neaten(entity.transform.localPosition.y)},{Neaten(entity.speed)},{Neaten(entity.transform.localEulerAngles.z)}]";
             }
         }
         return output;
