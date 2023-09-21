@@ -33,7 +33,7 @@ public class BoosterController : ComponentController {
         exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
         var sh = GetComponent<ParticleSystem>().shape;
         sh.position = new Vector2(0, -(GetComponent<SpriteRenderer>().size.y / 2));
-        GetComponent<AudioSource>().volume = Mathf.Clamp(thrust, 0, 100) / 150f * Interactor.GetVolume();
+        // GetComponent<AudioSource>().volume = Mathf.Clamp(thrust, 0, 100) / 150f * Interactor.GetVolume();
 
         int num_cannons = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.x);
         if (reload_timer.Length != num_cannons) reload_timer = new float[num_cannons];
@@ -70,7 +70,7 @@ public class BoosterController : ComponentController {
             if (reload_timer[i] <= 0)
             {
                 GetComponent<AudioSource>().clip = TorpedoFireSfx;
-                GetComponent<AudioSource>().volume = Interactor.GetVolume() / 8;
+                GetComponent<AudioSource>().volume = .05f;//Interactor.GetVolume() / 8;
                 GetComponent<AudioSource>().Play();
                 // Interactor.Sound("Torpedo" + ((i % 2) + 1));
                 reload_timer[i] = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1);

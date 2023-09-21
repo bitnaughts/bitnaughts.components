@@ -19,19 +19,19 @@ public class ProjectileController : MonoBehaviour
         }
     } 
     //Upon collision with another GameObject, this GameObject will reverse direction
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.name.Contains("Asteroid") || other.gameObject.name.Contains("Scanner")) {
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.name.Contains("Asteroid") || other.gameObject.name.Contains("Scanner")) {
             
-        }
-        else {
-                GameObject.Find("ScreenCanvas").GetComponent<Interactor>().Sound("TryAgain");
-                print ("triggered " + other.gameObject.name);
-        GameObject.Find("World").GetComponent<PrefabCache>().PlayExplosion(other.gameObject.transform.position + new Vector3(0, 10, 10), other.gameObject.GetComponent<SpriteRenderer>().size.magnitude * 5f, "Torpedo");
-        Destroy(other.gameObject);
-        Destroy(this.gameObject);
-        }
-    }
+    //     }
+    //     else {
+    //             GameObject.Find("ScreenCanvas").GetComponent<Interactor>().Sound("TryAgain");
+    //             print ("triggered " + other.gameObject.name);
+    //     GameObject.Find("World").GetComponent<PrefabCache>().PlayExplosion(other.gameObject.transform.position + new Vector3(0, 10, 10), other.gameObject.GetComponent<SpriteRenderer>().size.magnitude * 5f, "Torpedo");
+    //     Destroy(other.gameObject);
+    //     Destroy(this.gameObject);
+    //     }
+    // }
 
     // Update is called once per frame
     void FixedUpdate()
