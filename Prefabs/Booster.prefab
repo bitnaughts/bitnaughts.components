@@ -170,7 +170,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -223,7 +223,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 20
+      scalar: 15
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -275,9 +275,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 0.21568628}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.78431374}
+      maxColor: {r: 1, g: 1, b: 0.76470596, a: 0.39215687}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -339,8 +339,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 1
+      scalar: 4
+      minScalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4883,7 +4883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1cf45934a7d03e4d8b2afe1c6b29b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OverlayInteractor: {fileID: 0}
   Interactor: {fileID: 0}
   sprite: {fileID: 21300000, guid: f35035e1d75b49c4c91f3c20c06df4cd, type: 3}
   inverse: {fileID: 21300000, guid: 3c8a0916dd25c9040a3ff83171948a3c, type: 3}

@@ -291,7 +291,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 0.21568628}
-      maxColor: {r: 0.13725491, g: 0.37254903, b: 0.43137258, a: 1}
+      maxColor: {r: 1, g: 1, b: 0.76470596, a: 0.21568628}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -987,7 +987,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4832,7 +4832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 0
-  speed: 1000
+  speed: 5000
   damage: 0
 --- !u!65 &-2386206043547448271
 BoxCollider:

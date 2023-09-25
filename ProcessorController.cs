@@ -118,10 +118,10 @@ public class ProcessorController : ComponentController
         }
         if (timer > 1f/speed && interpreter != null) {
             timer -= 1f/speed;
-            foreach (var component in interpreter_input.components.Keys) {
-                print (component);
-            }
-            print ("interpretting with inputs: " + interpreter_input.x + ", " + interpreter_input.y + ", " + interpreter_input.fire);
+            // foreach (var component in interpreter_input.components.Keys) {
+            //     // print (component);
+            // }
+            // print ("interpretting with inputs: " + interpreter_input.x + ", " + interpreter_input.y + ", " + interpreter_input.fire);
             interpreter.Interpret(interpreter_input); //, interpreter_components);
             Interactor.RenderProcess();
             // interpreter_input.x = 0;
@@ -208,7 +208,7 @@ public class ProcessorController : ComponentController
         {
             interpreter_input = new InterpreterInput(0, 0, false, GetComponentInParent<StructureController>().GetComponentControllers());
         }
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n{interpreter.ToString(this.name)}}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n{interpreter.ToString(this.name)}}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             // "⋅  var ship = System.Read (@\"example\");\n" +
             // "⋅  if (size < ship.size) break;\n" +
             // "⋅  foreach (c in ship.components) {\n" +

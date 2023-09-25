@@ -72,20 +72,26 @@ public class StructureController : MonoBehaviour
 
     public void Move(string component, Vector2 direction) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return;
         components[component].transform.Translate(direction * .5f);
     }
     public void SetPosition(string component, Vector2 position) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return;
         components[component].transform.position = position;
     }
     
     public void SetSize(string component, Vector2 size) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return;
         components[component].GetComponent<SpriteRenderer>().size = size;
     }
@@ -93,7 +99,9 @@ public class StructureController : MonoBehaviour
 
     public void Upsize(string component, Vector2 direction) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return;
         components[component].transform.Translate(direction/2);
         components[component].GetComponent<SpriteRenderer>().size += new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
@@ -103,7 +111,9 @@ public class StructureController : MonoBehaviour
 
     public void Downsize(string component, Vector2 direction) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return;
         components[component].transform.Translate(-direction/2);
         components[component].GetComponent<SpriteRenderer>().size -= new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
@@ -112,47 +122,56 @@ public class StructureController : MonoBehaviour
 
     public void Rotate90(string component)
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return;
         components[component].transform.Rotate(new Vector3(0,0,-90));
     }
     public void RotateM90(string component)
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return;
         components[component].transform.Rotate(new Vector3(0,0,90));
     }
     public float GetRotation(string component) {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return 0;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return 0;
-        return components[component].transform.rotation.z;
+        // print (components[component].transform.eulerAngles);
+        return components[component].transform.eulerAngles.y;
     }
 
     public void Remove(string component) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return;
+        component = component.Substring(2);
         if (component.Contains("_")) component = component.Split('_')[1];
         Destroy(components[component].transform.gameObject);
     }
 
     public Vector2 GetSize(string component) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
-        if (!components.ContainsKey(component)) {
-            return Vector2.zero;
-    }
+        if (components == null) return Vector2.zero;;
+        component = component.Substring(2);
+        if (!components.ContainsKey(component)) return Vector2.zero;
         return components[component].transform.GetComponent<SpriteRenderer>().size;
     }
 
     public Vector3 GetLocalPosition(string component) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return Vector2.zero;
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return Vector2.zero;
         return components[component].transform.localPosition;
     }
     public Vector3 GetPosition(string component) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return Vector2.zero;
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) Start();
         if (!components.ContainsKey(component)) return Vector2.zero;
         return components[component].transform.position;
@@ -160,13 +179,15 @@ public class StructureController : MonoBehaviour
 
     public Vector2 GetMinimumSize(string component) 
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return Vector2.zero;
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return Vector2.zero;
         return components[component].transform.GetComponent<ComponentController>().GetMinimumSize();
     }
 
     public void DisableColliders() 
     {
+        if (components == null) return;
         foreach (var component in components.Values)
         {
             component.gameObject.GetComponent<BoxCollider>().enabled = false;
@@ -184,7 +205,8 @@ public class StructureController : MonoBehaviour
 
     public ProcessorController GetProcessorController(string component)
     {
-        if (component[1] == ' ') component = component.Substring(2);
+        if (components == null) return null;
+        component = component.Substring(2);
         if (!components.ContainsKey(component)) return null;
         switch (components[component]) {
             case ProcessorController processor:
@@ -209,17 +231,15 @@ public class StructureController : MonoBehaviour
 
     public string[] GetControllers()
     {
+        if (components == null) return null;
         List<string> controllers = new List<string>();
         foreach (var component in components.Values) {
-            controllers.Add(component.GetIcon() + " " + component.name);
+            controllers.Add(component.GetIcon() + " " + component.name);
         }
         return controllers.ToArray();
     }
     public Dictionary<string, ComponentController> GetComponentControllers()
     {
-        foreach (var component in components.Keys) {
-            print (component);
-        }
         return components;
     }
     public void Design()
@@ -359,7 +379,7 @@ public class StructureController : MonoBehaviour
                             thruster.GetPosition() - center_of_mass
                         ) + this.rotator.localEulerAngles.z;
                         translation += thruster.GetThrustVector() / (active_component_count * 10f);// * Mathf.Cos(angle * Mathf.Deg2Rad);
-                        thrust_rotation = thruster.GetThrustVector().magnitude / active_component_count * Mathf.Sin(angle * Mathf.Deg2Rad);//* -thruster.GetThrustVector().magnitude * 2; //(thruster.GetPosition().x - center_of_mass.x) 
+                        thrust_rotation = thruster.GetThrustVector().magnitude / active_component_count * Mathf.Sin(angle * Mathf.Deg2Rad); //* -thruster.GetThrustVector().magnitude * 2; //(thruster.GetPosition().x - center_of_mass.x) 
                         rotation -= thrust_rotation / 2f;
                         break;
                     case BoosterController booster:
@@ -445,7 +465,7 @@ public class StructureController : MonoBehaviour
                         // )
     public bool IsComponent(string component)
     {
-        if (component.Contains("\t")) component = component.Substring(2);
+        component = component.Substring(2);
         return components.ContainsKey(component);
     }
     public string[] GetInteractiveComponents() {
@@ -520,12 +540,13 @@ public class StructureController : MonoBehaviour
         }
         return others;
     }
-    public string GetComponentToString(string selected)
+    public string GetComponentToString(string component)
     {
-        if (components == null) return "";
-        if (!components.ContainsKey(selected)) return "";
-        components[selected].Focus();
-        return components[selected].ToString();
+        if (components == null) return "Nil";
+        component = component.Substring(2);
+        if (!components.ContainsKey(component)) return "Nil";
+        components[component].Focus();
+        return components[component].ToString();
     }
 
     public string ToString(string selected)

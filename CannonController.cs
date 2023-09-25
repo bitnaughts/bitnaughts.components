@@ -72,8 +72,8 @@ public class CannonController : ComponentController {
         if (reload_timer == null) Ping();
         string output = "";
         for (int i = 0; i < reload_timer.Length; i++) {
-            if (i == reload_timer.Length - 1) output += $"{reload_timer[i].ToString("0.00")}";
-            else output += $"{reload_timer[i].ToString("0.00")}, ";
+            if (i == reload_timer.Length - 1) output += $"{reload_timer[i].ToString("0.00").TrimEnd('0').TrimEnd('.')}";
+            else output += $"{reload_timer[i].ToString("0.00").TrimEnd('0').TrimEnd('.')}, ";
         }
         return  $"{{ {output} }}";
     }

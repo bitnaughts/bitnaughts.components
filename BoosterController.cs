@@ -28,7 +28,7 @@ public class BoosterController : ComponentController {
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public override void Ping() {
-        thrust = Mathf.Clamp(thrust * .95f, THRUST_MIN, THRUST_MAX);
+        thrust = Mathf.Clamp(thrust * .96f, THRUST_MIN, THRUST_MAX);
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
         var sh = GetComponent<ParticleSystem>().shape;
@@ -80,7 +80,7 @@ public class BoosterController : ComponentController {
                     this.transform.rotation,      
                     this.transform
                 ) as GameObject;
-                torpedo.transform.Translate(new Vector3((i + .5f) - reload_timer.Length / 2f, (-0.5f * GetComponent<SpriteRenderer>().size.y) + 2));
+                torpedo.transform.Translate(new Vector3((i + .5f) - reload_timer.Length / 2f, (0.5f * GetComponent<SpriteRenderer>().size.y) - 0.5f));
                 torpedo.name = "↥" + this.name + torpedo_count++;
                 torpedo.transform.SetParent(GameObject.Find("World").transform);
                 torpedo.GetComponent<ProjectileController>().speed = GetComponent<SpriteRenderer>().size.y + 1 + (GetComponentInParent<StructureController>().translation.magnitude * 55);//7f);
@@ -113,14 +113,14 @@ public class BoosterController : ComponentController {
     public string GetReloadString() {
         string output = "";
         for (int i = 0; i < reload_timer.Length; i++) {
-            if (i == reload_timer.Length - 1) output += $"{reload_timer[i].ToString("0.00")}";
-            else output += $"{reload_timer[i].ToString("0.00")}, ";
+            if (i == reload_timer.Length - 1) output += $"{reload_timer[i].ToString("0.00").TrimEnd('0').TrimEnd('.')}";
+            else output += $"{reload_timer[i].ToString("0.00").TrimEnd('0').TrimEnd('.')}, ";
         }
         return  $"{{ {output} }}";
     }
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.000")};\n barrels = {GetReloadString()};\n /*_Boost_Control_*/\n void Boost (int delta) {{\n  thrust += delta;\n }}\n /*_Torpedo_Control_*/\n void Launch_() {{\n  new Torpedo (size.y);\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.00").TrimEnd('0').TrimEnd('.')};\n barrels = {GetReloadString()};\n /*_Boost_Control_*/\n void Boost (int delta) {{\n  thrust += delta;\n }}\n /*_Torpedo_Control_*/\n void Launch_() {{\n  new Torpedo (size.y);\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

@@ -44,7 +44,7 @@ public class ProjectileController : MonoBehaviour
              if (hit.collider.gameObject.name.Contains("Asteroid")) {
 
              } else if (this.name.Contains("↥")) {
-                print ("hit " + hit.collider.gameObject.name);
+                // print ("hit " + hit.collider.gameObject.name);
                 GameObject.Find("World").GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position + new Vector3(0, 10, 10), hit.collider.gameObject.GetComponent<SpriteRenderer>().size.magnitude * 5f, "Torpedo");
                 Destroy(hit.collider.gameObject);//.GetComponent<StructureController>().Hit(damage);
                 // GameObject.Find("ScreenCanvas").GetComponent<Interactor>().HitSfx();

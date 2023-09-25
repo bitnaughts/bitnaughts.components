@@ -17,7 +17,7 @@ public class ThrusterController : ComponentController {
         var exhaust_emission = GetComponent<ParticleSystem>().emission;
         exhaust_emission.rate = Mathf.Clamp(thrust * GetComponent<SpriteRenderer>().size.x, 0, 100);
         var main = GetComponent<ParticleSystem>().main;
-        main.startLifetime = thrust / 25f;
+        main.startLifetime = thrust / 100f;
         main.startSize = new ParticleSystem.MinMaxCurve((GetComponent<SpriteRenderer>().size.x - 2) / 2, GetComponent<SpriteRenderer>().size.x - 2);
     }    
     public override void Ping() {
@@ -38,7 +38,7 @@ public class ThrusterController : ComponentController {
             Interactor.PlayMusic();
         }
         else {
-            GetComponent<AudioSource>().volume = Mathf.Clamp(thrust, 0, 100) / 150f * Interactor.GetVolume();
+            GetComponent<AudioSource>().volume = Mathf.Clamp(thrust, 0, 100) / 250f * Interactor.GetVolume();
         }
         if (this == null) { Destroy(this.gameObject); return -999; }
         thrust = Mathf.Clamp(thrust + (input/1), THRUST_MIN, Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * 2.5f, THRUST_MIN, THRUST_MAX));
@@ -67,6 +67,6 @@ public class ThrusterController : ComponentController {
     public override string GetIcon() { return "◉"; }
     public override string ToString()
     {
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.000")};\n /*_Throttle_Control_*/\n void Throttle (double delta) {{\n  thrust += delta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.00").TrimEnd('0').TrimEnd('.')};\n /*_Throttle_Control_*/\n void Throttle (double delta) {{\n  thrust += delta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

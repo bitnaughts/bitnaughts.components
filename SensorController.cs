@@ -36,7 +36,7 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
 
             return -1;
         } else {
-            print ("Raycasting");
+            // print ("Raycasting");
             
             // var random = new System.Random();
             // return (float)(random.NextDouble() * 1998f - 999f); 
@@ -55,7 +55,7 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, asteroidMask))
             {
                 // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
-                Debug.Log("Did Hit asteroidMask" + hit.collider.gameObject.name + hit.distance);
+                // Debug.Log("Did Hit asteroidMask" + hit.collider.gameObject.name + hit.distance);
                 asteroidDistance = hit.distance;
                 
                 // Fire();
@@ -64,7 +64,7 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
             else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, enemyMask))
             {
                 // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * hit.distance, Color.yellow);
-                Debug.Log("Did Hit enemyMask" + hit.collider.gameObject.name + hit.distance);
+                // Debug.Log("Did Hit enemyMask" + hit.collider.gameObject.name + hit.distance);
                 enemyDistance = hit.distance;
                 if (hit.collider.gameObject.name.StartsWith("HeatRay")) {
                     Interactor.ProgressCampaign();
@@ -124,7 +124,7 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     public override string GetIcon() { return "◌"; }
     public override string ToString() //double dis = {distance.ToString("0.0")};
     {
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n /*_Cast_Ray_*/\n double Scan_() {{\n  return new Ray ().GetLength ();\n }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n /*_Cast_Ray_*/\n double Scan_() {{\n  return new Ray ().GetLength ();\n }}\n}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             //  ┣ ↹ " + GetComponent<SpriteRenderer>().size.ToString() + "\n  ┗ ↺ " + gameObject.transform.localEulerAngles.z.ToString("0.0") + "°\n  ";
     }
 //     {

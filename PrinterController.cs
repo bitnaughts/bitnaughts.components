@@ -63,6 +63,6 @@ public class PrinterController : ComponentController {
                 output += "  " + components_declarations[i] + "\n";
             }
         }
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n /*_Construct_Ship_*/\n void Print_() {{\n{output}  $\n }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n /*_Construct_Ship_*/\n void Print_() {{\n{output}  $\n }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }
