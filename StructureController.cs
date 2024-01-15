@@ -144,6 +144,14 @@ public class StructureController : MonoBehaviour
         // print (components[component].transform.eulerAngles);
         return components[component].transform.eulerAngles.y;
     }
+    public float GetLocalRotation(string component) {
+        if (components == null) return 0;
+        // if (component[1] == ' ') 
+        component = component.Substring(2);
+        if (!components.ContainsKey(component)) return 0;
+        print (components[component].transform.localEulerAngles);
+        return components[component].GetLocalRotation();
+    }
 
     public void Remove(string component) 
     {
@@ -561,6 +569,7 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
+        print (translation);
         // print ($"♘position:[{Neaten(this.transform.localPosition.x)},{Neaten(this.transform.localPosition.y)}");
         string output = $"♘position:[{Neaten(this.transform.localPosition.x)},{Neaten(this.transform.localPosition.y)},{Neaten(this.rotator.localEulerAngles.z)}]♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}]";//,{Neaten(average_rotation)}]";
         output += "♘classes:";

@@ -102,6 +102,11 @@ public abstract class ComponentController : MonoBehaviour
     public static string Neaten(float input) {
         return input.ToString("0.00").TrimEnd('0').TrimEnd('.');
     }
+    public float GetLocalRotation() {
+        var gimbal = this.transform.parent.gameObject.GetComponentInParent<GimbalController>();
+        if (gimbal == null) return this.transform.localEulerAngles.z;
+        return gimbal.Action() + this.transform.localEulerAngles.z;
+    }
     public string ComponentToString() {
         
         return $"♘{this.GetIcon() + this.name}:[{Neaten(transform.localPosition.x)},{Neaten(transform.localPosition.y)},{Neaten(GetComponent<SpriteRenderer>().size.x)},{Neaten(GetComponent<SpriteRenderer>().size.y)},{Neaten(gameObject.transform.localEulerAngles.z)}]";

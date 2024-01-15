@@ -47,9 +47,14 @@ MonoBehaviour:
   isAi: 1
   translation: {x: 0, y: 0}
   average_rotation: 0
+  rotation: 0
   Explosion: {fileID: 0}
   Launched: 1
   explosion_timer: 0
+  delete_timer: 0
+  random_initial_speed: 0
+  random_rotation: 0
+  Hitpoints: 0
 --- !u!1 &9153768314869340752
 GameObject:
   m_ObjectHideFlags: 0

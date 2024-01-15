@@ -39,7 +39,7 @@ public class GimbalController : ComponentController
     }
     public override float Action () 
     {
-        return 0;
+        return gameObject.transform.localEulerAngles.z + gimbal_grid.transform.localEulerAngles.z;
     }
     public override float Action (float input) 
     {
