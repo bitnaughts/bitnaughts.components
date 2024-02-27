@@ -7,7 +7,10 @@ using UnityEngine;
 public class PrinterController : ComponentController {   
     public GameObject Head, Beam1, Beam2;
     public int print_index = -1;
-    public string[] components_declarations;
+    public string[] components_declarations;    
+    public override float GetCost() {
+        return 420; //4 metal 2 silicon
+    }
     public override void Focus() {
             Beam1.transform.localPosition = new Vector2(Head.transform.localPosition.x, 0);
             Beam1.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.y);
@@ -22,7 +25,7 @@ public class PrinterController : ComponentController {
                 Mathf.Clamp(pos.y - Head.transform.localPosition.y, -.1f, .1f)
             )
         );
-        if (Mathf.Abs(Head.transform.localPosition.x - pos.x) < .1f && Mathf.Abs(Head.transform.localPosition.y - pos.y) < .1f) {
+        if (Mathf.Abs(Head.transform.localPosition.x - pos.x) < .2f && Mathf.Abs(Head.transform.localPosition.y - pos.y) < .2f) {
             Head.transform.localPosition = pos;
             Focus();
             print_index++;
@@ -30,6 +33,16 @@ public class PrinterController : ComponentController {
         }
         Focus();
         return false;
+    }
+    public void Edit() {
+        Head.SetActive(false);
+        Beam1.SetActive(false);
+        Beam2.SetActive(false);
+    }
+    public void Print() {
+        Head.SetActive(true);
+        Beam1.SetActive(true);
+        Beam2.SetActive(true);
     }
     public override void Ping() {
         // if (interpreter == null) interpreter = new InterpreterV3(new List<ClassObj>(){new ClassObj("▦")});
@@ -44,6 +57,7 @@ public class PrinterController : ComponentController {
     }
 
     public override void Launch() {
+        launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public override Vector2 GetMinimumSize ()
@@ -63,6 +77,6 @@ public class PrinterController : ComponentController {
                 output += "  " + components_declarations[i] + "\n";
             }
         }
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n /*_Construct_Ship_*/\n void Print_() {{\n{output}  $\n }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n blueprint = Component [{components_declarations.Length}] {{\n  new Processor (),\n  new Bulkhead (),\n  new Thruster (),\n  new Booster (),\n  new Booster ()\n }};\n\n /*_Construct_Ship_*/\n void Print_() {{\n  for (int i = 0; i < blueprint.Length; i++)\n  {{\n   Instantiate (blueprint[i]);\n  }}\n }}\n\n /*_Modify_Ship_*/\n void Edit_() {{ }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }

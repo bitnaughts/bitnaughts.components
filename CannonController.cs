@@ -13,6 +13,9 @@ public class CannonController : ComponentController {
     float[] reload_timer;
     public const float RELOAD_TIME = 1f;
     private int shell_count = 0;
+    public override float GetCost() {
+        return 101; //1 metal 1 carbon
+    }
     public override void Focus() {
 
     }
@@ -66,6 +69,7 @@ public class CannonController : ComponentController {
         return new Vector2(2, 2);
     }
     public override void Launch() {
+        launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public string GetReloadString() {
@@ -80,6 +84,6 @@ public class CannonController : ComponentController {
     public override string GetIcon() { return "◍"; }
     public override string ToString()
     {
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n barrels = {GetReloadString()};\n  /*_Weapon_control_*/\n  void Fire_() {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b, size.y);\n      barrels[b] = size.y;\n    }}\n  }}\n  /*_Get_loaded_barrel_*/\n  int GetBarrel_() {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n barrels = {GetReloadString()};\n  /*_Weapon_control_*/\n  void Fire_() {{\n    int b = getBarrel();\n    if (b != -1) {{\n      Shell s = new Shell (b, size.y);\n      barrels[b] = size.y;\n    }}\n  }}\n  /*_Get_loaded_barrel_*/\n  int GetBarrel_() {{\n    for (int b = 0; b < barrels.length; b++) {{\n     if (barrels[b] == 0) {{ \n       return b;\n     }}\n    }}\n    return -1;\n  }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

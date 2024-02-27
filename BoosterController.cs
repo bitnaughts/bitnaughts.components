@@ -15,7 +15,12 @@ public class BoosterController : ComponentController {
     public const float RELOAD_TIME = 1f;
     private int torpedo_count = 0;
 
+    public override float GetCost() {
+        return 102; //1 metal 2 carbon
+    }
+
     public override void Focus() {
+        if (structure == null) structure = this.GetComponentInParent<StructureController>();
         var sh = GetComponent<ParticleSystem>().shape;
         sh.radius = (GetComponent<SpriteRenderer>().size.x * .35f);
 
@@ -25,6 +30,7 @@ public class BoosterController : ComponentController {
         main.startSize = new ParticleSystem.MinMaxCurve(GetComponent<SpriteRenderer>().size.x / 2, GetComponent<SpriteRenderer>().size.x);
     }    
     public override void Launch() {
+        launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public override void Ping() {
@@ -66,9 +72,15 @@ public class BoosterController : ComponentController {
         return thrust;
     }
     public void Fire () {
+        // foreach (var comp in structure.components)
+        // {
+        //     if (comp.Value.GetType().Name == "BulkheadController") { comp.Value.Action(-1000); break; }
+        // }
         for (int i = 0; i < reload_timer.Length; i++) {
-            if (reload_timer[i] <= 0)
+            var bulkhead = structure.GetBulkheadController();
+            if (reload_timer[i] <= 0 && bulkhead != null)
             {
+                bulkhead.Action(-1000);
                 GetComponent<AudioSource>().clip = TorpedoFireSfx;
                 GetComponent<AudioSource>().volume = .05f;//Interactor.GetVolume() / 8;
                 GetComponent<AudioSource>().Play();
@@ -86,6 +98,7 @@ public class BoosterController : ComponentController {
                 torpedo.GetComponent<ProjectileController>().speed = GetComponent<SpriteRenderer>().size.y + 1 + (GetComponentInParent<StructureController>().translation.magnitude * 55);//7f);
                 torpedo.GetComponent<ProjectileController>().acceleration = 1f / GetComponent<SpriteRenderer>().size.y;
                 torpedo.GetComponent<ProjectileController>().damage = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1) * 2;
+                torpedo.GetComponent<ProjectileController>().bulkhead = bulkhead;
                 torpedo.GetComponent<SpriteRenderer>().size = new Vector2 (.65f, GetComponent<SpriteRenderer>().size.y);
                 var sh = torpedo.GetComponent<ParticleSystem>().shape;
                 sh.position = new Vector2(0, -(GetComponent<SpriteRenderer>().size.y / 2));
@@ -121,6 +134,6 @@ public class BoosterController : ComponentController {
     public override string GetIcon() { return "◎"; }
     public override string ToString()
     {
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.00").TrimEnd('0').TrimEnd('.')};\n barrels = {GetReloadString()};\n /*_Boost_Control_*/\n void Boost (int delta) {{\n  thrust += delta;\n }}\n /*_Torpedo_Control_*/\n void Launch_() {{\n  new Torpedo (size.y);\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n thrust = {thrust.ToString("0.00").TrimEnd('0').TrimEnd('.')};\n barrels = {GetReloadString()};\n /*_Boost_Control_*/\n void Boost (int delta) {{\n  thrust += delta;\n }}\n /*_Torpedo_Control_*/\n void Launch_() {{\n  new Torpedo (size.y);\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

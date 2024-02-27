@@ -100,9 +100,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Interactor: {fileID: 0}
+  structure: {fileID: 0}
   sprite: {fileID: 21300000, guid: 81768779e2860474ca637f4f287599f4, type: 3}
   inverse: {fileID: 21300000, guid: 2b0bad623eccb264ea74d1465c2a5c6f, type: 3}
   deleteTime: 10
+  launched: 0
   ThrustFireSfx: {fileID: 8300000, guid: d1d4143339184164cbd6fae7c662c70b, type: 3}
 --- !u!199 &6928745132279863510
 ParticleSystemRenderer:
@@ -4899,7 +4901,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6, y: 4, z: 0.2}
+  m_Size: {x: 6, y: 4, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &6325171713223024115
 AudioSource:

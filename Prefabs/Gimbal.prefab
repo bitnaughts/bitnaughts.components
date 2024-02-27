@@ -97,12 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def9965a74fd69a4486070b3134762ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OverlayInteractor: {fileID: 0}
   Interactor: {fileID: 0}
+  structure: {fileID: 0}
   sprite: {fileID: 21300000, guid: 753df7ce4f993b94ebe79ba06773dd7d, type: 3}
   inverse: {fileID: 21300000, guid: d92df233a5d584d43a2e07e89ba907dc, type: 3}
   deleteTime: 10
+  launched: 0
   speed: 0
+  grid_sprite: {fileID: 0}
 --- !u!65 &-5585087986201263631
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -114,7 +116,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 0.2}
+  m_Size: {x: 2, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4014729094875030951
 GameObject:

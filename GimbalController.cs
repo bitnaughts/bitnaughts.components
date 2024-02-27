@@ -13,6 +13,9 @@ public class GimbalController : ComponentController
     public Sprite grid_sprite;
 
     public const int INPUT_MIN = -3600, INPUT_MAX = 360;
+    public override float GetCost() {
+        return 110; //1 metal 1 silicon
+    }
 
     private void Awake () {
         gimbal_grid = transform.GetChild(0).gameObject;
@@ -32,6 +35,7 @@ public class GimbalController : ComponentController
         // gimbal_grid.GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size;
     }
     public override void Launch() {
+        launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
         gimbal_grid.GetComponent<SpriteRenderer>().sprite = grid_sprite;
     }
@@ -55,7 +59,7 @@ public class GimbalController : ComponentController
     public override string GetIcon() { return "▣"; }
     public override string ToString()
     { //▤<b>≣ Data</b>
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n rot = {gimbal_grid.transform.localEulerAngles.z.ToString("0.00").TrimEnd('0').TrimEnd('.')};\n /*_Gimbal_Control_*/\n void Rotate (double theta) {{\n  rot += theta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n rot = {gimbal_grid.transform.localEulerAngles.z.ToString("0.00").TrimEnd('0').TrimEnd('.')};\n /*_Gimbal_Control_*/\n void Rotate (double theta) {{\n  rot += theta;\n }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             // "⋅ double angle = " + gimbal_grid.transform.localEulerAngles.z.ToString("0.0") + ";\n" +  
             // "⋅ double speed = " + speed.ToString("0.0") + ";\n" +  
             // "⋅ \n" +

@@ -5,6 +5,9 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using UnityEngine;
 public class GirderController : ComponentController {   
+    public override float GetCost() {
+        return 001; //1 carbon
+    }
     public override void Focus() {
     }
     public override void Ping() {
@@ -23,11 +26,12 @@ public class GirderController : ComponentController {
         return new Vector2(2, 2);
     }
     public override void Launch() {
+        launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public override string GetIcon() { return "▨"; }
     public override string ToString()
     {
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n}}\n<b>Exit</b>\n\n<b>Delete</b>";
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n}}\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }

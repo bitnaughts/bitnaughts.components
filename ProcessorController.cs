@@ -9,6 +9,8 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 public class ProcessorController : ComponentController
 {
+    public Sprite MainSprite, WhileSprite, IfSprite, ForSprite, ThrottleSprite, BoostSprite, LaunchSprite;
+    public GameObject prefab;
     public string object_class_string = "class Object {\n\tfloat x, y, w, h;\n}";
     public string class_string = "class Processor : Object {\n\tvoid main() {\n\t\tprint(\"Hello\");\n\t}\n}";
     public string[] override_instructions;
@@ -23,8 +25,11 @@ public class ProcessorController : ComponentController
     
     string iterate_result;    
     public const int SPEED_MIN = 0, SPEED_MAX = 999;
-
+    public override float GetCost() {
+        return 220; //2 metal 2 silicon
+    }
     public override void Launch() {
+        launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public override void Focus() {
@@ -35,7 +40,7 @@ public class ProcessorController : ComponentController
             // else 
                 // SetInstructions(override_instructions);
         
-        speed = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * .25f, SPEED_MIN, SPEED_MAX);
+        speed = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y * .2f, SPEED_MIN, SPEED_MAX);
     }
     public override void Ping() {
     }
@@ -116,7 +121,7 @@ public class ProcessorController : ComponentController
         if (Input.GetKey("space")) {
             interpreter_input.fire = true;
         }
-        if (timer > 1f/speed && interpreter != null) {
+        if (timer > 1f/speed && interpreter != null && launched) {
             timer -= 1f/speed;
             // foreach (var component in interpreter_input.components.Keys) {
             //     // print (component);
@@ -127,6 +132,52 @@ public class ProcessorController : ComponentController
             // interpreter_input.x = 0;
             // interpreter_input.y = 0;
             // interpreter_input.fire = false;
+            float y = -(GetComponent<SpriteRenderer>().size.y - 1f) / 2f;
+            for (int i = 0; i < transform.childCount; i++) {
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
+            // print ("Stack: " + interpreter.scope.stack.Count);
+            // this.transform.Find(y.ToString()).gameObject.SetActive(true);
+            foreach (var scope in interpreter.scope.stack.Reverse())
+            {
+                print (scope.name);
+                switch (scope.name) 
+                {
+                    case "Main":
+                        InstantiateTile(y++, MainSprite);
+                        break;
+                    case "while":
+                        InstantiateTile(y++, WhileSprite);
+                        break;
+                    case "if":
+                        InstantiateTile(y++, IfSprite);
+                        break;
+                    case "for":
+                        InstantiateTile(y++, ForSprite);
+                        break;
+                }
+            }
+            string current_line = interpreter.line_parts[0];
+            if (current_line.Contains("."))
+            {
+                if (current_line.Contains("Throttle"))
+                {
+                    InstantiateTile(y++, ThrottleSprite);
+
+                }
+                else if (current_line.Contains("Boost"))
+                {
+                    InstantiateTile(y++, BoostSprite);
+
+                }
+                else if (current_line.Contains("Launch"))
+                {
+                    InstantiateTile(y++, LaunchSprite);
+                }
+            }
+            // print (interpreter.line_parts[0]);
+            // if ()
+            // if (interpreter.line_parts[0] == "Engine.")
         }
     }
     int index = 2;
@@ -201,6 +252,25 @@ public class ProcessorController : ComponentController
         instructions[edit_line] = String.Join(" ", parts);
         SetInstructions(instructions);
     }
+
+    
+    void InstantiateTile(float y, Sprite sprite)
+    {
+        if (this.transform.Find("Processor" + y.ToString()) != null) {
+            this.transform.Find("Processor" + y.ToString()).gameObject.SetActive(true);
+            this.transform.Find("Processor" + y.ToString()).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = sprite;
+            return;
+        }
+        var object_instance = Instantiate(prefab, new Vector3(0, 0, y), Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
+        object_instance.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = sprite;
+        object_instance.name = "Processor" + y.ToString();
+        print ("Instantiated " + object_instance.name);
+        // object_instance.GetComponent<SpriteRenderer>().size = new Vector2(float.Parse(size.Split(',')[0]), float.Parse(size.Split(',')[1]));
+        object_instance.transform.SetParent(this.transform);//.parent.GameObject);//structure.transform.Find("Rotator"));
+        object_instance.transform.localPosition = new Vector2(0, y);
+        object_instance.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+    }
+
     public override string GetIcon() { return "▩"; }
     public override string ToString()
     {    

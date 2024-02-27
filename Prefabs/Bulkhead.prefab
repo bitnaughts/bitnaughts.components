@@ -97,9 +97,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Interactor: {fileID: 0}
+  structure: {fileID: 0}
   sprite: {fileID: 21300000, guid: c5ec160a1f7efab4fb3001c290acac1b, type: 3}
   inverse: {fileID: 21300000, guid: 58bb90cb7adec9c48b39d0b5b004a02a, type: 3}
   deleteTime: 10
+  launched: 0
+  prefab: {fileID: 60396821422260598, guid: e99f1bfdf3bda904bb2a941478f43ad1, type: 3}
+  CarbonSprite: {fileID: 21300000, guid: c8eef0907b0089540b25ce723bdd153f, type: 3}
+  SiliconSprite: {fileID: 21300000, guid: 460ae4cb47886db448fdb5d93ab237f8, type: 3}
+  IronSprite: {fileID: 21300000, guid: 8e800d197d1aa85448035da66930de79, type: 3}
+  TorpedoSprite: {fileID: 21300000, guid: 78ca08b4ae8dd04438e0c418aa37ea88, type: 3}
+  data: 0
+  capacity: 0
+  heap: 
 --- !u!65 &3929242584399809209
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -111,5 +121,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 6, z: 0.2}
+  m_Size: {x: 3, y: 6, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

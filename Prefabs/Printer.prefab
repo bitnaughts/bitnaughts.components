@@ -5131,14 +5131,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57fb548084f0e3499b1995107aea703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OverlayInteractor: {fileID: 0}
   Interactor: {fileID: 0}
+  structure: {fileID: 0}
   sprite: {fileID: 21300000, guid: a1e0018d13483b842a7ed2273d282ce6, type: 3}
   inverse: {fileID: 21300000, guid: a1e0018d13483b842a7ed2273d282ce6, type: 3}
   deleteTime: 10
+  launched: 0
   Head: {fileID: 3653331193503297490}
   Beam1: {fileID: 7392114070073813095}
   Beam2: {fileID: 1964713234762001027}
+  print_index: -1
+  components_declarations: []
 --- !u!65 &5594561667039912089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5150,5 +5153,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 3, z: 0.2}
+  m_Size: {x: 3, y: 3, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}

@@ -10,6 +10,9 @@ public class ThrusterController : ComponentController {
     public AudioClip ThrustFireSfx;
     private float thrust = 0;
     public const int INPUT_MIN = -100, INPUT_MAX = 100, THRUST_MIN = 0, THRUST_MAX = 999;
+    public override float GetCost() {
+        return 104; //1 metal 4 carbon
+    }
 
     public override void Focus() {
         var sh = GetComponent<ParticleSystem>().shape;
@@ -23,6 +26,7 @@ public class ThrusterController : ComponentController {
     public override void Ping() {
     }
     public override void Launch() {
+        launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public override float Action () 

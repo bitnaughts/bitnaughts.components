@@ -40,16 +40,38 @@ public enum TerrainType {
     Carbonaceous,
     Siliceous,
     Metallic,
-    Empty
+    Empty,
+    Torpedo
 }
 
-public class AsteroidController : MonoBehaviour
+public class AsteroidController : ComponentController
 {
     public GameObject prefab;
     public Sprite[] AsteroidTileset;
 
     Dictionary<Point, TerrainType> terrain;
-    // Start is called before the first frame update
+    public override Vector2 GetMinimumSize ()
+    {
+        return new Vector2(2, 2);
+    }
+    public override float GetCost() {
+        return 000;
+    }
+    public override void Launch() {
+        launched = true;
+    }
+    public override void Ping() {
+    }
+    public override void Focus() {
+    }
+    public override float Action (float input) 
+    {
+        return 0;
+    }
+    public override float Action () 
+    {
+        return 0;
+    }
     void Start()
     {
         terrain = new Dictionary<Point, TerrainType>();
@@ -58,9 +80,9 @@ public class AsteroidController : MonoBehaviour
         }
         System.Random rand = new System.Random();
         terrain = new Dictionary<Point, TerrainType>();
-        for (int x = -6; x <= 6; x += 2)
+        for (int x = -6; x <= 6; x += 4)
         {
-            for (int y = -6; y <= 6; y += 2)
+            for (int y = -8; y <= 8; y += 4)
             {
                 int z = rand.Next(0, 3);
                 if (z== 0) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
@@ -69,9 +91,9 @@ public class AsteroidController : MonoBehaviour
                 // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
             }
         }
-        for (int x = -4; x <= 4; x += 2)
+        for (int x = -2; x <= 2; x += 4)
         {
-            for (int y = -10; y <= 8; y += 2)
+            for (int y = -12; y <= -8; y += 4)
             {
                 int z = rand.Next(0, 3);
                 if (z== 0) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
@@ -80,17 +102,17 @@ public class AsteroidController : MonoBehaviour
                 // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
             }
         }
-        for (int x = -4; x <= 4; x += 2)
-        {
-            for (int y = -12; y <= 10; y += 2)
-            {
-                int z = rand.Next(0, 7);
-                if (z== 0) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
-                if (z == 1) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Siliceous); 
-                if (z == 2) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic); 
-                // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
-            }
-        }
+        // for (int x = -6; x <= 6; x += 4)
+        // {
+        //     for (int y = -12; y <= 12; y += 4)
+        //     {
+        //         int z = rand.Next(0, 7);
+        //         if (z == 0) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
+        //         if (z == 1) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Siliceous); 
+        //         if (z == 2) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic); 
+        //         // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
+        //     }
+        // }
         // System.Random rand = new System.Random();
         // for (int r = 0; r < 750; r++) 
         // {
@@ -110,14 +132,15 @@ public class AsteroidController : MonoBehaviour
         //     int y = rand.Next(-20, 20); // Generates a random integer between -5 and 5
         //     if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
         // }
+        Interactor = GameObject.Find("ScreenCanvas").GetComponent<Interactor>();
     }
 
     public void Hit(string name) {
         Point p = new Point(float.Parse(name.Split(',')[0]), float.Parse(name.Split(',')[1]));
-        Point top_left_shift = new Point(-1f, 1f);
-        Point top_right_shift = new Point(1f, 1f);
-        Point bottom_left_shift = new Point(-1f, -1f);
-        Point bottom_right_shift = new Point(1f, -1f);
+        Point top_left_shift = new Point(-2f, 2f);
+        Point top_right_shift = new Point(2f, 2f);
+        Point bottom_left_shift = new Point(-2f, -2f);
+        Point bottom_right_shift = new Point(2f, -2f);
         if (terrain.ContainsKey(p + top_left_shift)) {
             // print ("destroy " + name);
             terrain.Remove(p + top_left_shift);
@@ -187,10 +210,10 @@ public class AsteroidController : MonoBehaviour
             }
             foreach (var point in terrain.Keys) 
             {
-                Point top_left_shift = new Point(-1f, 1f);
-                Point top_right_shift = new Point(1f, 1f);
-                Point bottom_left_shift = new Point(-1f, -1f);
-                Point bottom_right_shift = new Point(1f, -1f);
+                Point top_left_shift = new Point(-2f, 2f);
+                Point top_right_shift = new Point(2f, 2f);
+                Point bottom_left_shift = new Point(-2f, -2f);
+                Point bottom_right_shift = new Point(2f, -2f);
 
                 Point top_left = point + top_left_shift;
                 Point top_right = point + top_right_shift;
@@ -1099,7 +1122,7 @@ public class AsteroidController : MonoBehaviour
         var object_instance = Instantiate(prefab, new Vector3(point.x, 0, point.y), Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
         object_instance.GetComponent<SpriteRenderer>().sprite = sprite;
         object_instance.name = point.ToString();
-        print ("Instantiated " + object_instance.name);
+        // print ("Instantiated " + object_instance.name);
         // object_instance.GetComponent<SpriteRenderer>().size = new Vector2(float.Parse(size.Split(',')[0]), float.Parse(size.Split(',')[1]));
         object_instance.transform.SetParent(this.transform);//.parent.GameObject);//structure.transform.Find("Rotator"));
         object_instance.transform.localPosition = new Vector2(
@@ -1107,5 +1130,57 @@ public class AsteroidController : MonoBehaviour
             point.y
         );
         object_instance.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+    }
+
+    public override string GetIcon() { return "▢"; }
+    public override string ToString()
+    {
+        string asteroid_string = "";
+        int count = 0;
+        float min_x = 999, min_y = 999, max_x = -999, max_y = -999;
+        foreach (var t in terrain) 
+        {
+            if (t.Key.x < min_x) min_x = t.Key.x;
+            if (t.Key.y < min_y) min_y = t.Key.y;
+            if (t.Key.x > max_x) max_x = t.Key.x;
+            if (t.Key.y > max_y) max_y = t.Key.y;
+        }
+        int size_x = (int)Mathf.Round((max_x - min_x) / 4 + 1) , size_y = (int)Mathf.Round((max_y - min_y) / 4 + 1);
+        asteroid_string += $" asteroid = new Object [{size_x}, {size_y}] {{";
+        string[,] positions = new string[size_x, size_y];
+        for (int i = 0; i < size_x; i++) {
+            for (int j = 0; j < size_y; j++) {
+                positions[i, j] = "-";
+            }
+        }
+        foreach (var t in terrain) 
+        {
+            int x = 0, y = 0;
+            x = (int)Mathf.Round(t.Key.x - min_x) / 4;
+            y = (int)Mathf.Round(t.Key.y - min_y) / 4;
+            print (size_x + " " + size_y + " ==== " + x + " " + y + " -> " + t.Value);
+            switch (t.Value)
+            {
+                case TerrainType.Carbonaceous:
+                    positions[x, y] = "C";
+                    break;
+                case TerrainType.Siliceous:
+                    positions[x, y] = "S";
+                    break;
+                case TerrainType.Metallic:
+                    positions[x, y] = "F";                    
+                    break;
+            }
+        }
+        for (int j = size_y - 1; j >= 0; j--) {
+            asteroid_string += "\n  ";
+            for (int i = 0; i < size_x; i++) {
+                if (i == size_x - 1 && j == 0) asteroid_string += positions[i, j];
+                else asteroid_string += positions[i, j] + ", ";
+            }
+        }
+        // if (count != 0) 
+        asteroid_string += "\n };\n";
+        return $"{GetIcon()} {this.name}\nclass Asteroid {{\n{asteroid_string}\n /*_Expand_Asteroid_*/\n void Add () {{ }}\n\n /*_Contract_Asteroid_*/\n void Delete_() {{ }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
     }
 }

@@ -26,11 +26,14 @@ using UnityEngine.UI;
 public abstract class ComponentController : MonoBehaviour
 {
     public Interactor Interactor;
-    
+    public StructureController structure;
     // private ClassController classController;
     private GameObject MapScreenPanOverlay;
     public Sprite sprite, inverse;
     public float deleteTime = 10f;
+    public bool launched = false;
+    Vector3 panOrigin;
+    bool panning = false;
     void Start() {
         MapScreenPanOverlay = GameObject.Find("MapScreenPanOverlay");
         Interactor = GameObject.Find("ScreenCanvas").GetComponent<Interactor>();
@@ -54,6 +57,8 @@ public abstract class ComponentController : MonoBehaviour
     
     public abstract Vector2 GetMinimumSize();
 
+    public abstract float GetCost();
+
     public void Remove()
     {
         // foreach (var part in parts) Destroy (part.Value);
@@ -65,16 +70,64 @@ public abstract class ComponentController : MonoBehaviour
     bool CheckInsideEdge() {
         return (Input.mousePosition.y > 114 && Input.mousePosition.y < Screen.height - 150 && Input.mousePosition.x > 114 && Input.mousePosition.x < Screen.width - 114);
     }
+    void OnMouseDown()
+    {
+        offset = new Vector3(0, 0, 0);
+        if (Interactor.OverlayInteractor.gameObject.activeSelf && !this.name.Contains("Printer")) panning = true;
+        panOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        // OnMouseUpFx(); if (Interactor.OverlayInteractor.gameObject.activeSelf) Interactor.OverlayInteractor.Resize();
+    }
+    Vector3 offset = new Vector3(0, 0, 0);
+
+    void OnMouseOver()
+    {
+        if (panning)
+        {
+            Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition) - panOrigin;
+            offset += pos * Camera.main.orthographicSize * 2f;
+            print (offset.x + " " + offset.y);
+            panOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            if (offset.x > 0.25f) {
+                offset.x -= 0.25f;
+                transform.localPosition = new Vector3(transform.localPosition.x + 0.25f, transform.localPosition.y);
+                Interactor.OverlayInteractor.Resize();
+            }
+            if (offset.x < -0.25f) {
+                offset.x += 0.25f;
+                transform.localPosition = new Vector3(transform.localPosition.x - 0.25f, transform.localPosition.y);
+                Interactor.OverlayInteractor.Resize();
+            }
+            if (offset.y > 0.25f) {
+                offset.y -= 0.25f;
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 0.25f);
+                Interactor.OverlayInteractor.Resize();
+            }
+            if (offset.y < -0.25f) {
+                offset.y += 0.25f;
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.25f);
+                Interactor.OverlayInteractor.Resize();
+            }
+        
+        }
+        // OnMouseUpFx();
+    }
+
     void OnMouseUp()
     {
+        OnMouseUpFx();
+    }
+    public void OnMouseUpFx() 
+    {
+        panning = false;
         if (Interactor.GetClickDuration() < 0.25) {// && OverlayInteractor.gameObject.activeSelf == false) {//GameObject.Find("Dropdown List") == null && EventSystem.current.currentSelectedGameObject == null) {
             if (CheckInsideEdge()) {
-                if (Interactor.OverlayInteractor.gameObject.activeSelf) return;//&& !CheckOutsideOverlay()) return;
+                if (Interactor.printing_stage != "Edit" && Interactor.OverlayInteractor.gameObject.activeSelf) return;//&& !CheckOutsideOverlay()) return;
                 for (int i = 0; i < Interactor.OverlayInteractor.OverlayDropdown.options.Count; i++) {
                     if (Interactor.OverlayInteractor.OverlayDropdown.options[i].text.Contains(name)) {
                         if (Interactor.OverlayInteractor.OverlayDropdown.value != i) {
                             Interactor.OverlayInteractor.OverlayDropdown.value = i; 
                             Interactor.Sound("OnMouse");
+                            // Interactor.SetBinocular("on");
                         }
                     }
                 }
@@ -91,10 +144,11 @@ public abstract class ComponentController : MonoBehaviour
                 Interactor.OverlayInteractor.CloseAllOverlays();
                 Interactor.OverlayInteractor.OverlayCodeInput.GetComponent<InputField>().text = "";
 
-                Camera.main.orthographicSize = 10f;
+                if (GetComponent<SpriteRenderer>() == null) Camera.main.orthographicSize = 25; 
+                else Camera.main.orthographicSize = Mathf.Sqrt(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y);
             }
         }
-    }
+    } 
     public string GetTypeClass() {
         return GetType().ToString().Replace("Controller", "");
     }

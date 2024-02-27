@@ -45,8 +45,9 @@ public class StructureController : MonoBehaviour
         components = new Dictionary<string, ComponentController>();
         foreach (var controller in GetComponentsInChildren<ComponentController>()) 
         {
-            // print (controller.name);
+            // print (controller.name + " -> " + this.name);
             components.Add(controller.name, controller);
+            controller.structure = this;
             // switch (controller) {
             //     case GimbalController gimbal:
             //         // foreach (var gimbal_controller in gimbal.transform.GetChild(0).GetComponentsInChildren<ComponentController>()) {
@@ -96,6 +97,20 @@ public class StructureController : MonoBehaviour
         components[component].GetComponent<SpriteRenderer>().size = size;
     }
     
+    public void UpdateCollider(string component) 
+    {
+        if (components == null) return;
+        component = component.Substring(2);
+        if (!components.ContainsKey(component)) return;
+        if (components[component].GetComponent<BoxCollider>() == null) return;
+        if (components[component].GetComponent<PrinterController>() != null) return;
+        foreach (var c in components.Values)
+        {
+            if (c.gameObject.GetComponent<BoxCollider>() != null) c.GetComponent<BoxCollider>().size = new Vector3(c.GetComponent<BoxCollider>().size.x, c.GetComponent<BoxCollider>().size.y, 1f);
+        }
+        components[component].GetComponent<BoxCollider>().size = new Vector3(components[component].GetComponent<BoxCollider>().size.x, components[component].GetComponent<BoxCollider>().size.y, 10f);
+
+    }
 
     public void Upsize(string component, Vector2 direction) 
     {
@@ -149,7 +164,7 @@ public class StructureController : MonoBehaviour
         // if (component[1] == ' ') 
         component = component.Substring(2);
         if (!components.ContainsKey(component)) return 0;
-        print (components[component].transform.localEulerAngles);
+        // print (components[component].transform.localEulerAngles);
         return components[component].GetLocalRotation();
     }
 
@@ -163,9 +178,10 @@ public class StructureController : MonoBehaviour
 
     public Vector2 GetSize(string component) 
     {
-        if (components == null) return Vector2.zero;;
+        if (components == null) return Vector2.zero;
         component = component.Substring(2);
         if (!components.ContainsKey(component)) return Vector2.zero;
+        if (components[component].transform.GetComponent<SpriteRenderer>() == null) return new Vector2(14,28); // TODO calculate size of asteroid, Dict -> Array .Lengths
         return components[component].transform.GetComponent<SpriteRenderer>().size;
     }
 
@@ -198,7 +214,7 @@ public class StructureController : MonoBehaviour
         if (components == null) return;
         foreach (var component in components.Values)
         {
-            component.gameObject.GetComponent<BoxCollider>().enabled = false;
+            if (component.gameObject.GetComponent<BoxCollider>() != null) component.gameObject.GetComponent<BoxCollider>().enabled = false;
         }
     }
 
@@ -207,7 +223,7 @@ public class StructureController : MonoBehaviour
         if (components == null) return;
         foreach (var component in components.Values)
         {
-            component.gameObject.GetComponent<BoxCollider>().enabled = true;
+            if (component.gameObject.GetComponent<BoxCollider>() != null) component.gameObject.GetComponent<BoxCollider>().enabled = true;
         }
     }
 
@@ -222,6 +238,19 @@ public class StructureController : MonoBehaviour
             default:
                 return null;
         }
+    }
+    public BulkheadController GetBulkheadController()
+    {
+        if (components == null) return null;
+        foreach (var component in components.Values) {
+            switch (component) {
+                case BulkheadController bulkhead:
+                    if (bulkhead.heap.Count() < bulkhead.capacity) 
+                        return bulkhead;
+                    break;
+            }
+        }
+        return null;
     }
     public string[] GetProcessorControllers()
     {
@@ -242,7 +271,7 @@ public class StructureController : MonoBehaviour
         if (components == null) return null;
         List<string> controllers = new List<string>();
         foreach (var component in components.Values) {
-            controllers.Add(component.GetIcon() + " " + component.name);
+            if (component.launched) controllers.Add(component.GetIcon() + " " + component.name);
         }
         return controllers.ToArray();
     }
@@ -505,6 +534,9 @@ public class StructureController : MonoBehaviour
                 case PrinterController printer:
                     objects.Add(printer.name);
                     break;
+                case AsteroidController printer:
+                    objects.Add(printer.name);
+                    break;
             }
         }
         foreach (var controller in components.Values)
@@ -532,6 +564,9 @@ public class StructureController : MonoBehaviour
                     objects.Add(bulkhead.name);
                     break;
                 case PrinterController printer:
+                    objects.Add(printer.name);
+                    break;
+                case AsteroidController printer:
                     objects.Add(printer.name);
                     break;
             }
@@ -569,7 +604,7 @@ public class StructureController : MonoBehaviour
     }
     public override string ToString()
     {
-        print (translation);
+        // print (translation);
         // print ($"♘position:[{Neaten(this.transform.localPosition.x)},{Neaten(this.transform.localPosition.y)}");
         string output = $"♘position:[{Neaten(this.transform.localPosition.x)},{Neaten(this.transform.localPosition.y)},{Neaten(this.rotator.localEulerAngles.z)}]♘translation:[{Neaten(this.translation.x)},{Neaten(this.translation.y)}]";//,{Neaten(average_rotation)}]";
         output += "♘classes:";

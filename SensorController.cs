@@ -11,12 +11,16 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     public bool organicSensor;
     private float distance = 0, distance_min = 0, distance_max = 999, scan_range = 0;    
     public GameObject Laser;
-    private int laser_count = 0;
+    private int laser_count = 0;    
+    public override float GetCost() {
+        return 110; //1 metal 1 silicon
+    }
     public override void Focus() {}
     public override void Ping() {
         // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1000, Color.green);
     }
     public override void Launch() {
+        launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public override float Action () 
