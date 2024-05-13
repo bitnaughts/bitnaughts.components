@@ -76,7 +76,7 @@ public class PrinterController : ComponentController {
             else {
                 output += "  " + components_declarations[i] + "\n";
             }
-        }
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n blueprint = Component [{components_declarations.Length}] {{\n  new Processor (),\n  new Bulkhead (),\n  new Thruster (),\n  new Booster (),\n  new Booster ()\n }};\n\n /*_Construct_Ship_*/\n void Print_() {{\n  for (int i = 0; i < blueprint.Length; i++)\n  {{\n   Instantiate (blueprint[i]);\n  }}\n }}\n\n /*_Modify_Ship_*/\n void Edit_() {{ }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
+        }// {components_declarations.Length}
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n blueprint = Component [5] {{\n  new Processor (),\n  new Bulkhead (),\n  new Thruster (),\n  new Booster (),\n  new Booster ()\n }};\n\n /*_Construct_Ship_*/\n void Print_() {{\n  for (int i = 0; i < blueprint.Length; i++)\n  {{\n   Instantiate (blueprint[i]);\n  }}\n }}\n\n /*_Modify_Ship_*/\n void Edit_() {{ }}\n}}\n\n<b>Exit</b>\n\n<b>Delete</b>";
     }
 }

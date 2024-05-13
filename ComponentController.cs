@@ -73,7 +73,7 @@ public abstract class ComponentController : MonoBehaviour
     void OnMouseDown()
     {
         offset = new Vector3(0, 0, 0);
-        if (Interactor.OverlayInteractor.gameObject.activeSelf && !this.name.Contains("Printer")) panning = true;
+        if (Interactor.OverlayInteractor.gameObject.activeSelf && !this.name.Contains("Printer") && GameObject.Find("Dropdown List") == null) panning = true;
         panOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         // OnMouseUpFx(); if (Interactor.OverlayInteractor.gameObject.activeSelf) Interactor.OverlayInteractor.Resize();
     }
@@ -84,7 +84,7 @@ public abstract class ComponentController : MonoBehaviour
         if (panning)
         {
             Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition) - panOrigin;
-            offset += pos * Camera.main.orthographicSize * 2f;
+            offset += pos * Camera.main.orthographicSize * 2.25f;
             print (offset.x + " " + offset.y);
             panOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             if (offset.x > 0.25f) {
@@ -145,7 +145,7 @@ public abstract class ComponentController : MonoBehaviour
                 Interactor.OverlayInteractor.OverlayCodeInput.GetComponent<InputField>().text = "";
 
                 if (GetComponent<SpriteRenderer>() == null) Camera.main.orthographicSize = 25; 
-                else Camera.main.orthographicSize = Mathf.Sqrt(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y);
+                else if (GetTypeClass() == "Printer") Camera.main.orthographicSize = Mathf.Sqrt(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y);
             }
         }
     } 
