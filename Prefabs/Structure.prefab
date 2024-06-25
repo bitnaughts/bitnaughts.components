@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8011897615865550267}
   m_Layer: 3
   m_Name: Structure
-  m_TagString: Untagged
+  m_TagString: Structure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b673e2503ba1348baba90c705ed19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ProcessorPrefab: {fileID: 8721200378412927844, guid: 69f0ff434d6df614bb624ff7f3c4ce0f, type: 3}
+  BulkheadPrefab: {fileID: 8266058473592499795, guid: f580fe6b5f215744fa0454c145cb3e1b, type: 3}
+  GimbalPrefab: {fileID: 1953694855423057548, guid: c7c56f03998ec34459311f411d8eb154, type: 3}
+  ThrusterPrefab: {fileID: 9119799471000701731, guid: dc04ca45be4f5d943951aca67a713da2, type: 3}
+  BoosterPrefab: {fileID: 953175894827133546, guid: 8a006d32e7855fc4092004594d7060c1, type: 3}
+  CannonPrefab: {fileID: 6258904477058048182, guid: f1cf176e47a0e6849894859c25ed0c92, type: 3}
+  SensorPrefab: {fileID: 1846919199323598364, guid: 84d9a2d7b0fd4e149822e067662aec8e, type: 3}
+  PrinterPrefab: {fileID: 8006452166513252408, guid: b69938eb9c0e0774a9854f5b02b4fb03, type: 3}
+  AsteroidPrefab: {fileID: 4118180614296713467, guid: 2346fcc514bd25141ad475fe4930e54f, type: 3}
   isAi: 1
   translation: {x: 0, y: 0}
   average_rotation: 0

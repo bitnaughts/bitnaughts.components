@@ -39,9 +39,7 @@ public abstract class ComponentController : MonoBehaviour
         Interactor = GameObject.Find("ScreenCanvas").GetComponent<Interactor>();
         Focus();
     }
-    public void Design() {
-        GetComponent<SpriteRenderer>().sprite = inverse;
-    }
+    public abstract void Design();
     public abstract void Launch();
     
     public Transform GetTransform()
@@ -161,7 +159,7 @@ public abstract class ComponentController : MonoBehaviour
         if (gimbal == null) return this.transform.localEulerAngles.z;
         return gimbal.Action() + this.transform.localEulerAngles.z;
     }
-    public string ComponentToString() {
+    public virtual string ComponentToString() {
         
         return $"♘{this.GetIcon() + this.name}:[{Neaten(transform.localPosition.x)},{Neaten(transform.localPosition.y)},{Neaten(GetComponent<SpriteRenderer>().size.x)},{Neaten(GetComponent<SpriteRenderer>().size.y)},{Neaten(gameObject.transform.localEulerAngles.z)}]";
     }

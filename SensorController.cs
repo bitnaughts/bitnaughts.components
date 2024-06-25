@@ -15,6 +15,10 @@ public class SensorController : ComponentController {   //RangeFinder == 1D, Sca
     public override float GetCost() {
         return 110; //1 metal 1 silicon
     }
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+    }
     public override void Focus() {}
     public override void Ping() {
         // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 1000, Color.green);

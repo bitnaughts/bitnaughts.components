@@ -11,21 +11,25 @@ public class PrinterController : ComponentController {
     public override float GetCost() {
         return 420; //4 metal 2 silicon
     }
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+    }
     public override void Focus() {
-            Beam1.transform.localPosition = new Vector2(Head.transform.localPosition.x, 0);
-            Beam1.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.y);
-            Beam2.transform.localPosition = new Vector2(0, Head.transform.localPosition.y);
-            Beam2.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.x);
+        Beam1.transform.localPosition = new Vector2(Mathf.Clamp(Head.transform.localPosition.x, -GetComponent<SpriteRenderer>().size.y / 2, GetComponent<SpriteRenderer>().size.y / 2), 0);
+        Beam1.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.y);
+        Beam2.transform.localPosition = new Vector2(0, Mathf.Clamp(Head.transform.localPosition.y, -GetComponent<SpriteRenderer>().size.x / 2, GetComponent<SpriteRenderer>().size.x / 2));
+        Beam2.GetComponent<SpriteRenderer>().size = new Vector2(1, GetComponent<SpriteRenderer>().size.x);
         // Head.GetComponent<SpriteRenderer>().size = GetComponent<SpriteRenderer>().size;
     }
     public bool GoTo(Vector2 pos) {
         Head.transform.Translate(
             new Vector2(
-                Mathf.Clamp(pos.x - Head.transform.localPosition.x, -.1f, .1f),
-                Mathf.Clamp(pos.y - Head.transform.localPosition.y, -.1f, .1f)
+                Mathf.Clamp(pos.x - Head.transform.localPosition.x, -.15f, .15f),
+                Mathf.Clamp(pos.y - Head.transform.localPosition.y, -.15f, .15f)
             )
         );
-        if (Mathf.Abs(Head.transform.localPosition.x - pos.x) < .2f && Mathf.Abs(Head.transform.localPosition.y - pos.y) < .2f) {
+        if (Mathf.Abs(Head.transform.localPosition.x - pos.x) < .15f && Mathf.Abs(Head.transform.localPosition.y - pos.y) < .15f) {
             Head.transform.localPosition = pos;
             Focus();
             print_index++;

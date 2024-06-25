@@ -14,6 +14,11 @@ public class ThrusterController : ComponentController {
         return 104; //1 metal 4 carbon
     }
 
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+        thrust = 0;
+    }
     public override void Focus() {
         var sh = GetComponent<ParticleSystem>().shape;
         sh.radius = (GetComponent<SpriteRenderer>().size.x * .5f) - 3;
@@ -55,6 +60,7 @@ public class ThrusterController : ComponentController {
     {
         return new Vector2(6, 2);
     }
+    // public void 
 
     public Vector2 GetThrustVector() 
     {

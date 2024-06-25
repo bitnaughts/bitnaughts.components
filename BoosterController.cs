@@ -19,6 +19,11 @@ public class BoosterController : ComponentController {
         return 102; //1 metal 2 carbon
     }
 
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+        thrust = 0;
+    }
     public override void Focus() {
         if (structure == null) structure = this.GetComponentInParent<StructureController>();
         var sh = GetComponent<ParticleSystem>().shape;
@@ -95,6 +100,7 @@ public class BoosterController : ComponentController {
                 torpedo.transform.Translate(new Vector3((i + .5f) - reload_timer.Length / 2f, (0.5f * GetComponent<SpriteRenderer>().size.y) - 0.5f));
                 torpedo.name = "↥" + this.name + torpedo_count++;
                 torpedo.transform.SetParent(GameObject.Find("World").transform);
+                torpedo.transform.localPosition = new Vector3(torpedo.transform.localPosition.x, torpedo.transform.localPosition.y, 0);
                 torpedo.GetComponent<ProjectileController>().speed = GetComponent<SpriteRenderer>().size.y + 1 + (GetComponentInParent<StructureController>().translation.magnitude * 55);//7f);
                 torpedo.GetComponent<ProjectileController>().acceleration = 1f / GetComponent<SpriteRenderer>().size.y;
                 torpedo.GetComponent<ProjectileController>().damage = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.y - 1) * 2;

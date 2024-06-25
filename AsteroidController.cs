@@ -48,11 +48,16 @@ public class AsteroidController : ComponentController
 {
     public GameObject prefab;
     public Sprite[] AsteroidTileset;
+    public int seed;
 
     Dictionary<Point, TerrainType> terrain;
     public override Vector2 GetMinimumSize ()
     {
         return new Vector2(2, 2);
+    }
+    public override void Design() {
+        launched = false;
+        // GetComponent<SpriteRenderer>().sprite = inverse;
     }
     public override float GetCost() {
         return 000;
@@ -78,28 +83,48 @@ public class AsteroidController : ComponentController
         while (transform.childCount > 0) {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
+        UnityEngine.Random.InitState(seed);
         System.Random rand = new System.Random();
         terrain = new Dictionary<Point, TerrainType>();
-        for (int x = -6; x <= 6; x += 4)
+        if (this.name == "Asteroid")
         {
-            for (int y = -8; y <= 8; y += 4)
+            for (int x = -6; x <= 6; x += 4)
             {
-                int z = rand.Next(0, 3);
-                if (z== 0) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
-                if (z == 1) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Siliceous); 
-                if (z == 2) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic); 
-                // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
+                for (int y = -8; y <= 8; y += 4)
+                {
+                    int z = rand.Next(0, 3);
+                    if (z== 0) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
+                    if (z == 1) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Siliceous); 
+                    if (z == 2) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic); 
+                    // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
+                }
+            }
+            for (int x = -2; x <= 2; x += 4)
+            {
+                for (int y = -12; y <= -8; y += 4)
+                {
+                    int z = rand.Next(0, 3);
+                    if (z== 0) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
+                    if (z == 1) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Siliceous); 
+                    if (z == 2) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic); 
+                    // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
+                }
             }
         }
-        for (int x = -2; x <= 2; x += 4)
-        {
-            for (int y = -12; y <= -8; y += 4)
+        else {
+            int max_r = rand.Next(2, 17);
+            for (int r = 0; r < max_r; r++) 
             {
+                int x = rand.Next(-max_r / 5, max_r / 5); // Generates a random integer between -5 and 5
+                int y = rand.Next(-max_r / 5, max_r / 5); // Generates a random integer between -5 and 5
                 int z = rand.Next(0, 3);
+                x *= 4;
+                y *= 4;
+                // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
                 if (z== 0) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
                 if (z == 1) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Siliceous); 
                 if (z == 2) if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic); 
-                // if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Metallic);
+                    
             }
         }
         // for (int x = -6; x <= 6; x += 4)
@@ -114,12 +139,7 @@ public class AsteroidController : ComponentController
         //     }
         // }
         // System.Random rand = new System.Random();
-        // for (int r = 0; r < 750; r++) 
-        // {
-        //     int x = rand.Next(-20, 10); // Generates a random integer between -5 and 5
-        //     int y = rand.Next(-20, 10); // Generates a random integer between -5 and 5
-        //     if (!terrain.ContainsKey(new Point(x, y))) terrain.Add(new Point(x, y), TerrainType.Carbonaceous);
-        // }
+
         // for (int r = 0; r < 500; r++) 
         // {
         //     int x = rand.Next(-10, 20); // Generates a random integer between -5 and 5
@@ -135,32 +155,82 @@ public class AsteroidController : ComponentController
         Interactor = GameObject.Find("ScreenCanvas").GetComponent<Interactor>();
     }
 
-    public void Hit(string name) {
+    public float Hit(string name) {
+        int metal = 0, carbon = 0, silicon = 0;
+        name = name.Split(':')[1];
         Point p = new Point(float.Parse(name.Split(',')[0]), float.Parse(name.Split(',')[1]));
         Point top_left_shift = new Point(-2f, 2f);
         Point top_right_shift = new Point(2f, 2f);
         Point bottom_left_shift = new Point(-2f, -2f);
         Point bottom_right_shift = new Point(2f, -2f);
         if (terrain.ContainsKey(p + top_left_shift)) {
-            // print ("destroy " + name);
+            // print ("destroy " + (p + top_left_shift));
+            switch (terrain[p + top_left_shift])
+            {
+                case TerrainType.Carbonaceous:
+                    carbon++;
+                    break;
+                case TerrainType.Metallic:
+                    metal++;
+                    break;
+                case TerrainType.Siliceous:
+                    silicon++;
+                    break;
+            }
             terrain.Remove(p + top_left_shift);
             rendered = false;
             // Destroy(GameObject.Find((p + top_left_shift).ToString()));
         }
         if (terrain.ContainsKey(p + top_right_shift)) {
-            // print ("destroy " + name);
+            // print ("destroy " + (p + top_right_shift));
+            switch (terrain[p + top_right_shift])
+            {
+                case TerrainType.Carbonaceous:
+                    carbon++;
+                    break;
+                case TerrainType.Metallic:
+                    metal++;
+                    break;
+                case TerrainType.Siliceous:
+                    silicon++;
+                    break;
+            }
             terrain.Remove(p + top_right_shift);
             rendered = false;
             // Destroy(GameObject.Find((p + top_right_shift).ToString()));
         }
         if (terrain.ContainsKey(p + bottom_left_shift)) {
-            // print ("destroy " + name);
+            // print ("destroy " + (p + bottom_left_shift));
+            switch (terrain[p + bottom_left_shift])
+            {
+                case TerrainType.Carbonaceous:
+                    carbon++;
+                    break;
+                case TerrainType.Metallic:
+                    metal++;
+                    break;
+                case TerrainType.Siliceous:
+                    silicon++;
+                    break;
+            }
             terrain.Remove(p + bottom_left_shift);
             rendered = false;
             // Destroy(GameObject.Find((p + bottom_left_shift).ToString()));
         }
         if (terrain.ContainsKey(p + bottom_right_shift)) {
-            // print ("destroy " + name);
+            // print ("destroy " + (p + bottom_right_shift));
+            switch (terrain[p + bottom_right_shift])
+            {
+                case TerrainType.Carbonaceous:
+                    carbon++;
+                    break;
+                case TerrainType.Metallic:
+                    metal++;
+                    break;
+                case TerrainType.Siliceous:
+                    silicon++;
+                    break;
+            }
             terrain.Remove(p + bottom_right_shift);
             rendered = false;
             // Destroy(GameObject.Find((p + bottom_right_shift).ToString()));
@@ -178,6 +248,11 @@ public class AsteroidController : ComponentController
         //         terrain.Remove(point);
         //     }
         // }
+        if (metal > 9) metal = 9;
+        if (silicon > 9) silicon = 9;
+        if (carbon > 9) carbon = 9;
+        // print ("Harvested " + (-1 * ((metal * 100) + (silicon * 10) + carbon)));
+        return -1 * ((metal * 100) + (silicon * 10) + carbon);
     }
 
     public TerrainType GetTerrainKey(Point point) 
@@ -1114,14 +1189,14 @@ public class AsteroidController : ComponentController
         //         sprite = metallic;
         //         break;  
         // }
-        if (GameObject.Find(point.ToString()) != null) {
-            GameObject.Find(point.ToString()).SetActive(true);
-            GameObject.Find(point.ToString()).GetComponent<SpriteRenderer>().sprite = sprite;
+        if (GameObject.Find(this.name + ":" + point.ToString()) != null) {
+            GameObject.Find(this.name + ":" + point.ToString()).SetActive(true);
+            GameObject.Find(this.name + ":" + point.ToString()).GetComponent<SpriteRenderer>().sprite = sprite;
             return;
         }
         var object_instance = Instantiate(prefab, new Vector3(point.x, 0, point.y), Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
         object_instance.GetComponent<SpriteRenderer>().sprite = sprite;
-        object_instance.name = point.ToString();
+        object_instance.name = this.name + ":" + point.ToString();
         // print ("Instantiated " + object_instance.name);
         // object_instance.GetComponent<SpriteRenderer>().size = new Vector2(float.Parse(size.Split(',')[0]), float.Parse(size.Split(',')[1]));
         object_instance.transform.SetParent(this.transform);//.parent.GameObject);//structure.transform.Find("Rotator"));
@@ -1182,5 +1257,17 @@ public class AsteroidController : ComponentController
         // if (count != 0) 
         asteroid_string += "\n };\n";
         return $"{GetIcon()} {this.name}\nclass Asteroid {{\n{asteroid_string}\n /*_Expand_Asteroid_*/\n void Add () {{ }}\n\n /*_Contract_Asteroid_*/\n void Delete_() {{ }}\n}}\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+    }
+    public override string ComponentToString() {
+        
+        float min_x = 999, min_y = 999, max_x = -999, max_y = -999;
+        foreach (var t in terrain) 
+        {
+            if (t.Key.x < min_x) min_x = t.Key.x;
+            if (t.Key.y < min_y) min_y = t.Key.y;
+            if (t.Key.x > max_x) max_x = t.Key.x;
+            if (t.Key.y > max_y) max_y = t.Key.y;
+        }
+        return $"♘{this.GetIcon() + this.name}:[{Neaten(transform.localPosition.x)},{Neaten(transform.localPosition.y)},{Neaten(max_x - min_x)},{Neaten(max_y - min_y)},{Neaten(gameObject.transform.localEulerAngles.z)}]";
     }
 }

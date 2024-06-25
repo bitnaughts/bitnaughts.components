@@ -8,6 +8,10 @@ public class GirderController : ComponentController {
     public override float GetCost() {
         return 001; //1 carbon
     }
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+    }
     public override void Focus() {
     }
     public override void Ping() {

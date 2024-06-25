@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class StructureController : MonoBehaviour
 {
+    public GameObject ProcessorPrefab, BulkheadPrefab, GimbalPrefab, ThrusterPrefab, BoosterPrefab, CannonPrefab, SensorPrefab, PrinterPrefab, AsteroidPrefab;
     public bool isAi = false;
     const float debug_duration = .01f;
     public Dictionary<string, ComponentController> components;
@@ -29,8 +30,94 @@ public class StructureController : MonoBehaviour
         Hitpoints -= damage;
         if (Hitpoints < 0) Explode();
     }
+    public void Unrotate()
+    {
+        if (rotator.localEulerAngles.z > 180 ) {
+
+            rotator?.Rotate(new Vector3(0, 0, (360 - rotator.localEulerAngles.z) / 10f));
+            // rotator?.Rotate(new Vector3(0, 0, 1));
+        }
+        else {
+
+            rotator?.Rotate(new Vector3(0, 0, -rotator.localEulerAngles.z / 10f));
+        }
+        print(rotator.localEulerAngles.z);
+        // rotator?.Rotate(new Vector3(0, 0, -rotator.localEulerAngles.z / 10f));
+    }
     public void Start()
     {
+        GameObject prefab;
+        rotator = transform.Find("Rotator");
+        if (isAi)
+        {
+            int random_component = (int)UnityEngine.Random.Range(0, 20);
+            switch (random_component)
+            {
+                case 0:
+                    prefab = Instantiate(ProcessorPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Processor" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<ComponentController>().Launch();
+                    break;
+                case 1:
+                    prefab = Instantiate(BulkheadPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Bulkhead" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<ComponentController>().Launch();
+                    break;
+                case 2:
+                    prefab = Instantiate(GimbalPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Gimbal" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<ComponentController>().Launch();
+                    break;
+                case 3:
+                    prefab = Instantiate(ThrusterPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Thruster" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<ComponentController>().Launch();
+                    break;
+                case 4:
+                    prefab = Instantiate(BoosterPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Booster" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<ComponentController>().Launch();
+                    break;
+                case 5:
+                    prefab = Instantiate(SensorPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Sensor" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<ComponentController>().Launch();
+                    break;
+                case 6:
+                    prefab = Instantiate(CannonPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Cannon" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<ComponentController>().Launch();
+                    break;
+                case 7:
+                    prefab = Instantiate(PrinterPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Printer" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<ComponentController>().Launch();
+                    break;
+                default:
+                    prefab = Instantiate(AsteroidPrefab, new Vector3(0, 0, 0), Quaternion.identity, rotator) as GameObject;
+                    prefab.transform.localPosition = new Vector3(0, 0, 0);
+                    prefab.transform.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+                    prefab.name = "Asteroid" + this.name.Replace("Structure", "");
+                    prefab.GetComponent<AsteroidController>().seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue); 
+                    break;
+            }
+        }
         // if (classes == null) {
             // classes = new Dictionary<string, ClassController>();
             // classes.Add("◎", new ClassController("◎")); //Booster
@@ -56,7 +143,6 @@ public class StructureController : MonoBehaviour
             //         // break;
             // }
         }
-        rotator = transform.Find("Rotator");
         child_count = GetComponentsInChildren<ComponentController>().Length;
 
         // Design();   
@@ -279,12 +365,26 @@ public class StructureController : MonoBehaviour
     {
         return components;
     }
+    public float PopDesign()
+    {
+        if (components == null) return 0;
+        foreach (var component in components.Values) {
+            if (component.launched) 
+            {
+                component.Design();
+                return component.GetCost();
+            }
+        }
+        return 0;
+    }
     public void Design()
     {
         if (components == null) return;
         foreach (var component in components.Values) {
             component.Design();
         }
+        translation = new Vector2(0, 0);
+        rotation = 0;
     }
     public void Launch()
     {
@@ -326,6 +426,17 @@ public class StructureController : MonoBehaviour
             default: //Want all components to be scriptable? Adjust here.
                 break;
         } 
+    }
+    public TerrainType Pop()
+    {
+        foreach (var component in components.Values) {
+            switch (component) {
+                case BulkheadController bulkhead:
+                    if (bulkhead.Count() > 0) return bulkhead.Pop();
+                    break;
+            } 
+        }
+        return TerrainType.Empty;
     }
     public void AddOperand(string component, string op)
     {
@@ -387,6 +498,27 @@ public class StructureController : MonoBehaviour
                     active_component_count++;
             }
         }
+
+        // if (!isAi)
+        // {
+        //     Debug.DrawRay(rotator.position, transform.TransformDirection(Vector3.up) * 5, Color.red);
+        //     RaycastHit hit;
+        //     if (Physics.Raycast(rotator.position, rotator.transform.up, out hit, 5 + 5 * 2f * Time.deltaTime * (this.gameObject.layer + 1) / 2 ))
+        //     {
+        //         if (hit.collider.gameObject.name.Contains("Printer")) {
+        //             print ("dock?");
+        //             GameObject.Find("InputUseWeapon").transform.GetChild(0).GetComponent<Text>().text = "Dock";
+        //             // bulkhead.Action(hit.collider.gameObject.transform.parent.GetComponent<AsteroidController>().Hit(hit.collider.gameObject.name));
+        //             // bulkhead.Action(1000);
+        //             // Destroy(this.gameObject);
+        //             // GameObject.Find("World").GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position + new Vector3(0, 10, 10), hit.collider.gameObject.GetComponent<SpriteRenderer>().size.magnitude * 5f, "Torpedo");
+        //         }
+        //         else {
+        //             print (hit.collider.gameObject.name);
+        //             GameObject.Find("InputUseWeapon").transform.GetChild(0).GetComponent<Text>().text = "Fire";
+        //         }
+        //     } 
+        // }
         if (true) {//!isAi) {
             center_of_mass = Vector2.zero;
             foreach (var controller in components.Values) {

@@ -54,7 +54,7 @@ public class ProjectileController : MonoBehaviour
             if (Physics.Raycast(transform.position, transform.up, out hit, 5 + speed * 2f * Time.deltaTime * (this.gameObject.layer + 1) / 2 )) {
                 if (hit.collider.gameObject.name.Contains("Asteroid") || hit.collider.gameObject.layer == 3) {
                     print ("hit asteroid");
-                    hit.collider.gameObject.transform.parent.GetComponent<AsteroidController>().Hit(hit.collider.gameObject.name);
+                    bulkhead.Action(hit.collider.gameObject.transform.parent.GetComponent<AsteroidController>().Hit(hit.collider.gameObject.name));
                     bulkhead.Action(1000);
                     Destroy(this.gameObject);
                     GameObject.Find("World").GetComponent<PrefabCache>().PlayExplosion(hit.collider.gameObject.transform.position + new Vector3(0, 10, 10), hit.collider.gameObject.GetComponent<SpriteRenderer>().size.magnitude * 5f, "Torpedo");

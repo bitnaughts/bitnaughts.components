@@ -17,10 +17,31 @@ public class BulkheadController : ComponentController {
     public override float GetCost() {
         return 100; //1 metal
     }
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+        for (int i = 0; i < transform.childCount; i++) {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
     public override void Focus() {
         if (heap == null) heap = new List<TerrainType>();
         capacity = Mathf.Clamp(GetComponent<SpriteRenderer>().size.x * (GetComponent<SpriteRenderer>().size.y - 1), MIN, MAX);
         // mass = capacity;
+        Action(0);
+    }
+    public int Count() {
+        return heap.Count;
+    }
+    public TerrainType Pop() {
+        if (heap.Count == 0) return TerrainType.Empty;
+        var h = heap[heap.Count - 1];
+        heap.RemoveAt(heap.Count - 1);
+        Action(0);
+        return h;
+    }
+    public void Push(TerrainType h) {
+        heap.Add(h);
         Action(0);
     }
     public override void Ping() {
@@ -146,7 +167,6 @@ public class BulkheadController : ComponentController {
             silicon = int.Parse(input_string[2].ToString());
             metal = int.Parse(input_string[1].ToString());
             // print (carbon + " " + silicon + " " + metal + " " + torpedo);
-
             for (int i = 0; i < transform.childCount; i++) {
                 transform.GetChild(i).gameObject.SetActive(false);
             }

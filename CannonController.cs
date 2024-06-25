@@ -19,6 +19,10 @@ public class CannonController : ComponentController {
     public override void Focus() {
 
     }
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+    }
     public override void Ping() {
         int num_cannons = Mathf.FloorToInt(GetComponent<SpriteRenderer>().size.x - 1);
         if (reload_timer == null || reload_timer.Length != num_cannons) reload_timer = new float[num_cannons];

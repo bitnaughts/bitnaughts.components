@@ -28,6 +28,13 @@ public class ProcessorController : ComponentController
     public override float GetCost() {
         return 220; //2 metal 2 silicon
     }
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+        for (int i = 0; i < transform.childCount; i++) {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
     public override void Launch() {
         launched = true;
         GetComponent<SpriteRenderer>().sprite = sprite;
@@ -69,6 +76,11 @@ public class ProcessorController : ComponentController
                 // SetInstructions(override_instructions);
         }
     }
+    
+    public void FixedUpdate() {
+
+    }
+
     float timer;
     public void Update() {
         timer += Time.deltaTime;

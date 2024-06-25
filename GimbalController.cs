@@ -17,6 +17,10 @@ public class GimbalController : ComponentController
         return 110; //1 metal 1 silicon
     }
 
+    public override void Design() {
+        launched = false;
+        GetComponent<SpriteRenderer>().sprite = inverse;
+    }
     private void Awake () {
         gimbal_grid = transform.GetChild(0).gameObject;
     }
