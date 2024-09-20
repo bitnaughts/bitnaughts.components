@@ -8,7 +8,7 @@ public class MapController : MonoBehaviour {
         Interactor = GameObject.Find("ScreenCanvas").GetComponent<Interactor>();
     }
     bool CheckInsideEdge() {
-        return (Input.mousePosition.y > 114 && Input.mousePosition.y < Screen.height - 150 && Input.mousePosition.x > 114 && Input.mousePosition.x < Screen.width - 114);
+        return (Input.mousePosition.y > 75 && Input.mousePosition.y < Screen.height - 95 && Input.mousePosition.x > 75 && Input.mousePosition.x < Screen.width - 75);
     }
     void OnMouseUp()
     {

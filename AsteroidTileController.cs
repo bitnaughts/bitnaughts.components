@@ -7,6 +7,6 @@ public class AsteroidTileController : MonoBehaviour
 {
     void OnMouseUp()
     {   
-        this.transform.parent.GetComponent<AsteroidController>().OnMouseUpFx();
+        //this.transform.parent.GetComponent<AsteroidController>().OnMouseUpFx();
     }
 }

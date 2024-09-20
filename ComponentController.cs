@@ -66,12 +66,12 @@ public abstract class ComponentController : MonoBehaviour
     //     return (Input.mousePosition.x < 3f * Screen.width / 4f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f - 100f || Input.mousePosition.x > 3f * Screen.width / 4f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.x / 2f + 100f || Input.mousePosition.y > Screen.height / 2f + OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f + 100f || Input.mousePosition.y < Screen.height / 2f - OverlayInteractor.GetComponent<RectTransform>().sizeDelta.y / 2f - 100f);
     // }
     bool CheckInsideEdge() {
-        return (Input.mousePosition.y > 114 && Input.mousePosition.y < Screen.height - 150 && Input.mousePosition.x > 114 && Input.mousePosition.x < Screen.width - 114);
+        return (Input.mousePosition.y > 75 && Input.mousePosition.y < Screen.height - 95 && Input.mousePosition.x > 75 && Input.mousePosition.x < Screen.width - 75);
     }
     void OnMouseDown()
     {
         offset = new Vector3(0, 0, 0);
-        if (Interactor.OverlayInteractor.gameObject.activeSelf && !this.name.Contains("Printer") && GameObject.Find("Dropdown List") == null) panning = true;
+        if (!Interactor.InterpreterPanel.activeSelf && Interactor.OverlayInteractor.gameObject.activeSelf && !this.name.Contains("Printer") && GameObject.Find("Dropdown List") == null) panning = true;
         panOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         // OnMouseUpFx(); if (Interactor.OverlayInteractor.gameObject.activeSelf) Interactor.OverlayInteractor.Resize();
     }
@@ -121,14 +121,20 @@ public abstract class ComponentController : MonoBehaviour
             if (CheckInsideEdge()) {
                 if (Interactor.printing_stage != "Edit" && Interactor.OverlayInteractor.gameObject.activeSelf) return;//&& !CheckOutsideOverlay()) return;
                 for (int i = 0; i < Interactor.OverlayInteractor.OverlayDropdown.options.Count; i++) {
+                            //print ("s " + Interactor.OverlayInteractor.OverlayDropdown.options[i].text);
                     if (Interactor.OverlayInteractor.OverlayDropdown.options[i].text.Contains(name)) {
                         if (Interactor.OverlayInteractor.OverlayDropdown.value != i) {
                             Interactor.OverlayInteractor.OverlayDropdown.value = i; 
                             Interactor.Sound("OnMouse");
                             // Interactor.SetBinocular("on");
                         }
+                        Interactor.OverlayInteractor.OverlayDropdown.transform.Find("OverlayDropdownLabel").GetComponent<Text>().text = Interactor.OverlayInteractor.OverlayDropdown.options[i].text;
+
+                            //print ("found " + name);
                     }
                 }
+                
+                            print ("didn't found " + name);
                 // if (GetType().ToString().Contains("Cannon")) {
                 //     Interactor.TargetTutorial();
                 // }
@@ -137,13 +143,16 @@ public abstract class ComponentController : MonoBehaviour
                 // }
                 if (MapScreenPanOverlay != null) MapScreenPanOverlay.gameObject.SetActive(false);
                 Interactor.OverlayInteractor.gameObject.SetActive(true);
+                GameObject.Find("OverlayDelete").transform.GetChild(0).GetComponent<Text>().color = new Color(1f, 1f, 0f, 1f);
+
                 Interactor.OverlayInteractor.State = "";
                 Interactor.OverlayInteractor.OnDropdownChange(0);//this.name); 
                 Interactor.OverlayInteractor.CloseAllOverlays();
                 Interactor.OverlayInteractor.OverlayCodeInput.GetComponent<InputField>().text = "";
-
+                Interactor.volume_slider.SetActive(true);
                 if (GetComponent<SpriteRenderer>() == null) Camera.main.orthographicSize = 25; 
-                else if (GetTypeClass() == "Printer") Camera.main.orthographicSize = Mathf.Sqrt(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y);
+                else Camera.main.orthographicSize = Mathf.Sqrt(GetComponent<SpriteRenderer>().size.x * GetComponent<SpriteRenderer>().size.y); // if (GetTypeClass() == "Printer") 
+                Interactor.OverlayInteractor.Resize();
             }
         }
     } 

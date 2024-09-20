@@ -67,14 +67,14 @@ public class ProcessorController : ComponentController
             interpreter_input = new InterpreterInput(0, 0, false, GetComponentInParent<StructureController>().GetComponentControllers());
         }
         interpreter_input.components = components;
-        if (interpreter == null) {
-            // interpreter = new InterpreterV3(new List<ClassObj>(){new ClassObj("ℹ")}); //, new ClassObj("a")
-            // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
-            // if (override_instructions.Length == 0) 
-                // SetInstructions(new string[]{"class Processor {","void Start() { }","}"});
-            // else 
-                // SetInstructions(override_instructions);
-        }
+        // if (interpreter == null) {
+        //     interpreter = new InterpreterV3(new List<ClassObj>(){new ClassObj("▩ Process")}); //, new ClassObj("a")
+        //     // SetInstructions("START\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\ncom Cannon1 ptr\njum START");
+        //     // if (override_instructions.Length == 0) 
+        //         // SetInstructions(new string[]{"class Processor {","void Start() { }","}"});
+        //     // else 
+        //         // SetInstructions(override_instructions);
+        // }
     }
     
     public void FixedUpdate() {
@@ -100,7 +100,6 @@ public class ProcessorController : ComponentController
             interpreter_input.y = 1;
         }
         if (Input.GetKey("w")) {
-            interpreter_input.x = 0;
             interpreter_input.y = 1;
         }
         if (Input.GetKey("e")) {
@@ -109,15 +108,12 @@ public class ProcessorController : ComponentController
         }
         if (Input.GetKey("a")) {
             interpreter_input.x = -1;
-            interpreter_input.y = 0;
         }
         if (Input.GetKey("s")) {
-            interpreter_input.x = 0;
             interpreter_input.y = -1;
         }
         if (Input.GetKey("d")) {
             interpreter_input.x = 1;
-            interpreter_input.y = 0;
         }
         if (Input.GetKey("z")) {
             interpreter_input.x = -1;
@@ -139,6 +135,11 @@ public class ProcessorController : ComponentController
             //     // print (component);
             // }
             // print ("interpretting with inputs: " + interpreter_input.x + ", " + interpreter_input.y + ", " + interpreter_input.fire);
+            foreach(var key in interpreter_input.components.Keys) {
+                print (key);
+            }
+
+            // print (interpreter_input.components.Keys);
             interpreter.Interpret(interpreter_input); //, interpreter_components);
             Interactor.RenderProcess();
             // interpreter_input.x = 0;
@@ -169,6 +170,8 @@ public class ProcessorController : ComponentController
                         break;
                 }
             }
+            if (interpreter == null) return;
+            if (interpreter.line_parts == null) return;
             string current_line = interpreter.line_parts[0];
             if (current_line.Contains("."))
             {
@@ -290,7 +293,8 @@ public class ProcessorController : ComponentController
         {
             interpreter_input = new InterpreterInput(0, 0, false, GetComponentInParent<StructureController>().GetComponentControllers());
         }
-        return $"{GetIcon()} {this.name}\n{base.ToString()}\n{interpreter.ToString(this.name)}}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
+        // var interpreter_string = interpreter?.ToString(this.name);
+        return $"{GetIcon()} {this.name}\n{base.ToString()}\n{interpreter?.ToString(this.name)}}}\n\n☑_Ok\n☒_Cancel\n☒_Delete\n⍰⍰_Help";
             // "⋅  var ship = System.Read (@\"example\");\n" +
             // "⋅  if (size < ship.size) break;\n" +
             // "⋅  foreach (c in ship.components) {\n" +

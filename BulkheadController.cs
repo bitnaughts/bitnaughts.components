@@ -69,16 +69,16 @@ public class BulkheadController : ComponentController {
                 switch (h)
                 {
                     case TerrainType.Carbonaceous:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), CarbonSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), CarbonSprite, new Color(.95f, .95f, .95f, 1f));
                         break;
                     case TerrainType.Siliceous:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), SiliconSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), SiliconSprite, new Color(.825f, .825f, .825f, 1f));
                         break;
                     case TerrainType.Metallic:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), IronSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), IronSprite, new Color(.75f, .75f, .75f, 1f));
                         break;
                     case TerrainType.Torpedo:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), TorpedoSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), TorpedoSprite, new Color(1f, 1f, 1f, 1f));
                         break;
                 }
             }
@@ -144,16 +144,16 @@ public class BulkheadController : ComponentController {
                 switch (h)
                 {
                     case TerrainType.Carbonaceous:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), CarbonSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), CarbonSprite, new Color(.95f, .95f, .95f, 1f));
                         break;
                     case TerrainType.Siliceous:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), SiliconSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), SiliconSprite, new Color(.825f, .825f, .825f, 1f));
                         break;
                     case TerrainType.Metallic:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), IronSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), IronSprite, new Color(.75f, .75f, .75f, 1f));
                         break;
                     case TerrainType.Torpedo:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), TorpedoSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), TorpedoSprite, new Color(1f, 1f, 1f, 1f));
                         break;
                 }
             }
@@ -193,16 +193,16 @@ public class BulkheadController : ComponentController {
                 switch (h)
                 {
                     case TerrainType.Carbonaceous:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), CarbonSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), CarbonSprite, new Color(.95f, .95f, .95f, 1f));
                         break;
                     case TerrainType.Siliceous:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), SiliconSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), SiliconSprite, new Color(.825f, .825f, .825f, 1f));
                         break;
                     case TerrainType.Metallic:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), IronSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), IronSprite, new Color(.75f, .75f, .75f, 1f));
                         break;
                     case TerrainType.Torpedo:
-                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), TorpedoSprite);
+                        InstantiateTile(new Point(x - GetComponent<SpriteRenderer>().size.x/2, y - GetComponent<SpriteRenderer>().size.y/2), TorpedoSprite, new Color(1f, 1f, 1f, 1f));
                         break;
                 }
             }
@@ -246,16 +246,19 @@ public class BulkheadController : ComponentController {
     }
 
     
-    void InstantiateTile(Point p, Sprite sprite)
+    void InstantiateTile(Point p, Sprite sprite, Color c)
     {
+        // print (c.ToString());
         if (this.transform.Find("Bulkhead" + p.ToString()) != null) {
             this.transform.Find("Bulkhead" + p.ToString()).gameObject.SetActive(true);
             this.transform.Find("Bulkhead" + p.ToString()).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = sprite;
+            this.transform.Find("Bulkhead" + p.ToString()).GetComponent<SpriteRenderer>().color = c;
             return;
         }
         var object_instance = Instantiate(prefab, new Vector3(p.x, 0, p.y), Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
         object_instance.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = sprite;
         object_instance.name = "Bulkhead" + p.ToString();
+        object_instance.GetComponent<SpriteRenderer>().color = c;
         // print ("Instantiated " + object_instance.name);
         // object_instance.GetComponent<SpriteRenderer>().size = new Vector2(float.Parse(size.Split(',')[0]), float.Parse(size.Split(',')[1]));
         object_instance.transform.SetParent(this.transform);//.parent.GameObject);//structure.transform.Find("Rotator"));

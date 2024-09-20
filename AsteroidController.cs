@@ -1261,12 +1261,14 @@ public class AsteroidController : ComponentController
     public override string ComponentToString() {
         
         float min_x = 999, min_y = 999, max_x = -999, max_y = -999;
-        foreach (var t in terrain) 
-        {
-            if (t.Key.x < min_x) min_x = t.Key.x;
-            if (t.Key.y < min_y) min_y = t.Key.y;
-            if (t.Key.x > max_x) max_x = t.Key.x;
-            if (t.Key.y > max_y) max_y = t.Key.y;
+        if (terrain != null) {
+            foreach (var t in terrain) 
+            {
+                if (t.Key.x < min_x) min_x = t.Key.x;
+                if (t.Key.y < min_y) min_y = t.Key.y;
+                if (t.Key.x > max_x) max_x = t.Key.x;
+                if (t.Key.y > max_y) max_y = t.Key.y;
+            }
         }
         return $"♘{this.GetIcon() + this.name}:[{Neaten(transform.localPosition.x)},{Neaten(transform.localPosition.y)},{Neaten(max_x - min_x)},{Neaten(max_y - min_y)},{Neaten(gameObject.transform.localEulerAngles.z)}]";
     }

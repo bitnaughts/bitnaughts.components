@@ -44,7 +44,7 @@ public class ThrusterController : ComponentController {
             GetComponent<AudioSource>().clip = ThrustFireSfx;
             GetComponent<AudioSource>().volume = .01f;
             GetComponent<AudioSource>().Play();
-            Interactor.PlayMusic();
+            //Interactor.PlayMusic();
         }
         else {
             GetComponent<AudioSource>().volume = Mathf.Clamp(thrust, 0, 100) / 250f * Interactor.GetVolume();

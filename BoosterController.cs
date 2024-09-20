@@ -54,11 +54,13 @@ public class BoosterController : ComponentController {
         }
     }
     public override float Action () {
+        print (this.name + " Actioned ");
         Fire ();
         return 0;
     }
     public override float Action (float input) 
     {
+        print (this.name + " Actioned " + input);
         if (this == null) { Destroy(this.gameObject); return -999; }
         // if (input == -1) {
         //     Fire();
